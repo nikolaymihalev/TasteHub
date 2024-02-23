@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Infrastructure.Data
 {
@@ -9,5 +10,6 @@ namespace TasteHub.Infrastructure.Data
             : base(options)
         {
         }
+        public DbSet<Category> Categories { get; set; }
     }
 }

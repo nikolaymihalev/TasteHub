@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TasteHub.Infrastructure.Data.Constants
+﻿namespace TasteHub.Infrastructure.Data.Constants
 {
     public static class ValidationConstants
     {
+        public const int CategoryNameMaxLength = 60;
+        public const int CategoryNameMinLength = 3;
+
     }
 }
