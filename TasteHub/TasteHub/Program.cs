@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using TasteHub.Data;
+using TasteHub.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

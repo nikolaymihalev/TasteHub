@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TasteHub.Infrastructure\TasteHub.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

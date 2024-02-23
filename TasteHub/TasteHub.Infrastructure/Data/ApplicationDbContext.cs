@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace TasteHub.Data
+namespace TasteHub.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
