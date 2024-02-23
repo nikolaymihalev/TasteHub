@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using TasteHub.Data;
+using TasteHub.Infrastructure.Data;
 
 namespace TasteHub.Data.Migrations
 {
