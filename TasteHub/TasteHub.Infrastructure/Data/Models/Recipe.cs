@@ -48,5 +48,7 @@ namespace TasteHub.Infrastructure.Data.Models
 
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; }
+
+        public IList<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
