@@ -35,19 +35,19 @@ namespace TasteHub.Infrastructure.Data.Models
         [Required]
         public DateTime CreationDate { get; set; }
 
-        [Comment("Recipe creator")]
+        [Comment("Recipe creator identifier")]
         [Required]
-        public string CreatorId { get; set; }
+        public string CreatorId { get; set; } = string.Empty;
 
         [ForeignKey(nameof(CreatorId))]
-        public IdentityUser Creator { get; set; }
+        public IdentityUser Creator { get; set; } = null!;
 
         [Comment("Recipe category identifier")]
         [Required]
         public int CategoryId { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
-        public Category Category { get; set; }
+        public Category Category { get; set; } = null!;
 
         public IList<Comment> Comments { get; set; } = new List<Comment>();
     }

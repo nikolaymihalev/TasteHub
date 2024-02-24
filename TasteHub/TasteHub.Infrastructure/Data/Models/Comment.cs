@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,30 +7,38 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TasteHub.Infrastructure.Data.Constants;
 
 namespace TasteHub.Infrastructure.Data.Models
 {
+    [Comment("Comment entity")]
     public class Comment
     {
+        [Comment("Comment identifier")]
         [Key]
         public int Id { get; set; }
 
+        [Comment("Comment content")]
         [Required]
-        public string Content { get; set; }
+        [MaxLength(ValidationConstants.CommentContentMaxLength)]
+        public string Content { get; set; } = string.Empty;
 
+        [Comment("Date the comment was created")]
         [Required]
         public DateTime CreationDate { get; set; }
 
+        [Comment("Comment user identifier")]
         [Required]
-        public string UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
         [ForeignKey(nameof(UserId))]
-        public IdentityUser User { get; set; }
+        public IdentityUser User { get; set; } = null!;
 
+        [Comment("Identifier of the recipe")]
         [Required]
         public int RecipeId { get; set; }
 
         [ForeignKey(nameof(RecipeId))]
-        public Recipe Recipe { get; set; }
+        public Recipe Recipe { get; set; } = null!;
     }
 }

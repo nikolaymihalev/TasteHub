@@ -13,5 +13,8 @@
         
         public const int RecipeInstructionsMaxLength = 1500;
         public const int RecipeInstructionsMinLength = 10;
+        
+        public const int CommentContentMaxLength = 500;
+        public const int CommentContentMinLength = 3;
     }
 }
