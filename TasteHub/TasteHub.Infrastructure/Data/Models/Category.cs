@@ -15,5 +15,7 @@ namespace TasteHub.Infrastructure.Data.Models
         [Required]
         [MaxLength(ValidationConstants.CategoryNameMaxLength)]
         public string Name { get; set; } = string.Empty;
+
+        public IEnumerable<Recipe> Recipes { get; set; } = new List<Recipe>();
     }
 }
