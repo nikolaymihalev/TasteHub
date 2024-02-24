@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
+using TasteHub.Infrastructure.Data.Configurations;
 using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Infrastructure.Data
@@ -11,6 +11,7 @@ namespace TasteHub.Infrastructure.Data
             : base(options)
         {
         }
+
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<FavoriteRecipe> FavoriteRecipes { get; set; }
@@ -19,11 +20,10 @@ namespace TasteHub.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Rating>().HasKey(x => new { x.UserId, x.RecipeId });
-            builder.Entity<FavoriteRecipe>().HasKey(x => new { x.UserId, x.RecipeId });
+            builder.ApplyConfiguration(new RatingConfiguration());
+            builder.ApplyConfiguration(new FavoriteRecipeConfiguration());
 
-            builder.Entity<Rating>().HasOne(x => x.Recipe).WithMany(x => x.Ratings).OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<FavoriteRecipe>().HasOne(x => x.Recipe).WithMany(x => x.FavoriteRecipes).OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Comment>().HasOne(x => x.Recipe).WithMany(x => x.Comments).OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
         }
