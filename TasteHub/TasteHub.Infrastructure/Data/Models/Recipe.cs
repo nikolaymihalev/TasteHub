@@ -50,5 +50,6 @@ namespace TasteHub.Infrastructure.Data.Models
         public Category Category { get; set; } = null!;
 
         public IList<Comment> Comments { get; set; } = new List<Comment>();
+        public IList<Rating> Ratings { get; set; } = new List<Rating>();
     }
 }

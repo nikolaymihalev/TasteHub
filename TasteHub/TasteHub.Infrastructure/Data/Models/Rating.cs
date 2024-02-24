@@ -2,25 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using TasteHub.Infrastructure.Data.Constants;
 
 namespace TasteHub.Infrastructure.Data.Models
 {
-    [Comment("Comment entity")]
-    public class Comment
+    [Comment("Rating entity")]
+    public class Rating
     {
-        [Comment("Comment identifier")]
+        [Comment("Rating identifier")]
         [Key]
         public int Id { get; set; }
 
-        [Comment("Comment content")]
+        [Comment("Rating value")]
         [Required]
-        [MaxLength(ValidationConstants.CommentContentMaxLength)]
-        public string Content { get; set; } = string.Empty;
-
-        [Comment("Date the comment was created")]
-        [Required]
-        public DateTime CreationDate { get; set; }
+        public double Value { get; set; }
 
         [Comment("Identifier of the user")]
         [Required]
