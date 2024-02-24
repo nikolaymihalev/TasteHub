@@ -51,5 +51,6 @@ namespace TasteHub.Infrastructure.Data.Models
 
         public IList<Comment> Comments { get; set; } = new List<Comment>();
         public IList<Rating> Ratings { get; set; } = new List<Rating>();
+        public IList<FavoriteRecipe> FavoriteRecipes { get; set; } = new List<FavoriteRecipe>();
     }
 }
