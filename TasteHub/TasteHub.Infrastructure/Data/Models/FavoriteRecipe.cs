@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TasteHub.Infrastructure.Data.Models
 {
-    [Comment("Rating entity")]
-    public class Rating
+    [Comment("Favorite recipe entity")]
+    public class FavoriteRecipe
     {
         [Comment("Identifier of the user")]
         [Required]
@@ -21,9 +21,5 @@ namespace TasteHub.Infrastructure.Data.Models
 
         [ForeignKey(nameof(RecipeId))]
         public Recipe Recipe { get; set; } = null!;
-
-        [Comment("Rating value")]
-        [Required]
-        public double Value { get; set; }
     }
 }
