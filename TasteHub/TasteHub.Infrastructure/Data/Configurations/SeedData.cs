@@ -5,17 +5,26 @@ namespace TasteHub.Infrastructure.Data.Configurations
 {
     internal class SeedData
     {
-        public IdentityUser Creator { get; set; }
-        public IdentityUser Guest { get; set; }
-        public Category Sweets { get; set; }
-        public Category Sandwiches { get; set; }
-        public Recipe ChocolateCheesecake { get; set; }
-        public Recipe Burger { get; set; }
-        public Comment FirstComment { get; set; }
-        public Comment SecondComment { get; set; }
-        public Rating FirstRating { get; set; }
-        public Rating SecondRating { get; set; }
-        public FavoriteRecipe FirstFR { get; set; }
+        public SeedData()
+        {
+            SeedUsers();
+            SeedCategories();
+            SeedRecipes();
+            SeedComments();
+            SeedRatings();
+            SeedFavoriteRecipes();
+        }
+        public IdentityUser Creator { get; private set; }
+        public IdentityUser Guest { get; private set; }
+        public Category Sweets { get; private set; }
+        public Category Sandwiches { get; private set; }
+        public Recipe ChocolateCheesecake { get; private set; }
+        public Recipe Burger { get; private set; }
+        public Comment FirstComment { get; private set; }
+        public Comment SecondComment { get; private set; }
+        public Rating FirstRating { get; private set; }
+        public Rating SecondRating { get; private set; }
+        public FavoriteRecipe FirstFR { get; private set; }
 
         private void SeedUsers() 
         {
@@ -104,6 +113,32 @@ namespace TasteHub.Infrastructure.Data.Configurations
                 CreationDate = DateTime.Now,
                 UserId = Creator.Id,
                 RecipeId = Burger.Id,
+            };
+        }
+
+        private void SeedRatings()
+        {
+            FirstRating = new Rating()
+            {
+                UserId = Guest.Id,
+                RecipeId = ChocolateCheesecake.Id,
+                Value = 5
+            };
+
+            SecondRating = new Rating()
+            {
+                UserId = Creator.Id,
+                RecipeId = Burger.Id,
+                Value = 4.6
+            };
+        }
+
+        private void SeedFavoriteRecipes()
+        {
+            FirstFR = new FavoriteRecipe()
+            {
+                UserId = Creator.Id,
+                RecipeId = Burger.Id
             };
         }
     }
