@@ -10,7 +10,7 @@ namespace TasteHub.Infrastructure.Data.Configurations
         {
             var data = new SeedData();
 
-            builder.HasData(new { data.ChocolateCheesecake, data.Burger });
+            builder.HasData(new Recipe[]{ data.ChocolateCheesecake, data.Burger });
         }
     }
 }

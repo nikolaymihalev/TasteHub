@@ -13,7 +13,7 @@ namespace TasteHub.Infrastructure.Data.Configurations
             builder.HasKey(x => new { x.UserId, x.RecipeId });
             builder.HasOne(x => x.Recipe).WithMany(x => x.Ratings).OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasData(new {data.FirstRating,data.SecondRating});
+            builder.HasData(new Rating[] {data.FirstRating,data.SecondRating});
         }
     }
 }

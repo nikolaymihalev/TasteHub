@@ -8,7 +8,7 @@
         public const int RecipeTitleMaxLength = 100;
         public const int RecipeTitleMinLength = 4;
 
-        public const int RecipeIngredientsMaxLength = 300;
+        public const int RecipeIngredientsMaxLength = 1000;
         public const int RecipeIngredientsMinLength = 5;
 
         public const int RecipeInstructionsMaxLength = 5000;

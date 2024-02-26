@@ -10,7 +10,9 @@ namespace TasteHub.Infrastructure.Data.Configurations
         {
             var data = new SeedData();
 
-            builder.HasData(new { data.FirstComment, data.SecondComment });
+            builder.HasOne(x => x.Recipe).WithMany(x => x.Comments).OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasData(new Comment[]{ data.FirstComment, data.SecondComment });
         }
     }
 }

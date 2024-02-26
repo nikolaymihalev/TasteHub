@@ -8,9 +8,9 @@ namespace TasteHub.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            var data = new SeedData();
+            var data = new SeedData();            
 
-            builder.HasData(new { data.Sweets, data.Sandwiches });
+            builder.HasData(new Category[] { data.Sweets, data.Sandwiches });
         }
     }
 }

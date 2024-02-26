@@ -20,10 +20,12 @@ namespace TasteHub.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new RecipeConfiguration());
+            builder.ApplyConfiguration(new CommentConfiguration());
             builder.ApplyConfiguration(new RatingConfiguration());
             builder.ApplyConfiguration(new FavoriteRecipeConfiguration());
-
-            builder.Entity<Comment>().HasOne(x => x.Recipe).WithMany(x => x.Comments).OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
         }
