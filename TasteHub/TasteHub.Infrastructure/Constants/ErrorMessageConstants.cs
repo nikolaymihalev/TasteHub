@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TasteHub.Infrastructure.Data.Constants
+namespace TasteHub.Infrastructure.Constants
 {
     public static class ErrorMessageConstants
     {

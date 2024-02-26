@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using TasteHub.Infrastructure.Data.Constants;
+using TasteHub.Infrastructure.Constants;
 
 namespace TasteHub.Infrastructure.Data.Models
 {

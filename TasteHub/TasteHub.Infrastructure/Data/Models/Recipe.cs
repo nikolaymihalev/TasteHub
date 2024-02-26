@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using TasteHub.Infrastructure.Data.Constants;
+using TasteHub.Infrastructure.Constants;
 
 namespace TasteHub.Infrastructure.Data.Models
 {
@@ -34,6 +34,11 @@ namespace TasteHub.Infrastructure.Data.Models
         [Comment("Date the recipe was created")]
         [Required]
         public DateTime CreationDate { get; set; }
+
+        [Comment("Image of the food")]
+        [Required]
+        [Column(TypeName = "varbinary(MAX)")]
+        public byte[] Image { get; set; }
 
         [Comment("Recipe creator identifier")]
         [Required]
