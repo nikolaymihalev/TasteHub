@@ -11,7 +11,7 @@
         public const int RecipeIngredientsMaxLength = 300;
         public const int RecipeIngredientsMinLength = 5;
 
-        public const int RecipeInstructionsMaxLength = 1500;
+        public const int RecipeInstructionsMaxLength = 5000;
         public const int RecipeInstructionsMinLength = 10;
 
         public const int CommentContentMaxLength = 500;
