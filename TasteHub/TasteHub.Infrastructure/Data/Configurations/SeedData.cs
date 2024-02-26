@@ -85,5 +85,26 @@ namespace TasteHub.Infrastructure.Data.Configurations
                 CategoryId = Sandwiches.Id
             };
         }
+
+        private void SeedComments()
+        {
+            FirstComment = new Comment()
+            {
+                Id = 1,
+                Content = "Amazing recipe!",
+                CreationDate = DateTime.Now,
+                UserId = Guest.Id,
+                RecipeId = ChocolateCheesecake.Id,
+            };
+
+            SecondComment = new Comment()
+            {
+                Id = 2,
+                Content = "Well done!",
+                CreationDate = DateTime.Now,
+                UserId = Creator.Id,
+                RecipeId = Burger.Id,
+            };
+        }
     }
 }
