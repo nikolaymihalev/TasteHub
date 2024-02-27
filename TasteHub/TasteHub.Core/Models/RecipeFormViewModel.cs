@@ -11,7 +11,7 @@ namespace TasteHub.Core.Models
     /// Model for adding or edditing recipe
     /// </summary>
     public class RecipeFormViewModel
-    {        
+    {
         /// <summary>
         /// Recipe identifier
         /// </summary>
@@ -67,6 +67,9 @@ namespace TasteHub.Core.Models
         /// </summary>
         public int? CategoryId { get; set; }
 
-        // Collection of categories needed
+        /// <summary>
+        /// Collection of categories
+        /// </summary>
+        public IEnumerable<CategoryInfoViewModel> Categories { get; set; } = new List<CategoryInfoViewModel>();
     }
 }
