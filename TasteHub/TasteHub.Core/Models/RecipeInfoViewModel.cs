@@ -13,8 +13,8 @@
             string instructions,
             string creationDate,
             byte[] image,
-            string creatorId,
-            int categoryId)
+            string creatorUsername,
+            string categoryName)
         {
             Id = id; 
             Title = title; 
@@ -23,8 +23,8 @@
             Instructions = instructions;
             CreationDate = creationDate;
             Image = image;
-            CreatorId = creatorId;
-            CategoryId = categoryId;
+            CreatorUsername = creatorUsername;
+            CategoryName = CategoryName;
         }
 
         /// <summary>
@@ -63,13 +63,13 @@
         public byte[] Image { get; set; }
         
         /// <summary>
-        /// Creator identifier
+        /// Creator username
         /// </summary>
-        public string CreatorId { get; set; } 
+        public string CreatorUsername { get; set; } 
 
         /// <summary>
-        /// Category identifier
+        /// Category name
         /// </summary>
-        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
     }
 }

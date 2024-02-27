@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using TasteHub.Infrastructure.Constants;
-using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Models
 {
