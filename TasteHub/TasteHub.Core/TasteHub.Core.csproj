@@ -10,4 +10,8 @@
     <ProjectReference Include="..\TasteHub.Infrastructure\TasteHub.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
