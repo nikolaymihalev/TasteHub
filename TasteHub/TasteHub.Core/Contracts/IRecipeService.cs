@@ -7,6 +7,7 @@ namespace TasteHub.Core.Contracts
         Task<IEnumerable<RecipeInfoViewModel>> GetAllRecipesAsync();
         Task AddAsync(RecipeFormViewModel model);
         Task EditAsync(RecipeFormViewModel model);
+        Task<RecipeInfoViewModel?> GetByIdAsync(int id);
         Task DeleteAsync(int id);
     }
 }

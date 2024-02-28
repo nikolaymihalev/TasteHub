@@ -101,5 +101,23 @@ namespace TasteHub.Core.Services
                 .AsNoTracking()
                 .ToListAsync();                
         }
+
+        public async Task<RecipeInfoViewModel?> GetByIdAsync(int id)
+        {
+            return await context.Recipes
+                .AsNoTracking()
+                .Where(x=>x.Id==id)
+                .Select(x=> new RecipeInfoViewModel(
+                    x.Id,
+                    x.Title,
+                    x.Description,
+                    x.Ingredients,
+                    x.Instructions,
+                    x.CreationDate.ToString(),
+                    x.Image,
+                    x.Creator.UserName,
+                    x.Category.Name))
+                .FirstOrDefaultAsync();
+        }
     }
 }
