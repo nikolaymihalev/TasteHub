@@ -54,7 +54,7 @@ namespace TasteHub.Core.Services
             if (recipe == null)
             {
                 logger.LogError("RecipeService.DeleteAsync");
-                throw new ApplicationException(ErrorMessageConstants.InvalidRecipeErrorMessage);
+                throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage,"recipe"));
             }
 
             context.Remove(recipe);
@@ -69,7 +69,7 @@ namespace TasteHub.Core.Services
             if(recipe == null) 
             {
                 logger.LogError("RecipeService.EditAsync");
-                throw new ApplicationException(ErrorMessageConstants.InvalidRecipeErrorMessage);
+                throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "recipe"));
             }
 
             recipe.Title = model.Title;

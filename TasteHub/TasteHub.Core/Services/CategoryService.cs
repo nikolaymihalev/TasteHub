@@ -40,14 +40,32 @@ namespace TasteHub.Core.Services
             }
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var category = await context.Categories.FindAsync(id);
+
+            if (category == null)
+            {
+                throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "category"));
+            }
+
+            context.Remove(category);
+
+            await context.SaveChangesAsync();
         }
 
-        public Task EditAsync(CategoryFormViewModel model)
+        public async Task EditAsync(CategoryFormViewModel model)
         {
-            throw new NotImplementedException();
+            var category = await context.Categories.FindAsync(model.Id);
+
+            if(category == null)
+            {
+                throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "category"));
+            }
+
+            category.Name = model.Name;
+
+            await context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CategoryInfoViewModel>> GetAllCategoriesAsync()
