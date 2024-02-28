@@ -27,7 +27,7 @@ namespace TasteHub.Core.Services
             {
                 Id = model.Id,
                 Title = model.Title,
-                Description = model.Description == null ? string.Empty : model.Description,
+                Description = model.Description,
                 Ingredients = model.Ingredients,
                 Instructions = model.Instructions,
                 CreationDate = model.CreationDate,
@@ -46,7 +46,6 @@ namespace TasteHub.Core.Services
                 logger.LogError(ex, "RecipeService.AddAsync");
                 throw new ApplicationException(ErrorMessageConstants.OperationFailedErrorMessage);
             }
-
         }
 
         public Task DeleteAsync(int id)
@@ -54,9 +53,26 @@ namespace TasteHub.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task EditAsync(RecipeFormViewModel model)
+        public async Task EditAsync(RecipeFormViewModel model)
         {
-            throw new NotImplementedException();
+            var recipe = await context.Recipes.FindAsync(model.Id);
+
+            if(recipe == null) 
+            {
+                logger.LogError("RecipeService.EditAsync");
+                throw new ApplicationException(ErrorMessageConstants.InvalidModelErrorMessage);
+            }
+
+            recipe.Title = model.Title;
+            recipe.Description = model.Description;
+            recipe.Ingredients = model.Ingredients;
+            recipe.Instructions = model.Instructions;
+            recipe.CreationDate = model.CreationDate;
+            recipe.Image = model.Image;
+            recipe.CreatorId = model.CreatorId;
+            recipe.CategoryId = model.CategoryId;
+
+            await context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<RecipeInfoViewModel>> GetAllRecipesAsync()
