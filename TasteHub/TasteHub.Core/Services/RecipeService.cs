@@ -48,9 +48,19 @@ namespace TasteHub.Core.Services
             }
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var recipe = await context.Recipes.FindAsync(id);
+
+            if (recipe == null)
+            {
+                logger.LogError("RecipeService.DeleteAsync");
+                throw new ApplicationException(ErrorMessageConstants.InvalidRecipeErrorMessage);
+            }
+
+            context.Remove(recipe);
+
+            await context.SaveChangesAsync();
         }
 
         public async Task EditAsync(RecipeFormViewModel model)
@@ -60,7 +70,7 @@ namespace TasteHub.Core.Services
             if(recipe == null) 
             {
                 logger.LogError("RecipeService.EditAsync");
-                throw new ApplicationException(ErrorMessageConstants.InvalidModelErrorMessage);
+                throw new ApplicationException(ErrorMessageConstants.InvalidRecipeErrorMessage);
             }
 
             recipe.Title = model.Title;
