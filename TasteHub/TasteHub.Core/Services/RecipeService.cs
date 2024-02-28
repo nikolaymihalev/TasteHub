@@ -25,7 +25,6 @@ namespace TasteHub.Core.Services
         {
             var recipe = new Recipe()
             {
-                Id = model.Id,
                 Title = model.Title,
                 Description = model.Description,
                 Ingredients = model.Ingredients,
