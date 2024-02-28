@@ -24,7 +24,7 @@
             CreationDate = creationDate;
             Image = image;
             CreatorUsername = creatorUsername;
-            CategoryName = CategoryName;
+            CategoryName = categoryName;            
         }
 
         /// <summary>

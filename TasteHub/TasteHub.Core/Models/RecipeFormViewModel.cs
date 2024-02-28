@@ -61,7 +61,10 @@ namespace TasteHub.Core.Models
         /// <summary>
         /// Category identifier
         /// </summary>
-        public int? CategoryId { get; set; }
+        public int CategoryId { get; set; }
+
+        [Required(ErrorMessage = ErrorMessageConstants.RequireErrorMessage)]
+        public string CreatorId { get; set; } = string.Empty;
 
         /// <summary>
         /// Collection of categories

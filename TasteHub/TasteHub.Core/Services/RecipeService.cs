@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Logging;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
+using TasteHub.Infrastructure.Constants;
 using TasteHub.Infrastructure.Data;
+using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Services
 {
@@ -19,9 +21,32 @@ namespace TasteHub.Core.Services
             logger = _logger;
         }
 
-        public Task AddAsync(RecipeFormViewModel model)
+        public async Task AddAsync(RecipeFormViewModel model)
         {
-            throw new NotImplementedException();
+            var recipe = new Recipe()
+            {
+                Id = model.Id,
+                Title = model.Title,
+                Description = model.Description == null ? string.Empty : model.Description,
+                Ingredients = model.Ingredients,
+                Instructions = model.Instructions,
+                CreationDate = model.CreationDate,
+                Image = model.Image,
+                CategoryId = model.CategoryId,
+                CreatorId = model.CreatorId
+            };
+
+            try
+            {
+                await context.Recipes.AddAsync(recipe);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "RecipeService.AddAsync");
+                throw new ApplicationException(ErrorMessageConstants.OperationFailedErrorMessage);
+            }
+
         }
 
         public Task DeleteAsync(int id)
