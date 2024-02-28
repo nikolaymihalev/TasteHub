@@ -17,7 +17,7 @@ namespace TasteHub.Core.Models
         /// Category name
         /// </summary>
         [Required(ErrorMessage = ErrorMessageConstants.RequireErrorMessage)]
-        [StringLength(ValidationConstants.CategoryNameMinLength, 
+        [StringLength(ValidationConstants.CategoryNameMaxLength, 
             MinimumLength = ValidationConstants.CategoryNameMinLength, 
             ErrorMessage = ErrorMessageConstants.StringLengthErrorMessage)]
         public string Name { get; set; } = string.Empty;
