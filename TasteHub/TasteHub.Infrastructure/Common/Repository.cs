@@ -13,6 +13,11 @@ namespace TasteHub.Infrastructure.Common
             return this.Context.Set<T>();
         }
 
+        public Repository(ApplicationDbContext _context)
+        {
+            Context = _context;
+        }
+
         public IQueryable<T> All<T>() where T : class
         {
             return this.DbSet<T>().AsQueryable();
@@ -33,14 +38,14 @@ namespace TasteHub.Infrastructure.Common
             return this.DbSet<T>().Where(search).AsNoTracking();
         }
 
-        public Task AddAsync<T>(T entity) where T : class
+        public async Task AddAsync<T>(T entity) where T : class
         {
-            throw new NotImplementedException();
+            await this.DbSet<T>().AddAsync(entity);
         }
 
-        public Task<T?> GetByIdAsync<T>(object id) where T : class
+        public async Task<T?> GetByIdAsync<T>(object id) where T : class
         {
-            throw new NotImplementedException();
+            return await DbSet<T>().FindAsync(id);
         }
 
         public Task Delete<T>(T entity) where T : class
@@ -62,12 +67,5 @@ namespace TasteHub.Infrastructure.Common
         {
             throw new NotImplementedException();
         }
-
-        public Repository(ApplicationDbContext _context)
-        {
-            Context = _context;
-        }
-
-        
     }
 }
