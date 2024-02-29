@@ -74,14 +74,14 @@ namespace TasteHub.Infrastructure.Common
             this.DbSet<T>().RemoveRange(entities);
         }
 
-        public Task<int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            return await this.Context.SaveChangesAsync();
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            this.Context.Dispose();
         }
     }
 }
