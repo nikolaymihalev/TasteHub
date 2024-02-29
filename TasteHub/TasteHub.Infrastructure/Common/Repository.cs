@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 using TasteHub.Infrastructure.Data;
 
@@ -48,14 +49,29 @@ namespace TasteHub.Infrastructure.Common
             return await DbSet<T>().FindAsync(id);
         }
 
-        public Task Delete<T>(T entity) where T : class
+        public async Task DeleteAsync<T>(object id) where T : class
         {
-            throw new NotImplementedException();
+            T? entity = await GetByIdAsync<T>(id);
+
+            if(entity != null)
+                Delete<T>(entity);
         }
 
-        public Task DeleteRange<T>(IEnumerable<T> entities) where T : class
+        public void Delete<T>(T entity) where T : class
         {
-            throw new NotImplementedException();
+            EntityEntry entry = this.Context.Entry(entity);
+
+            if (entry.State == EntityState.Detached)
+            {
+                this.DbSet<T>().Attach(entity);
+            }
+
+            entry.State = EntityState.Deleted;
+        }
+
+        public void DeleteRange<T>(IEnumerable<T> entities) where T : class
+        {
+            this.DbSet<T>().RemoveRange(entities);
         }
 
         public Task<int> SaveChangesAsync()
