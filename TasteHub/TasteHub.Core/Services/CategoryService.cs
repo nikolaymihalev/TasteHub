@@ -1,23 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
+using TasteHub.Infrastructure.Common;
 using TasteHub.Infrastructure.Constants;
-using TasteHub.Infrastructure.Data;
 using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly ApplicationDbContext context;
+        private readonly IRepository repository;
         private readonly ILogger logger;
 
         public CategoryService(
-            ApplicationDbContext _context,
+            IRepository _repository,
             ILogger _logger)
         {
-            context = _context;
+            repository = _repository;
             logger = _logger;
         }
 
@@ -30,8 +29,8 @@ namespace TasteHub.Core.Services
 
             try
             {
-                await context.Categories.AddAsync(category);
-                await context.SaveChangesAsync();
+                await repository.AddAsync<Category>(category);
+                await repository.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -42,40 +41,38 @@ namespace TasteHub.Core.Services
 
         public async Task DeleteAsync(int id)
         {
-            var category = await context.Categories.FindAsync(id);
+            var category = await repository.GetByIdAsync<Category>(id);
 
             if (category == null)
             {
                 throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "category"));
             }
 
-            context.Remove(category);
+            await repository.DeleteAsync<Category>(category);
 
-            await context.SaveChangesAsync();
+            await repository.SaveChangesAsync();
         }
 
         public async Task EditAsync(CategoryFormViewModel model)
         {
-            var category = await context.Categories.FindAsync(model.Id);
+            var category = await repository.GetByIdAsync<Category>(model.Id);
 
-            if(category == null)
+            if (category == null)
             {
                 throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "category"));
             }
 
             category.Name = model.Name;
 
-            await context.SaveChangesAsync();
+            await repository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CategoryInfoViewModel>> GetAllCategoriesAsync()
         {
-            return await context.Categories
-                .AsNoTracking()
-                .Select(x=> new CategoryInfoViewModel(
+            return repository.AllReadonly<Category>()
+                .Select(x => new CategoryInfoViewModel(
                     x.Id,
-                    x.Name))
-                .ToListAsync();
+                    x.Name));
         }
     }
 }
