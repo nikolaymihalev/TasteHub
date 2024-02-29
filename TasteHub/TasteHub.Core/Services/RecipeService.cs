@@ -1,23 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
+using TasteHub.Infrastructure.Common;
 using TasteHub.Infrastructure.Constants;
-using TasteHub.Infrastructure.Data;
 using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Services
 {
     public class RecipeService : IRecipeService
     {
-        private readonly ApplicationDbContext context;
+        private readonly IRepository repository;
         private readonly ILogger logger;
 
         public RecipeService(
-            ApplicationDbContext _context, 
+            IRepository _repository, 
             ILogger _logger)
         {
-            context = _context;
+            repository = _repository;
             logger = _logger;
         }
 
@@ -37,8 +36,8 @@ namespace TasteHub.Core.Services
 
             try
             {
-                await context.Recipes.AddAsync(recipe);
-                await context.SaveChangesAsync();
+                await repository.AddAsync<Recipe>(recipe);
+                await repository.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -49,7 +48,7 @@ namespace TasteHub.Core.Services
 
         public async Task DeleteAsync(int id)
         {
-            var recipe = await context.Recipes.FindAsync(id);
+            var recipe = await repository.GetByIdAsync<Recipe>(id);
 
             if (recipe == null)
             {
@@ -57,14 +56,14 @@ namespace TasteHub.Core.Services
                 throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage,"recipe"));
             }
 
-            context.Remove(recipe);
+            await repository.DeleteAsync<Recipe>(recipe);
 
-            await context.SaveChangesAsync();
+            await repository.SaveChangesAsync();
         }
 
         public async Task EditAsync(RecipeFormViewModel model)
         {
-            var recipe = await context.Recipes.FindAsync(model.Id);
+            var recipe = await repository.GetByIdAsync<Recipe>(model.Id);
 
             if(recipe == null) 
             {
@@ -81,12 +80,13 @@ namespace TasteHub.Core.Services
             recipe.CreatorId = model.CreatorId;
             recipe.CategoryId = model.CategoryId;
 
-            await context.SaveChangesAsync();
+            await repository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<RecipeInfoViewModel>> GetAllRecipesAsync()
         {
-            return await context.Recipes
+            return repository
+                .AllReadonly<Recipe>()
                 .Select(x => new RecipeInfoViewModel(
                     x.Id,
                     x.Title,
@@ -96,27 +96,31 @@ namespace TasteHub.Core.Services
                     x.CreationDate.ToString(),
                     x.Image,
                     x.Creator.UserName,
-                    x.Category.Name))
-                .AsNoTracking()
-                .ToListAsync();                
+                    x.Category.Name));     
         }
 
         public async Task<RecipeInfoViewModel?> GetByIdAsync(int id)
         {
-            return await context.Recipes
-                .AsNoTracking()
-                .Where(x=>x.Id==id)
-                .Select(x=> new RecipeInfoViewModel(
-                    x.Id,
-                    x.Title,
-                    x.Description,
-                    x.Ingredients,
-                    x.Instructions,
-                    x.CreationDate.ToString(),
-                    x.Image,
-                    x.Creator.UserName,
-                    x.Category.Name))
-                .FirstOrDefaultAsync();
+            var entity = await repository.GetByIdAsync<Recipe>(id);
+
+            if (entity == null) 
+            {
+                logger.LogError("RecipeService.GetByIdAsync");
+                throw new ApplicationException(string.Format(ErrorMessageConstants.DoesntExistErrorMessage, "recipe"));
+            }
+
+            var model = new RecipeInfoViewModel(
+                id,
+                entity.Title,
+                entity.Description,
+                entity.Ingredients,
+                entity.Instructions,
+                entity.CreationDate.ToString(),
+                entity.Image,
+                entity.Category.Name,
+                entity.Creator.UserName);            
+
+            return model;
         }
     }
 }

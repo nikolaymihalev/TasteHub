@@ -31,7 +31,7 @@ namespace TasteHub.Infrastructure.Common
         /// <summary>
         /// All data in a table
         /// </summary>
-        public IQueryable<T> All<T>() where T : class
+        public IEnumerable<T> All<T>() where T : class
         {
             return this.DbSet<T>().AsQueryable();
         }
@@ -39,7 +39,7 @@ namespace TasteHub.Infrastructure.Common
         /// <summary>
         /// All data in a table
         /// </summary>
-        public IQueryable<T> All<T>(Expression<Func<T, bool>> search) where T : class
+        public IEnumerable<T> All<T>(Expression<Func<T, bool>> search) where T : class
         {
             return this.DbSet<T>().Where(search).AsQueryable();
         }
@@ -47,7 +47,7 @@ namespace TasteHub.Infrastructure.Common
         /// <summary>
         /// All data as no tracking in a table
         /// </summary>
-        public IQueryable<T> AllReadonly<T>() where T : class
+        public IEnumerable<T> AllReadonly<T>() where T : class
         {
             return this.DbSet<T>().AsNoTracking();
         }
@@ -55,7 +55,7 @@ namespace TasteHub.Infrastructure.Common
         /// <summary>
         /// All data as no tracking in a table
         /// </summary>
-        public IQueryable<T> AllReadonly<T>(Expression<Func<T, bool>> search) where T : class
+        public IEnumerable<T> AllReadonly<T>(Expression<Func<T, bool>> search) where T : class
         {
             return this.DbSet<T>().Where(search).AsNoTracking();
         }

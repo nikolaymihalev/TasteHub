@@ -10,22 +10,22 @@ namespace TasteHub.Infrastructure.Common
         /// <summary>
         /// All data in a table
         /// </summary>
-        IQueryable<T> All<T>() where T : class;
+        IEnumerable<T> All<T>() where T : class;
 
         /// <summary>
         /// All data in a table
         /// </summary>
-        IQueryable<T> All<T>(Expression<Func<T,bool>> search) where T : class;   
-        
-        /// <summary>
-        /// All data as no tracking in a table
-        /// </summary>
-        IQueryable<T> AllReadonly<T>() where T : class;
+        IEnumerable<T> All<T>(Expression<Func<T,bool>> search) where T : class;
 
         /// <summary>
         /// All data as no tracking in a table
         /// </summary>
-        IQueryable<T> AllReadonly<T>(Expression<Func<T,bool>> search) where T : class;
+        IEnumerable<T> AllReadonly<T>() where T : class;
+
+        /// <summary>
+        /// All data as no tracking in a table
+        /// </summary>
+        IEnumerable<T> AllReadonly<T>(Expression<Func<T,bool>> search) where T : class;
 
         /// <summary>
         /// Add entity to the database
