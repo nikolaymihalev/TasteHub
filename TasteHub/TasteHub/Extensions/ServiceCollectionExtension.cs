@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TasteHub.Core.Contracts;
+using TasteHub.Core.Services;
+using TasteHub.Infrastructure.Common;
 using TasteHub.Infrastructure.Data;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -8,6 +11,9 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IRecipeService, RecipeService>();
+
             return services;
         }
 
