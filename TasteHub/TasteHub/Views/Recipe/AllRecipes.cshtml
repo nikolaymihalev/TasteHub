@@ -3,4 +3,21 @@
     ViewBag.Title = "All Recipes";
 }
 
+<div class="text-center row">
+    @foreach (var a in Model)
+    {
+        <div class="card col-4" style="width: 20rem; ">
+            <div class="card-body">
+                <h5 class="card-title mt-1">@a.Title</h5>
+                <img class="card-img-top" src=@a.Image alt="Ad Image">
+                <p class="mb-0"><span class="fw-bold">Added on: </span>@a.CreationDate</p>
+                <p class="mb-0"><span class="fw-bold">Description: </span>@a.Description</p>
+                <p class="mb-0"><span class="fw-bold">Price: </span>@a.Ingredients</p>
+            </div>
+        </div>
+    }
+</div>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -2,10 +2,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationDbContext(builder.Configuration);
 builder.Services.AddApplicationIdentity(builder.Configuration);
+builder.Services.AddApplicationServices();
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 

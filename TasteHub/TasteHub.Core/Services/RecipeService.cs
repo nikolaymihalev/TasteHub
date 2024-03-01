@@ -10,11 +10,11 @@ namespace TasteHub.Core.Services
     public class RecipeService : IRecipeService
     {
         private readonly IRepository repository;
-        private readonly ILogger logger;
+        private readonly ILogger<RecipeService> logger;
 
         public RecipeService(
-            IRepository _repository, 
-            ILogger _logger)
+            IRepository _repository,
+            ILogger<RecipeService> _logger)
         {
             repository = _repository;
             logger = _logger;
@@ -85,8 +85,7 @@ namespace TasteHub.Core.Services
 
         public async Task<IEnumerable<RecipeInfoViewModel>> GetAllRecipesAsync()
         {
-            return repository
-                .AllReadonly<Recipe>()
+            return repository.AllReadonly<Recipe>()
                 .Select(x => new RecipeInfoViewModel(
                     x.Id,
                     x.Title,
@@ -96,7 +95,7 @@ namespace TasteHub.Core.Services
                     x.CreationDate.ToString(),
                     x.Image,
                     x.Creator.UserName,
-                    x.Category.Name));     
+                    x.Category.Name));
         }
 
         public async Task<RecipeInfoViewModel?> GetByIdAsync(int id)

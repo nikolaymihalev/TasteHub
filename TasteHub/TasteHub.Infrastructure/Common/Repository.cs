@@ -47,7 +47,7 @@ namespace TasteHub.Infrastructure.Common
         /// <summary>
         /// All data as no tracking in a table
         /// </summary>
-        public IEnumerable<T> AllReadonly<T>() where T : class
+        public IEnumerable<T> AllReadonly<T>() where T : class        
         {
             return this.DbSet<T>().AsNoTracking();
         }
