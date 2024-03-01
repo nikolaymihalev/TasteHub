@@ -12,11 +12,11 @@ namespace TasteHub.Infrastructure.Data
         {
         }
 
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<FavoriteRecipe> FavoriteRecipes { get; set; }
-        public DbSet<Rating> Ratings { get; set; }
-        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<Comment> Comments { get; set; } = null!;
+        public DbSet<FavoriteRecipe> FavoriteRecipes { get; set; } = null!;
+        public DbSet<Rating> Ratings { get; set; } = null!;
+        public DbSet<Recipe> Recipes { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

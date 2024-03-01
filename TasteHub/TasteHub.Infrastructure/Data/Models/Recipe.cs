@@ -38,7 +38,7 @@ namespace TasteHub.Infrastructure.Data.Models
         [Comment("Image of the food")]
         [Required]
         [Column(TypeName = "varbinary(MAX)")]
-        public byte[] Image { get; set; }
+        public byte[] Image { get; set; } = null!;
 
         [Comment("Recipe creator identifier")]
         [Required]

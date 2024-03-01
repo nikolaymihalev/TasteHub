@@ -14,17 +14,17 @@ namespace TasteHub.Infrastructure.Data.Configurations
             SeedRatings();
             SeedFavoriteRecipes();
         }
-        public IdentityUser Creator { get; private set; }
-        public IdentityUser Guest { get; private set; }
-        public Category Sweets { get; private set; }
-        public Category Sandwiches { get; private set; }
-        public Recipe ChocolateCheesecake { get; private set; }
-        public Recipe Burger { get; private set; }
-        public Comment FirstComment { get; private set; }
-        public Comment SecondComment { get; private set; }
-        public Rating FirstRating { get; private set; }
-        public Rating SecondRating { get; private set; }
-        public FavoriteRecipe FirstFR { get; private set; }
+        public IdentityUser Creator { get; private set; } = null!;
+        public IdentityUser Guest { get; private set; } = null!;
+        public Category Sweets { get; private set; } = null!;
+        public Category Sandwiches { get; private set; } = null!;
+        public Recipe ChocolateCheesecake { get; private set; } = null!;
+        public Recipe Burger { get; private set; } = null!;
+        public Comment FirstComment { get; private set; } = null!;
+        public Comment SecondComment { get; private set; } = null!;
+        public Rating FirstRating { get; private set; } = null!;
+        public Rating SecondRating { get; private set; } = null!;
+        public FavoriteRecipe FirstFR { get; private set; } = null!;
 
         private void SeedUsers() 
         {

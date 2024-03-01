@@ -56,7 +56,7 @@ namespace TasteHub.Core.Models
         /// Image of the food
         /// </summary>
         [Required(ErrorMessage = ErrorMessageConstants.RequireErrorMessage)]
-        public byte[] Image { get; set; }
+        public byte[] Image { get; set; } = null!;
 
         /// <summary>
         /// Category identifier
