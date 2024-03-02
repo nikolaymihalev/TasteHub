@@ -13,12 +13,12 @@ namespace TasteHub.Infrastructure.Common
         /// <summary>
         /// Entity framework Db context
         /// </summary>
-        protected DbContext Context { get; set; }
+        public DbContext Context { get; set; }
 
         /// <summary>
         /// Table in database
         /// </summary>
-        protected DbSet<T> DbSet<T>() where T : class
+        private DbSet<T> DbSet<T>() where T : class
         {
             return this.Context.Set<T>();
         }
@@ -31,33 +31,17 @@ namespace TasteHub.Infrastructure.Common
         /// <summary>
         /// All data in a table
         /// </summary>
-        public IEnumerable<T> All<T>() where T : class
+        public IQueryable<T> All<T>() where T : class
         {
             return this.DbSet<T>().AsQueryable();
         }
 
         /// <summary>
-        /// All data in a table
-        /// </summary>
-        public IEnumerable<T> All<T>(Expression<Func<T, bool>> search) where T : class
-        {
-            return this.DbSet<T>().Where(search).AsQueryable();
-        }
-
-        /// <summary>
         /// All data as no tracking in a table
         /// </summary>
-        public IEnumerable<T> AllReadonly<T>() where T : class        
+        public IQueryable<T> AllReadonly<T>() where T : class        
         {
             return this.DbSet<T>().AsNoTracking();
-        }
-
-        /// <summary>
-        /// All data as no tracking in a table
-        /// </summary>
-        public IEnumerable<T> AllReadonly<T>(Expression<Func<T, bool>> search) where T : class
-        {
-            return this.DbSet<T>().Where(search).AsNoTracking();
         }
 
         /// <summary>
