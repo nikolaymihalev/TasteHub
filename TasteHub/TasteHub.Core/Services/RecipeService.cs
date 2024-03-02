@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
 using TasteHub.Infrastructure.Common;
@@ -85,7 +86,7 @@ namespace TasteHub.Core.Services
 
         public async Task<IEnumerable<RecipeInfoViewModel>> GetAllRecipesAsync()
         {
-            return repository.AllReadonly<Recipe>()
+            return await repository.AllReadonly<Recipe>()
                 .Select(x => new RecipeInfoViewModel(
                     x.Id,
                     x.Title,
@@ -95,7 +96,8 @@ namespace TasteHub.Core.Services
                     x.CreationDate.ToString(),
                     x.Image,
                     x.Creator.UserName,
-                    x.Category.Name));
+                    x.Category.Name))
+                .ToListAsync();
         }
 
         public async Task<RecipeInfoViewModel?> GetByIdAsync(int id)
