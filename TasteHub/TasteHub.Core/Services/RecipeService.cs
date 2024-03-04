@@ -94,7 +94,7 @@ namespace TasteHub.Core.Services
                     x.Ingredients,
                     x.Instructions,
                     x.CreationDate.ToString(),
-                    x.Image,
+                    Convert.ToBase64String(x.Image),
                     x.Creator.UserName,
                     x.Category.Name))
                 .ToListAsync();
@@ -117,7 +117,7 @@ namespace TasteHub.Core.Services
                 entity.Ingredients,
                 entity.Instructions,
                 entity.CreationDate.ToString(),
-                entity.Image,
+                Convert.ToBase64String(entity.Image),
                 entity.Category.Name,
                 entity.Creator.UserName);            
 

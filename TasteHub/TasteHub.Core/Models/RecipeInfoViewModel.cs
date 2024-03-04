@@ -12,7 +12,7 @@
             string ingredients,
             string instructions,
             string creationDate,
-            byte[] image,
+            string image,
             string creatorUsername,
             string categoryName)
         {
@@ -60,7 +60,7 @@
         /// <summary>
         /// Image of the food
         /// </summary>
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
         
         /// <summary>
         /// Creator username
