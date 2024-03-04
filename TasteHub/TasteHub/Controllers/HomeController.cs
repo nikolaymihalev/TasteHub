@@ -13,9 +13,10 @@ namespace TasteHub.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return RedirectToAction("AllRecipes", "Recipe");
         }
 
         public IActionResult Privacy()

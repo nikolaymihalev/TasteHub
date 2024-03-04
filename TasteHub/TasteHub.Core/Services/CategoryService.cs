@@ -10,11 +10,11 @@ namespace TasteHub.Core.Services
     public class CategoryService : ICategoryService
     {
         private readonly IRepository repository;
-        private readonly ILogger logger;
+        private readonly ILogger<CategoryService> logger;
 
         public CategoryService(
             IRepository _repository,
-            ILogger _logger)
+            ILogger<CategoryService> _logger)
         {
             repository = _repository;
             logger = _logger;
