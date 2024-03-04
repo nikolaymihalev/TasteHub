@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Data.SqlClient.Server;
 using System.Globalization;
 
 namespace TasteHub.ModelBinders
@@ -11,13 +10,13 @@ namespace TasteHub.ModelBinders
             ValueProviderResult valueResult = bindingContext.ValueProvider
                 .GetValue(bindingContext.ModelName);
 
-            if (valueResult != ValueProviderResult.None && !string.IsNullOrEmpty(valueResult.FirstValue)) 
+            if (valueResult != ValueProviderResult.None && !string.IsNullOrEmpty(valueResult.FirstValue))
             {
-                DateTime time;
+                DateTime result;
 
                 try
                 {
-                    time = DateTime.ParseExact(valueResult.FirstValue.Trim(), "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                    result = DateTime.ParseExact(valueResult.FirstValue.Trim(), "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
                 }
                 catch (Exception ex)
                 {
