@@ -93,7 +93,7 @@ namespace TasteHub.Core.Services
                     x.Description == null ? string.Empty : x.Description,
                     x.Ingredients,
                     x.Instructions,
-                    x.CreationDate.ToString(),
+                    x.CreationDate,
                     Convert.ToBase64String(x.Image),
                     x.Creator.UserName,
                     x.Category.Name))
@@ -116,7 +116,7 @@ namespace TasteHub.Core.Services
                 entity.Description,
                 entity.Ingredients,
                 entity.Instructions,
-                entity.CreationDate.ToString(),
+                entity.CreationDate,
                 Convert.ToBase64String(entity.Image),
                 entity.Category.Name,
                 entity.Creator.UserName);            

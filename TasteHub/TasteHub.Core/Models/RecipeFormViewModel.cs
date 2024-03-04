@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
+using TasteHub.Core.Attributes;
 using TasteHub.Infrastructure.Constants;
 
 namespace TasteHub.Core.Models
@@ -56,7 +57,6 @@ namespace TasteHub.Core.Models
         /// <summary>
         /// Date of creation
         /// </summary>
-        //Binding format needed
         public DateTime CreationDate { get; set; }
 
         /// <summary>

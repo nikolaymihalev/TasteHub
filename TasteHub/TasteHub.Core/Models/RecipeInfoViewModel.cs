@@ -1,4 +1,6 @@
-﻿namespace TasteHub.Core.Models
+﻿using TasteHub.Core.Attributes;
+
+namespace TasteHub.Core.Models
 {
     /// <summary>
     /// Model for recipe information in a database
@@ -11,7 +13,7 @@
             string? description,
             string ingredients,
             string instructions,
-            string creationDate,
+            DateTime creationDate,
             string image,
             string creatorUsername,
             string categoryName)
@@ -55,7 +57,8 @@
         /// <summary>
         /// Date of creation
         /// </summary>
-        public string CreationDate { get; set; }
+        [DateFormat("dd-MM-yyyy")]
+        public DateTime CreationDate { get; set; }
 
         /// <summary>
         /// Image of the food
