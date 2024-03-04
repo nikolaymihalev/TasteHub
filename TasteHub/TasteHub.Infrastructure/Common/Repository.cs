@@ -101,13 +101,5 @@ namespace TasteHub.Infrastructure.Common
         {
             return await this.Context.SaveChangesAsync();
         }
-
-        /// <summary>
-        /// Disposing context when it is not needed
-        /// </summary>
-        public void Dispose()
-        {
-            this.Context.Dispose();
-        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
 
@@ -40,15 +41,30 @@ namespace TasteHub.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRecipe(RecipeFormViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid==false)
             {
                 model.Categories = await categoryService.GetAllCategoriesAsync();
                 return View(model);
             }
 
-            await recipeService.AddAsync(model);
+            if (model.ImageFile != null && model.ImageFile.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    model.ImageFile.CopyTo(memoryStream);
+                    byte[] imageBytes = memoryStream.ToArray();
 
-            return RedirectToAction(nameof(AllRecipes));
+                    model.Image = imageBytes;
+                    model.CreatorId = User.Id();
+                    model.CreationDate = DateTime.Now;
+
+                    await recipeService.AddAsync(model);    
+                }
+                return RedirectToAction(nameof(AllRecipes));
+            }
+
+            model.Categories = await categoryService.GetAllCategoriesAsync();
+            return View(model);
         }
     }
 }

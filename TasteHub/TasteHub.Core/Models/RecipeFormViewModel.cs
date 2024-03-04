@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 using TasteHub.Infrastructure.Constants;
 
 namespace TasteHub.Core.Models
@@ -9,7 +10,7 @@ namespace TasteHub.Core.Models
     public class RecipeFormViewModel
     {
         /// <summary>
-        /// Recipe identifier
+        /// Recipe identifier for finding recipe from database
         /// </summary>
         public int Id { get; set; }
 
@@ -17,8 +18,8 @@ namespace TasteHub.Core.Models
         /// Recipe title
         /// </summary>
         [Required(ErrorMessage = ErrorMessageConstants.RequireErrorMessage)]
-        [StringLength(ValidationConstants.RecipeTitleMaxLength, 
-            MinimumLength = ValidationConstants.RecipeTitleMinLength, 
+        [StringLength(ValidationConstants.RecipeTitleMaxLength,
+            MinimumLength = ValidationConstants.RecipeTitleMinLength,
             ErrorMessage = ErrorMessageConstants.StringLengthErrorMessage)]
         public string Title { get; set; } = string.Empty;
 
@@ -45,30 +46,33 @@ namespace TasteHub.Core.Models
              ErrorMessage = ErrorMessageConstants.StringLengthErrorMessage)]
         public string Instructions { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Date of creation
-        /// </summary>
-        [Required(ErrorMessage = ErrorMessageConstants.RequireErrorMessage)]
-        //Binding format needed
-        public DateTime CreationDate { get; set; }
 
         /// <summary>
         /// Image of the food
         /// </summary>
-        [Required(ErrorMessage = ErrorMessageConstants.RequireErrorMessage)]
-        public byte[] Image { get; set; } = null!;
+        public byte[] Image { get; set; } = new byte[128];
+        public IFormFile ImageFile { get; set; }
+
+        /// <summary>
+        /// Date of creation
+        /// </summary>
+        //Binding format needed
+        public DateTime CreationDate { get; set; }
 
         /// <summary>
         /// Category identifier
         /// </summary>
         public int CategoryId { get; set; }
 
-        [Required(ErrorMessage = ErrorMessageConstants.RequireErrorMessage)]
+        /// <summary>
+        /// Creator identifier
+        /// </summary>
         public string CreatorId { get; set; } = string.Empty;
 
         /// <summary>
         /// Collection of categories
         /// </summary>
         public IEnumerable<CategoryInfoViewModel> Categories { get; set; } = new List<CategoryInfoViewModel>();
+
     }
 }

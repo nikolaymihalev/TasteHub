@@ -5,7 +5,7 @@ namespace TasteHub.Infrastructure.Common
     /// <summary>
     /// Interface for repository methods
     /// </summary>
-    public interface IRepository : IDisposable
+    public interface IRepository 
     {
         /// <summary>
         /// All data in a table
