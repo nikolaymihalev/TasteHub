@@ -62,6 +62,7 @@ namespace TasteHub.Core.Models
         /// <summary>
         /// Category identifier
         /// </summary>
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
         /// <summary>

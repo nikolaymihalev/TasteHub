@@ -106,10 +106,49 @@ namespace TasteHub.Controllers
                 Instructions = recipe.Instructions,
                 CreationDate = recipe.CreationDate,
                 CreatorId = recipe.CreatorId,
-                CategoryId = category.Id
+                CategoryId = category.Id,
+                Categories = await categoryService.GetAllCategoriesAsync()
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRecipe(RecipeFormViewModel model,int id) 
+        {
+            var recipe = await recipeService.GetByIdAsync(id);
+
+            if (recipe == null)
+            {
+                model.Categories = await categoryService.GetAllCategoriesAsync();
+                return BadRequest();
+            }
+
+            if (recipe.CreatorId != User.Id())
+            {
+                model.Categories = await categoryService.GetAllCategoriesAsync();
+                return Unauthorized();
+            }
+
+            if (!ModelState.IsValid) 
+            {
+                model.Categories = await categoryService.GetAllCategoriesAsync();
+                return View(model);
+            }
+            model.CreatorId = User.Id();
+
+            using (var memoryStream = new MemoryStream())
+            {
+                model.ImageFile.CopyTo(memoryStream);
+                byte[] imageBytes = memoryStream.ToArray();
+
+                model.Image = imageBytes;
+            }
+
+            await recipeService.EditAsync(model);
+
+            return RedirectToAction(nameof(AllRecipes));
+            
         }
     }
 }
