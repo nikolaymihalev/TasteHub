@@ -102,13 +102,14 @@ namespace TasteHub.Core.Services
 
         public async Task<RecipeInfoViewModel?> GetByIdAsync(int id)
         {
-            var entity = await repository.GetByIdAsync<Recipe>(id);
+            var entity = await repository.GetByIdAsync<Recipe>(id);           
 
             if (entity == null) 
             {
                 logger.LogError("RecipeService.GetByIdAsync");
                 throw new ApplicationException(string.Format(ErrorMessageConstants.DoesntExistErrorMessage, "recipe"));
             }
+            var category = await repository.GetByIdAsync<Category>(entity.CategoryId);
 
             var model = new RecipeInfoViewModel(
                 id,
@@ -117,9 +118,9 @@ namespace TasteHub.Core.Services
                 entity.Ingredients,
                 entity.Instructions,
                 entity.CreationDate,
-                Convert.ToBase64String(entity.Image),
-                entity.Category.Name,
-                entity.Creator.UserName);            
+                Convert.ToBase64String(entity.Image),                
+                entity.CreatorId,
+                category.Name);            
 
             return model;
         }

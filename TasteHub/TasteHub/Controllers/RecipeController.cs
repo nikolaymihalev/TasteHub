@@ -66,5 +66,18 @@ namespace TasteHub.Controllers
             model.Categories = await categoryService.GetAllCategoriesAsync();
             return View(model);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(int id) 
+        {
+            var model = await recipeService.GetByIdAsync(id);
+
+            if(model == null) 
+            {
+                return BadRequest();
+            }
+            return View(model);
+        }
     }
 }
