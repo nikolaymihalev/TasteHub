@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
 using TasteHub.Infrastructure.Common;
@@ -73,6 +74,38 @@ namespace TasteHub.Core.Services
                 .Select(x => new CategoryInfoViewModel(
                     x.Id,
                     x.Name));
+        }
+
+        public async Task<CategoryInfoViewModel?> GetByIdAsync(int id)
+        {
+            var entity = await repository.GetByIdAsync<Category>(id);
+
+            if (entity == null)
+            {
+                logger.LogError("CategoryService.GetByIdAsync");
+                throw new ApplicationException(string.Format(ErrorMessageConstants.DoesntExistErrorMessage, "category"));
+            }
+            var model = new CategoryInfoViewModel(
+                id,
+                entity.Name);
+
+            return model;
+        }
+
+        public async Task<CategoryInfoViewModel?> GetByNameAsync(string name)
+        {
+            var entity = await repository.AllReadonly<Category>().Where(x=>x.Name==name).FirstOrDefaultAsync();
+
+            if (entity == null)
+            {
+                logger.LogError("CategoryService.GetByNameAsync");
+                throw new ApplicationException(string.Format(ErrorMessageConstants.DoesntExistErrorMessage, "category"));
+            }
+            var model = new CategoryInfoViewModel(
+                entity.Id,
+                entity.Name);
+
+            return model;
         }
     }
 }

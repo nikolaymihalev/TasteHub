@@ -19,8 +19,8 @@ namespace TasteHub.Controllers
             categoryService = _categoryService;
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> AllRecipes()
         {
             var model = await recipeService.GetAllRecipesAsync();
@@ -77,6 +77,38 @@ namespace TasteHub.Controllers
             {
                 return BadRequest();
             }
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditRecipe(int id) 
+        {
+            var recipe = await recipeService.GetByIdAsync(id);
+
+            if (recipe == null)
+            {
+                return BadRequest();
+            }
+
+            if (recipe.CreatorId != User.Id()) 
+            {
+                return Unauthorized();
+            }
+
+            var category = await categoryService.GetByNameAsync(recipe.CategoryName);
+
+            var model = new RecipeFormViewModel()
+            {
+                Id = recipe.Id,
+                Title = recipe.Title,
+                Description = recipe.Description,
+                Ingredients = recipe.Ingredients,
+                Instructions = recipe.Instructions,
+                CreationDate = recipe.CreationDate,
+                CreatorId = recipe.CreatorId,
+                CategoryId = category.Id
+            };
+
             return View(model);
         }
     }

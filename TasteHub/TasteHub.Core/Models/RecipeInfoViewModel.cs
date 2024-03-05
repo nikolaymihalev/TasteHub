@@ -15,7 +15,7 @@ namespace TasteHub.Core.Models
             string instructions,
             DateTime creationDate,
             string image,
-            string creatorUsername,
+            string creatorId,
             string categoryName)
         {
             Id = id; 
@@ -25,7 +25,7 @@ namespace TasteHub.Core.Models
             Instructions = instructions;
             CreationDate = creationDate;
             Image = image;
-            CreatorUsername = creatorUsername;
+            CreatorId = creatorId;
             CategoryName = categoryName;            
         }
 
@@ -66,9 +66,9 @@ namespace TasteHub.Core.Models
         public string Image { get; set; }
         
         /// <summary>
-        /// Creator username
+        /// Creator identifier
         /// </summary>
-        public string CreatorUsername { get; set; } 
+        public string CreatorId { get; set; } 
 
         /// <summary>
         /// Category name
