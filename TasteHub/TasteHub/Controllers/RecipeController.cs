@@ -147,8 +147,7 @@ namespace TasteHub.Controllers
 
             await recipeService.EditAsync(model);
 
-            return RedirectToAction(nameof(AllRecipes));
-            
+            return RedirectToAction(nameof(AllRecipes));            
         }
     }
 }

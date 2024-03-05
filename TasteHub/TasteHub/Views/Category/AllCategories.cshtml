@@ -1,0 +1,19 @@
+﻿@model IEnumerable<CategoryInfoViewModel>
+@{
+    ViewBag.Title = "All Categories";
+}
+
+<div class="text-center row">
+    @foreach (var r in Model)
+    {
+        <div class="card col-4" style="width: 20rem; ">
+            <div class="card-body">                
+                <h5 class="card-title mt-1">@r.Name</h5>             
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
