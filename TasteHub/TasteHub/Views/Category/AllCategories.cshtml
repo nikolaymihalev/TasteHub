@@ -10,7 +10,7 @@
             <div class="card-body">                
                 <h5 class="card-title mt-1">@c.Name</h5> 
                 <!--Add Role-->
-                    <a asp-controller="Cateogry" asp-action="EditCategory" asp-route-id="@c.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Edit</a>
+                    <a asp-controller="Category" asp-action="EditCategory" asp-route-id="@c.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Edit</a>
                     <a asp-controller="Category" asp-action="DeleteCategory" asp-route-id="@c.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
             </div>
         </div>
