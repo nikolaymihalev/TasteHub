@@ -26,5 +26,18 @@ namespace TasteHub.Controllers
             var model = new CategoryFormViewModel();
             return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCategory(CategoryFormViewModel model) 
+        {
+            if (!ModelState.IsValid) 
+            {
+                return View(model);
+            }
+
+            await categoryService.AddAsync(model);
+
+            return RedirectToAction(nameof(AllCategories));
+        }
     }
 }
