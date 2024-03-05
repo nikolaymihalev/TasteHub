@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
+using TasteHub.Core.Services;
 
 namespace TasteHub.Controllers
 {
@@ -36,6 +38,45 @@ namespace TasteHub.Controllers
             }
 
             await categoryService.AddAsync(model);
+
+            return RedirectToAction(nameof(AllCategories));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditCategory(int id) 
+        {
+            var category = await categoryService.GetByIdAsync(id);
+
+            if (category == null)
+            {
+                return BadRequest();
+            }
+
+            var model = new CategoryFormViewModel()
+            {
+                Id = id,
+                Name = category.Name,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCategory(CategoryFormViewModel model, int id) 
+        {
+            var category = await categoryService.GetByIdAsync(id);
+
+            if (category == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await categoryService.EditAsync(model);
 
             return RedirectToAction(nameof(AllCategories));
         }
