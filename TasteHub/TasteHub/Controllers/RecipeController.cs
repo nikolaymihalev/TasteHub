@@ -149,5 +149,15 @@ namespace TasteHub.Controllers
 
             return RedirectToAction(nameof(AllRecipes));            
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Mine() 
+        {
+            var recipes = await recipeService.GetAllRecipesAsync();
+
+            var model = recipes.Where(x => x.CreatorId == User?.Identity?.Name);
+
+            return View(model);
+        }
     }
 }
