@@ -1,15 +1,23 @@
-﻿namespace TasteHub.Core.Models
+﻿using System.ComponentModel.DataAnnotations;
+using TasteHub.Infrastructure.Constants;
+
+namespace TasteHub.Core.Models
 {
+    /// <summary>
+    /// Model for adding or edditing favorite recipe
+    /// </summary>
     public class FavoriteRecipeFormModel
     {
-        public FavoriteRecipeFormModel(
-            string creatorId,
-            int recipeId)
-        {
-            CreatorId = creatorId;
-            RecipeId = recipeId;
-        }
-        public string CreatorId { get; set; }
+        /// <summary>
+        /// Creator identifier
+        /// </summary>
+        [Required(ErrorMessage = ErrorMessageConstants.RequireErrorMessage)]
+        public string CreatorId { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Recipe identifier
+        /// </summary>
+        [Required(ErrorMessage = ErrorMessageConstants.RequireErrorMessage)]
         public int RecipeId { get; set; }
     }
 }
