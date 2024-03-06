@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
 using TasteHub.Infrastructure.Common;
+using TasteHub.Infrastructure.Constants;
 using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Services
@@ -20,9 +21,24 @@ namespace TasteHub.Core.Services
             logger = _logger;
         }
 
-        public Task AddAsync()
+        public async Task AddAsync(FavoriteRecipeFormModel model)
         {
-            throw new NotImplementedException();
+            var entity = new FavoriteRecipe() 
+            {
+                UserId = model.CreatorId,
+                RecipeId = model.RecipeId
+            };
+
+            try
+            {
+                await repository.AddAsync<FavoriteRecipe>(entity);
+                await repository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "FavoriteRecipeService.AddAsync");
+                throw new ApplicationException(ErrorMessageConstants.OperationFailedErrorMessage);
+            }
         }
 
         public async Task<IEnumerable<FavoriteRecipeInfoModel>> GetAllFavoriteRecipesAsync()
