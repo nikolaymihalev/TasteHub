@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
 
 namespace TasteHub.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryController : BaseController
     {
         private readonly ICategoryService categoryService;
