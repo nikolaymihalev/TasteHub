@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
-using TasteHub.Core.Services;
 
 namespace TasteHub.Controllers
 {
@@ -23,7 +21,13 @@ namespace TasteHub.Controllers
         [HttpGet]
         public async Task<IActionResult> AllCategories()
         {
-            var model = await categoryService.GetAllCategoriesAsync();
+            var categories = await categoryService.GetAllCategoriesAsync();
+
+            var model = categories.Select(x => new CategoryForAllModel(
+                x.Id,
+                x.Name,
+                IsCategoryInUse(x.Name).Result));
+
             return View(model);
         }
 
@@ -95,10 +99,9 @@ namespace TasteHub.Controllers
                 return BadRequest();
             }
 
-            var allRecipes = await recipeService.GetAllRecipesAsync();
-            var recipesWithThisCategory = allRecipes.Where(x => x.CategoryName == category.Name);
+            bool isInUse = await IsCategoryInUse(category.Name);
 
-            if (recipesWithThisCategory.Any()) 
+            if (isInUse) 
             {
                 return BadRequest();
             }
@@ -106,6 +109,17 @@ namespace TasteHub.Controllers
             await categoryService.DeleteAsync(id);
 
             return RedirectToAction(nameof(AllCategories));
+        }
+
+        private async Task<bool> IsCategoryInUse(string name) 
+        {
+            var allRecipes = await recipeService.GetAllRecipesAsync();
+            var recipes = allRecipes.Where(x => x.CategoryName == name);
+
+            if (recipes.Any())
+                return true;
+
+            return false;
         }
     }
 }

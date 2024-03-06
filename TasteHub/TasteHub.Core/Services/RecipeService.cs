@@ -57,7 +57,7 @@ namespace TasteHub.Core.Services
                 throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage,"recipe"));
             }
 
-            await repository.DeleteAsync<Recipe>(recipe);
+            await repository.DeleteAsync<Recipe>(recipe.Id);
 
             await repository.SaveChangesAsync();
         }

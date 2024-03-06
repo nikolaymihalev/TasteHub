@@ -1,0 +1,26 @@
+﻿@model CategoryFormViewModel
+@{
+    ViewBag.Title = "Delete Category";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+<h3 class="text-center">@Model.Name</h3>
+<h4 class="text-center">To delete a category in use you must replace it</h4>
+<hr />
+
+<form asp-controller="Category" asp-action="DeleteCategory" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="@Model.Id" />
+    <div class="form-group">
+        <label asp-for="Name">Replace name with</label>
+        <input asp-for="Name" class="form-control" placeholder="Title...">
+        <span asp-validation-for="Name" class="small text-danger"></span>
+    </div>
+    <div class="text-center">
+        <input class="btn btn-primary mt-3" type="submit" value="Save" />
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,4 +1,6 @@
-﻿namespace TasteHub.Core.Models
+﻿using TasteHub.Core.Contracts;
+
+namespace TasteHub.Core.Models
 {
     /// <summary>
     /// Model for category information in a database
