@@ -49,7 +49,7 @@ namespace TasteHub.Core.Services
                 throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "category"));
             }
 
-            await repository.DeleteAsync<Category>(category);
+            await repository.DeleteAsync<Category>(category.Id);
 
             await repository.SaveChangesAsync();
         }

@@ -9,10 +9,15 @@ namespace TasteHub.Controllers
     public class CategoryController : BaseController
     {
         private readonly ICategoryService categoryService;
+        private readonly IRecipeService recipeService;
+        
 
-        public CategoryController(ICategoryService _categoryService)
+        public CategoryController(
+            ICategoryService _categoryService,
+            IRecipeService _recipeService)
         {
             categoryService = _categoryService;   
+            recipeService = _recipeService;   
         }
 
         [HttpGet]
@@ -77,6 +82,28 @@ namespace TasteHub.Controllers
             }
 
             await categoryService.EditAsync(model);
+
+            return RedirectToAction(nameof(AllCategories));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteCategory(int id) 
+        {
+            var category = await categoryService.GetByIdAsync(id);
+            if (category == null) 
+            {
+                return BadRequest();
+            }
+
+            var allRecipes = await recipeService.GetAllRecipesAsync();
+            var recipesWithThisCategory = allRecipes.Where(x => x.CategoryName == category.Name);
+
+            if (recipesWithThisCategory.Any()) 
+            {
+                return BadRequest();
+            }
+
+            await categoryService.DeleteAsync(id);
 
             return RedirectToAction(nameof(AllCategories));
         }
