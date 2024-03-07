@@ -51,7 +51,7 @@ namespace TasteHub.Controllers
                 recipe
             ));
 
-            return RedirectToAction(nameof(MyFavoriteRecipes));
+            return RedirectToAction("Details","Recipe", new { id = id });
         }
     }
 }
