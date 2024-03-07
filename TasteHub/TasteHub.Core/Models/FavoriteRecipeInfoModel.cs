@@ -6,23 +6,18 @@
     public class FavoriteRecipeInfoModel
     {
         public FavoriteRecipeInfoModel(
-            string creatorId,
+            string userId,
             int recipeId,
             RecipeInfoViewModel recipe)
         {
-            CreatorId = creatorId;
+            UserId = userId;
             RecipeId = recipeId;
             Recipe = recipe;
         }
         /// <summary>
         /// Creator identifier
         /// </summary>
-        public string CreatorId { get; set; }
-
-        /// <summary>
-        /// Creator username
-        /// </summary>
-        public string CreatorUsername { get; set; }
+        public string UserId { get; set; }
 
         /// <summary>
         /// Recipe identifier

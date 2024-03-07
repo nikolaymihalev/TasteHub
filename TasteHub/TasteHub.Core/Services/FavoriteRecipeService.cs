@@ -26,7 +26,7 @@ namespace TasteHub.Core.Services
         {
             var entity = new FavoriteRecipe() 
             {
-                UserId = model.CreatorId,
+                UserId = model.UserId,
                 RecipeId = model.RecipeId
             };
 
@@ -47,7 +47,6 @@ namespace TasteHub.Core.Services
             return await repository.AllReadonly<FavoriteRecipe>()
                 .Select(x=> new FavoriteRecipeInfoModel(
                     x.User.Id,
-                    //x.User.UserName,
                     x.RecipeId,
                     new RecipeInfoViewModel(x.Recipe.Id,
                         x.Recipe.Title,

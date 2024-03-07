@@ -22,7 +22,7 @@ namespace TasteHub.Controllers
         public async Task<IActionResult> MyFavoriteRecipes()
         {
             var allRecipes = await favoriteRecipeService.GetAllFavoriteRecipesAsync();
-            var model = allRecipes.Where(x => x.CreatorId == User.Id());
+            var model = allRecipes.Where(x => x.UserId == User.Id());
 
             return View(model);
         }
