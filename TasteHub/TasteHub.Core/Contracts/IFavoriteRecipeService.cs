@@ -6,6 +6,6 @@ namespace TasteHub.Core.Contracts
     {
         Task<IEnumerable<FavoriteRecipeInfoModel>> GetAllFavoriteRecipesAsync();
         Task AddAsync(FavoriteRecipeFormModel model);
-        Task RemoveAsync(int id);
+        Task RemoveAsync(int id,string userId);
     }
 }

@@ -51,9 +51,18 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
-        public Task RemoveAsync(int id)
+        public async Task RemoveAsync(int id, string userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                repository.Delete(new { RecipeId = id, UserId = userId });
+                await repository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "FavoriteRecipeService.RemoveAsync");
+                throw new ApplicationException(ErrorMessageConstants.OperationFailedErrorMessage);
+            }
         }
     }
 }
