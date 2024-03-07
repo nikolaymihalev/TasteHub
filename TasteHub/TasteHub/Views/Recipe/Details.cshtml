@@ -26,6 +26,13 @@
             <a asp-controller="Recipe" asp-action="EditRecipe" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Edit</a>
             <a asp-controller="Recipe" asp-action="DeleteRecipe" asp-route-id="@Model.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
         }
+        @if (User.Id() != Model.CreatorId)
+        {
+            @if (Model.IsInUserFavoriteCollection == false)
+            {
+                <a asp-controller="FavoriteRecipe" asp-action="AddFavoriteRecipe" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add to favorites</a>
+            }
+        }
         <a asp-controller="Recipe" asp-action="AllRecipes" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Back to All Recipes</a>
 
     </div>

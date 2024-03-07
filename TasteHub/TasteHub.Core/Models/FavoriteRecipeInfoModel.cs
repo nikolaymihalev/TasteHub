@@ -7,12 +7,10 @@
     {
         public FavoriteRecipeInfoModel(
             string creatorId,
-            string creatorUsername,
             int recipeId,
             RecipeInfoViewModel recipe)
         {
             CreatorId = creatorId;
-            CreatorUsername = creatorUsername;
             RecipeId = recipeId;
             Recipe = recipe;
         }

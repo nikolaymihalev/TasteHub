@@ -22,7 +22,7 @@ namespace TasteHub.Core.Services
             logger = _logger;
         }
 
-        public async Task AddAsync(FavoriteRecipeFormModel model)
+        public async Task AddAsync(FavoriteRecipeInfoModel model)
         {
             var entity = new FavoriteRecipe() 
             {
@@ -47,17 +47,17 @@ namespace TasteHub.Core.Services
             return await repository.AllReadonly<FavoriteRecipe>()
                 .Select(x=> new FavoriteRecipeInfoModel(
                     x.User.Id,
-                    x.User.UserName,
+                    //x.User.UserName,
                     x.RecipeId,
                     new RecipeInfoViewModel(x.Recipe.Id,
-                    x.Recipe.Title,
-                    x.Recipe.Description == null ? string.Empty : x.Recipe.Description,
-                    x.Recipe.Ingredients,
-                    x.Recipe.Instructions,
-                    x.Recipe.CreationDate,
-                    Convert.ToBase64String(x.Recipe.Image),
-                    x.Recipe.Creator.UserName,
-                    x.Recipe.Category.Name)))
+                        x.Recipe.Title,
+                        x.Recipe.Description == null ? string.Empty : x.Recipe.Description,
+                        x.Recipe.Ingredients,
+                        x.Recipe.Instructions,
+                        x.Recipe.CreationDate,
+                        Convert.ToBase64String(x.Recipe.Image),
+                        x.Recipe.Creator.UserName,
+                        x.Recipe.Category.Name)))
                 .ToListAsync();
         }
 
@@ -65,7 +65,7 @@ namespace TasteHub.Core.Services
         {
             try
             {
-                repository.Delete(new { RecipeId = id, UserId = userId });
+                repository.Delete(new FavoriteRecipe(){ RecipeId = id, UserId = userId });
                 await repository.SaveChangesAsync();
             }
             catch (Exception ex)

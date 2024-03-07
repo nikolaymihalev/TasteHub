@@ -74,5 +74,10 @@ namespace TasteHub.Core.Models
         /// Category name
         /// </summary>
         public string CategoryName { get; set; }
+
+        /// <summary>
+        /// Property for checking if the recipe is in collection of favorite recipes in the user
+        /// </summary>
+        public bool IsInUserFavoriteCollection { get; set; }
     }
 }
