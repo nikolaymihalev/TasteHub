@@ -53,5 +53,11 @@ namespace TasteHub.Controllers
 
             return RedirectToAction("Details","Recipe", new { id = id });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> RemoveFavoriteRecipe(int id) 
+        {
+            return View();
+        }
     }
 }

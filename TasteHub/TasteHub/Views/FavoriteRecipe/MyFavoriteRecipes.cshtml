@@ -21,7 +21,7 @@
                     }
                     <p class="mb-0"><span class="fw-bold">Published: </span>@r.Recipe.CreationDate</p>
                 </a>
-                <a asp-controller="Recipe" asp-action="DeleteRecipe" asp-route-id="@r.Recipe.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
+                <a asp-controller="FavoriteRecipe" asp-action="RemoveFavoriteRecipe" asp-route-id="@r.Recipe.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Remove</a>
 
             </div>
         </div>
