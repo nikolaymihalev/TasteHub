@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
 using TasteHub.Infrastructure.Common;
@@ -47,7 +48,16 @@ namespace TasteHub.Core.Services
                 .Select(x=> new FavoriteRecipeInfoModel(
                     x.User.Id,
                     x.User.UserName,
-                    x.RecipeId))
+                    x.RecipeId,
+                    new RecipeInfoViewModel(x.Recipe.Id,
+                    x.Recipe.Title,
+                    x.Recipe.Description == null ? string.Empty : x.Recipe.Description,
+                    x.Recipe.Ingredients,
+                    x.Recipe.Instructions,
+                    x.Recipe.CreationDate,
+                    Convert.ToBase64String(x.Recipe.Image),
+                    x.Recipe.Creator.UserName,
+                    x.Recipe.Category.Name)))
                 .ToListAsync();
         }
 

@@ -19,8 +19,4 @@
     <ProjectReference Include="..\TasteHub.Core\TasteHub.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\FavoriteRecipe\" />
-  </ItemGroup>
-
 </Project>

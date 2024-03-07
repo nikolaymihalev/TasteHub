@@ -8,11 +8,13 @@
         public FavoriteRecipeInfoModel(
             string creatorId,
             string creatorUsername,
-            int recipeId)
+            int recipeId,
+            RecipeInfoViewModel recipe)
         {
             CreatorId = creatorId;
             CreatorUsername = creatorUsername;
             RecipeId = recipeId;
+            Recipe = recipe;
         }
         /// <summary>
         /// Creator identifier
@@ -28,5 +30,10 @@
         /// Recipe identifier
         /// </summary>
         public int RecipeId { get; set; }
+
+        /// <summary>
+        /// Recipe
+        /// </summary>
+        public RecipeInfoViewModel Recipe { get; set; }
     }
 }
