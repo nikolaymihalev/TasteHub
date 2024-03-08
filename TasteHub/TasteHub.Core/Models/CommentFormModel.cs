@@ -13,5 +13,8 @@ namespace TasteHub.Core.Models
 
         [Required(ErrorMessage = ErrorMessageConstants.RequireErrorMessage)]
         public int RecipeId { get; set; }
+
+        [Required(ErrorMessage = ErrorMessageConstants.RequireErrorMessage)]
+        public string UserId { get; set; }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
 using TasteHub.Infrastructure.Common;
+using TasteHub.Infrastructure.Constants;
 using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Services
@@ -9,16 +11,36 @@ namespace TasteHub.Core.Services
     public class CommentService : ICommentService
     {
         private readonly IRepository repository;
+        private readonly ILogger<CommentService> logger;
 
-
-        public CommentService(IRepository _repository)
+        public CommentService(
+            IRepository _repository,
+            ILogger<CommentService> _logger)
         {
             repository = _repository;
+            logger = _logger;
         }
 
-        public Task AddSync(CommentFormModel model)
+        public async Task AddSync(CommentFormModel model)
         {
-            throw new NotImplementedException();
+            var entity = new Comment()
+            {
+                Content = model.Content,
+                CreationDate = DateTime.Now,
+                UserId = model.UserId,
+                RecipeId = model.RecipeId,
+            };
+
+            try
+            {
+                await repository.AddAsync<Comment>(entity);
+                await repository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "CommentService.AddAsync");
+                throw new ApplicationException(ErrorMessageConstants.OperationFailedErrorMessage);
+            }
         }
 
         public Task DeleteAsync(int id)
