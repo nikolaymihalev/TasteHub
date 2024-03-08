@@ -57,7 +57,18 @@ namespace TasteHub.Controllers
         [HttpGet]
         public async Task<IActionResult> RemoveFavoriteRecipe(int id) 
         {
-            return View();
+            var recipes = await favoriteRecipeService.GetAllFavoriteRecipesAsync();
+
+            var recipe = recipes.FirstOrDefault(x => x.UserId == User.Id() && x.RecipeId == id);
+
+            if (recipe == null) 
+            {
+                return BadRequest();
+            }
+
+            await favoriteRecipeService.RemoveAsync(id, User.Id());
+
+            return RedirectToAction(nameof(MyFavoriteRecipes));
         }
     }
 }
