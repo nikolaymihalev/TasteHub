@@ -1,25 +1,26 @@
 ﻿using TasteHub.Core.Contracts;
+using TasteHub.Core.Models;
 
 namespace TasteHub.Core.Services
 {
     public class CommentService : ICommentService
     {
-        public Task AddSync()
+        public Task AddSync(CommentFormModel model)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync()
+        public Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task GetAllCommentsAboutRecipe()
+        public Task<IEnumerable<CommentInfoModel>> GetAllCommentsAboutRecipe()
         {
             throw new NotImplementedException();
         }
 
-        public Task GetLastCommentAboutRecipe()
+        public Task<CommentInfoModel> GetLastCommentAboutRecipe()
         {
             throw new NotImplementedException();
         }
