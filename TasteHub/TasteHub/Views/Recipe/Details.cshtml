@@ -32,6 +32,10 @@
             {
                 <a asp-controller="FavoriteRecipe" asp-action="AddFavoriteRecipe" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add to favorites</a>
             }
+            @if (Model.IsInUserFavoriteCollection == true)
+            {
+                <a class="btn btn-warning mb-2 w-100 p-3 fw-bold disabled" disabled>Already added to Favorites</a>
+            }
         }
         <a asp-controller="Recipe" asp-action="AllRecipes" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Back to All Recipes</a>
 
