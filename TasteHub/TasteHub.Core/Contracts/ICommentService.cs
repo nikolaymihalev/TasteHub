@@ -6,7 +6,7 @@ namespace TasteHub.Core.Contracts
     {
         Task AddSync(CommentFormModel model);
         Task DeleteAsync(int id);
-        Task<IEnumerable<CommentInfoModel>> GetAllCommentsAboutRecipe();
-        Task<CommentInfoModel> GetLastCommentAboutRecipe();
+        Task<IEnumerable<CommentInfoModel>> GetAllCommentsAboutRecipeAsync(int recipeId);
+        Task<CommentInfoModel> GetLastCommentAboutRecipeAsync(int recipeId);
     }
 }
