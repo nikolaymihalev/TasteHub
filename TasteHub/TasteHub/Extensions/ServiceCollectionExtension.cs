@@ -14,6 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IRecipeService, RecipeService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IFavoriteRecipeService, FavoriteRecipeService>();
+            services.AddScoped<ICommentService, CommentService>();
 
             return services;
         }
