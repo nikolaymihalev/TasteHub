@@ -21,21 +21,44 @@
             <br />
         </div>
 
-        @if (User.Id() == Model.CreatorId)
+
+        @if (Model.LastComment != null)
         {
-            <a asp-controller="Recipe" asp-action="EditRecipe" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Edit</a>
-            <a asp-controller="Recipe" asp-action="DeleteRecipe" asp-route-id="@Model.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
+            <h3>Reviews</h3>
+            <h4>Last Comment</h4>
+            <div class="card row-4" style="width: 20rem;">
+                <div class="card-body">
+                    <p class="lh-lg mb-0"><span class="fw-bold">From: </span>@Model.LastComment.UserUsername :</p>
+                    <p class="lh-lg mb-0 fw-bold"><span class="fw-bold"></span>@Model.LastComment.Content</p>
+                    <p class="lh-lg mb-0"><span class="fw-bold">Published: </span>@Model.LastComment.CreationDate</p>
+                    <a asp-controller="Comment" asp-action="GetAllComments" asp-route-id="@Model.Id" class="fw-bold">View All Comments</a>
+                </div>
+            </div>
+            <br />
         }
-        @if (User.Id() != Model.CreatorId)
-        {
-            @if (Model.IsInUserFavoriteCollection == false)
+
+        @if (User?.Identity?.IsAuthenticated==true)
+        {         
+            @if (User.Id() == Model.CreatorId)
             {
-                <a asp-controller="FavoriteRecipe" asp-action="AddFavoriteRecipe" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add to favorites</a>
+                <a asp-controller="Recipe" asp-action="EditRecipe" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Edit</a>
+                <a asp-controller="Recipe" asp-action="DeleteRecipe" asp-route-id="@Model.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
             }
-            @if (Model.IsInUserFavoriteCollection == true)
+
+            @if (User.Id() != Model.CreatorId)
             {
-                <a class="btn btn-warning mb-2 w-100 p-3 fw-bold disabled" disabled>Already added to Favorites</a>
+                @if (Model.IsInUserFavoriteCollection == false)
+                {
+                    <a asp-controller="FavoriteRecipe" asp-action="AddFavoriteRecipe" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add to favorites</a>
+                }
+                @if (Model.IsInUserFavoriteCollection == true)
+                {
+                    <a class="btn btn-warning mb-2 w-100 p-3 fw-bold disabled" disabled>Already added to Favorites</a>
+                }
+                <a asp-controller="Comment" asp-action="AddComment" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add Comment</a>
+
             }
+            <br/>            
         }
         <a asp-controller="Recipe" asp-action="AllRecipes" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Back to All Recipes</a>
 

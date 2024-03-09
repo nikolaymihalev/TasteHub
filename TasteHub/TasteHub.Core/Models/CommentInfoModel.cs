@@ -1,4 +1,6 @@
-﻿namespace TasteHub.Core.Models
+﻿using TasteHub.Core.Attributes;
+
+namespace TasteHub.Core.Models
 {
     public class CommentInfoModel
     {
@@ -22,6 +24,8 @@
 
         public int Id { get; set; }
         public string Content { get; set; }
+
+        [DateFormat("dd-MM-yyyy")]
         public DateTime CreationDate { get; set; }
         public string UserId { get; set; }
         public string UserUsername { get; set; }

@@ -11,15 +11,18 @@ namespace TasteHub.Controllers
         private readonly IRecipeService recipeService;
         private readonly ICategoryService categoryService;
         private readonly IFavoriteRecipeService favoriteRecipeService;
+        private readonly ICommentService commentService;
 
         public RecipeController(
             IRecipeService _recipeService, 
             ICategoryService _categoryService,
-            IFavoriteRecipeService _favoriteRecipeService)
+            IFavoriteRecipeService _favoriteRecipeService,
+            ICommentService _commentService)
         {
             recipeService = _recipeService;
             categoryService = _categoryService;
             favoriteRecipeService = _favoriteRecipeService;
+            commentService = _commentService;
         }
 
         [HttpGet]
@@ -86,6 +89,14 @@ namespace TasteHub.Controllers
             bool isInFavorite = favorites.Any(x => x.UserId == User.Id()) && favorites.Any(x => x.RecipeId == id);
 
             model.IsInUserFavoriteCollection = isInFavorite;
+
+            var comment = await commentService.GetLastCommentAboutRecipeAsync(id);
+
+            if (comment != null) 
+            {
+                model.LastComment = comment;
+            }
+
             return View(model);
         }
 
@@ -165,7 +176,6 @@ namespace TasteHub.Controllers
             var recipes = await recipeService.GetAllRecipesAsync();
 
             var model = recipes.Where(x => x.CreatorId == User?.Identity?.Name);
-
             return View(model);
         }
     }

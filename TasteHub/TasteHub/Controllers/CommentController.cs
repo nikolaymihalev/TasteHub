@@ -32,6 +32,16 @@ namespace TasteHub.Controllers
 
             var model = await commentService.GetAllCommentsAboutRecipeAsync(id);
 
+            if (!model.Any()) 
+            {
+                return BadRequest();
+            }
+
+            foreach (var view in model) 
+            {
+                view.RecipeTitle = recipe.Title;
+            }
+
             return View(model);
         }
 
@@ -52,6 +62,18 @@ namespace TasteHub.Controllers
             if (!ModelState.IsValid) 
             {
                 return View(model);
+            }
+
+            var recipe = await recipeService.GetByIdAsync(id);
+
+            if(recipe == null) 
+            {
+                return BadRequest();
+            }
+
+            if (recipe.CreatorId == User.Id()) 
+            {
+                return BadRequest();
             }
 
             await commentService.AddSync(model);
