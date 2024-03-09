@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
 
@@ -24,11 +25,27 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add(int id) 
+        public IActionResult AddComment(int id) 
         {
             var model = new CommentFormModel();
-
+            model.RecipeId = id;
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(CommentFormModel model, int id) 
+        {
+            model.RecipeId = id;
+            model.UserId = User.Id();
+
+            if (!ModelState.IsValid) 
+            {
+                return View(model);
+            }
+
+            await commentService.AddSync(model);
+
+            return RedirectToAction(nameof(GetAllComments), new { id = id });
         }
     }
 }
