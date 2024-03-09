@@ -43,9 +43,18 @@ namespace TasteHub.Core.Services
             }
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var comment = await repository.GetByIdAsync<Comment>(id);
+
+            if (comment == null)
+            {
+                throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "comment"));
+            }
+
+            await repository.DeleteAsync<Comment>(comment.Id);
+
+            await repository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CommentInfoModel>> GetAllCommentsAboutRecipeAsync(int recipeId)
@@ -62,7 +71,7 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
-        public async Task<CommentInfoModel> GetLastCommentAboutRecipeAsync(int recipeId)
+        public async Task<CommentInfoModel?> GetLastCommentAboutRecipeAsync(int recipeId)
         {
             var comments = await GetAllCommentsAboutRecipeAsync(recipeId);
 
