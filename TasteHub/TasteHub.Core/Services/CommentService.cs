@@ -60,14 +60,15 @@ namespace TasteHub.Core.Services
         public async Task<IEnumerable<CommentInfoModel>> GetAllCommentsAboutRecipeAsync(int recipeId)
         {
             return await repository.AllReadonly<Comment>()
+                .Where(x=>x.RecipeId==recipeId)
                 .Select(x => new CommentInfoModel(
                     x.Id,
                     x.Content,
                     x.CreationDate,
                     x.UserId,
                     x.User.UserName,
-                    x.RecipeId))
-                .Where(x=>x.RecipeId==recipeId)
+                    x.RecipeId,
+                    x.Recipe.Title))
                 .ToListAsync();
         }
 

@@ -9,16 +9,27 @@ namespace TasteHub.Controllers
     public class CommentController : BaseController
     {
         private readonly ICommentService commentService;
+        private readonly IRecipeService recipeService;
 
-        public CommentController(ICommentService _commentService)
+        public CommentController(
+            ICommentService _commentService,
+            IRecipeService _recipeService)
         {
             commentService = _commentService;
+            recipeService = _recipeService;
         }
 
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetAllComments(int id) 
         {
+            var recipe = await recipeService.GetByIdAsync(id);
+
+            if (recipe == null) 
+            {
+                return BadRequest();
+            }
+
             var model = await commentService.GetAllCommentsAboutRecipeAsync(id);
 
             return View(model);

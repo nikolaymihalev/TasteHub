@@ -8,7 +8,8 @@
             DateTime creationDate,
             string userId,
             string userUsername,
-            int recipeId)
+            int recipeId,
+            string recipeTitle)
         {
             Id = id;
             Content = content;
@@ -16,6 +17,7 @@
             UserId = userId;
             UserUsername = userUsername;
             RecipeId = recipeId;
+            RecipeTitle = recipeTitle;
         }
 
         public int Id { get; set; }
@@ -24,6 +26,6 @@
         public string UserId { get; set; }
         public string UserUsername { get; set; }
         public int RecipeId { get; set; }
-        
+        public string RecipeTitle { get; set; }
     }
 }
