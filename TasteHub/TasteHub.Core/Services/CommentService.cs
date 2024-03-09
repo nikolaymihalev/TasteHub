@@ -58,12 +58,15 @@ namespace TasteHub.Core.Services
                     x.UserId,
                     x.User.UserName,
                     x.RecipeId))
+                .Where(x=>x.RecipeId==recipeId)
                 .ToListAsync();
         }
 
-        public Task<CommentInfoModel> GetLastCommentAboutRecipeAsync(int recipeId)
+        public async Task<CommentInfoModel> GetLastCommentAboutRecipeAsync(int recipeId)
         {
-            throw new NotImplementedException();
+            var comments = await GetAllCommentsAboutRecipeAsync(recipeId);
+
+            return comments.OrderByDescending(x=>x.CreationDate).FirstOrDefault();
         }
     }
 }
