@@ -1,0 +1,20 @@
+﻿@model IEnumerable<CommentInfoModel>
+@{
+    ViewBag.Title = "All Comments";
+}
+
+<div class="text-center row">
+    @foreach (var c in Model)
+    {
+        <div class="card col-4" style="width: 20rem; ">
+            <div class="card-body">
+                <h5 class="card-title mt-1">@c.CreationDate</h5>
+                <h5 class="card-title mt-1">@c.Content</h5>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
