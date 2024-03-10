@@ -80,5 +80,26 @@ namespace TasteHub.Controllers
 
             return RedirectToAction(nameof(GetAllComments), new { id = id });
         }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteComment(int id) 
+        {
+            var comment = await commentService.GetByIdAsync(id);
+
+            if (comment == null) 
+            {
+                return BadRequest();
+            }
+
+            if (!User.IsInRole("Admin"))
+            {
+                return Unauthorized();
+            }
+
+            await commentService.DeleteAsync(id);
+
+            return RedirectToAction(nameof(GetAllComments), new { id = comment.RecipeId });
+        }
     }
 }

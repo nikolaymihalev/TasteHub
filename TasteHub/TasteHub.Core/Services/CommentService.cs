@@ -78,5 +78,27 @@ namespace TasteHub.Core.Services
 
             return comments.OrderByDescending(x=>x.CreationDate).FirstOrDefault();
         }
+
+        public async Task<CommentInfoModel> GetByIdAsync(int id)
+        {
+            var entity = await repository.GetByIdAsync<Comment>(id);
+
+            if (entity == null)
+            {
+                logger.LogError("CommentService.GetByIdAsync");
+                throw new ApplicationException(string.Format(ErrorMessageConstants.DoesntExistErrorMessage, "comment"));
+            }
+
+            var comment = new CommentInfoModel(
+                entity.Id,
+                entity.Content,
+                entity.CreationDate,
+                entity.UserId,
+                "",
+                entity.RecipeId,
+                "");
+            
+            return comment;
+        }
     }
 }

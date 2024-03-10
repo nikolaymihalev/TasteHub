@@ -23,6 +23,11 @@ namespace TasteHub.Controllers
         [HttpGet]
         public async Task<IActionResult> AllCategories()
         {
+            if (!User.IsInRole("Admin"))
+            {
+                return Unauthorized();
+            }
+
             var categories = await categoryService.GetAllCategoriesAsync();
 
             var model = categories.Select(x => new CategoryForAllModel(
@@ -36,6 +41,11 @@ namespace TasteHub.Controllers
         [HttpGet]
         public IActionResult AddCategory() 
         {
+            if (!User.IsInRole("Admin"))
+            {
+                return Unauthorized();
+            }
+
             var model = new CategoryFormViewModel();
             return View(model);
         }
@@ -48,6 +58,11 @@ namespace TasteHub.Controllers
                 return View(model);
             }
 
+            if (!User.IsInRole("Admin"))
+            {
+                return Unauthorized();
+            }
+
             await categoryService.AddAsync(model);
 
             return RedirectToAction(nameof(AllCategories));
@@ -56,6 +71,11 @@ namespace TasteHub.Controllers
         [HttpGet]
         public async Task<IActionResult> EditCategory(int id) 
         {
+            if (!User.IsInRole("Admin"))
+            {
+                return Unauthorized();
+            }
+
             var category = await categoryService.GetByIdAsync(id);
 
             if (category == null)
@@ -75,6 +95,11 @@ namespace TasteHub.Controllers
         [HttpPost]
         public async Task<IActionResult> EditCategory(CategoryFormViewModel model, int id) 
         {
+            if (!User.IsInRole("Admin"))
+            {
+                return Unauthorized();
+            }
+
             var category = await categoryService.GetByIdAsync(id);
 
             if (category == null)
@@ -95,6 +120,11 @@ namespace TasteHub.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteCategory(int id) 
         {
+            if (!User.IsInRole("Admin"))
+            {
+                return Unauthorized();
+            }
+
             var category = await categoryService.GetByIdAsync(id);
             if (category == null) 
             {
