@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
 using TasteHub.Infrastructure.Common;
+using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Services
 {
@@ -33,9 +35,11 @@ namespace TasteHub.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<double> GetAverageRatingAboutRecipeAsync(int recipeId)
+        public async Task<double> GetAverageRatingAboutRecipeAsync(int recipeId)
         {
-            throw new NotImplementedException();
+            return repository.AllReadonly<Rating>()
+                .Where(x=>x.RecipeId == recipeId)
+                .Average(x=>x.Value);
         }
     }
 }
