@@ -16,5 +16,8 @@
 
         public const int CommentContentMaxLength = 500;
         public const int CommentContentMinLength = 3;
+
+        public const double RatingMaxValue = 5.00;
+        public const double RatingMinValue = 0;
     }
 }
