@@ -59,9 +59,16 @@ namespace TasteHub.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<RecipeInfoViewModel>> GetAllRatingsAboutRecipeAsync(int recipeId)
+        public async Task<IEnumerable<RatingInfoModel>> GetAllRatingsAboutRecipeAsync(int recipeId)
         {
-            throw new NotImplementedException();
+            return await repository.AllReadonly<Rating>()
+                .Where(x => x.RecipeId == recipeId)
+                .Select(x => new RatingInfoModel(
+                    x.UserId,
+                    x.User.UserName,
+                    x.RecipeId,
+                    x.Recipe.Title))
+                .ToListAsync();
         }
 
         public async Task<double> GetAverageRatingAboutRecipeAsync(int recipeId)
