@@ -11,8 +11,32 @@
     {
         <div class="card row-4" style="width: 20rem;">
             <div class="card-body">
-                <p class="lh-lg mb-0"><span class="fw-bold">From: </span>@r.UserUsername : <h3 class="lh-lg mb-0 fw-bold"><span class="fw-bold"></span>@r.Value</h3></p>
-                
+                <p class="lh-lg mb-0"><span class="fw-bold">From: </span>@r.UserUsername : </p>
+                @if (r.Value >= 0 && r.Value < 1)
+                {
+                    <img src="~/images/stars/0.png" class="card-img" alt="Image" />
+                }
+                @if (r.Value >= 1 && r.Value < 2)
+                {
+                    <img src="~/images/stars/1.png" class="card-img" alt="Image" />
+                }
+                @if (r.Value >= 2 && r.Value < 3)
+                {
+                    <img src="~/images/stars/2.png" class="card-img" alt="Image" />
+                }
+                @if (r.Value >= 3 && r.Value < 4)
+                {
+                    <img src="~/images/stars/3.png" class="card-img" alt="Image" />
+                }
+                @if (r.Value >= 4 && r.Value < 5)
+                {
+                    <img src="~/images/stars/4.png" class="card-img" alt="Image" />
+                }
+                @if (r.Value == 5)
+                {
+                    <img src="~/images/stars/5.png" class="card-img" alt="Image" />
+                }
+                <h3 class="card-text text-center">@r.Value</h3>
                 @if (User.IsInRole("Admin"))
                 {
                     @* <a asp-controller="Rating" asp-action="DeleteRating" asp-route-id="@c.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a> *@
