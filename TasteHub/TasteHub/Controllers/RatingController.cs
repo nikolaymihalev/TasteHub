@@ -12,7 +12,7 @@ namespace TasteHub.Controllers
             ratingService = _ratingService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }

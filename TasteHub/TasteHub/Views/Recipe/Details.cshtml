@@ -22,20 +22,35 @@
         </div>
 
 
-        @if (Model.LastComment != null)
-        {
-            <h3>Reviews</h3>
-            <h4>Last Comment</h4>
-            <div class="card row-4" style="width: 20rem;">
-                <div class="card-body">
-                    <p class="lh-lg mb-0"><span class="fw-bold">From: </span>@Model.LastComment.UserUsername :</p>
-                    <p class="lh-lg mb-0 fw-bold"><span class="fw-bold"></span>@Model.LastComment.Content</p>
-                    <p class="lh-lg mb-0"><span class="fw-bold">Published: </span>@Model.LastComment.CreationDate</p>
-                    <a asp-controller="Comment" asp-action="GetAllComments" asp-route-id="@Model.Id" class="fw-bold">View All Comments</a>
+        <h3>Reviews</h3>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @if (Model.LastComment != null)
+            {
+                <div class="col">
+                    <h4>Last Comment</h4>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="lh-lg mb-0"><span class="fw-bold">From: </span>@Model.LastComment.UserUsername :</p>
+                            <p class="lh-lg mb-0 fw-bold"><span class="fw-bold"></span>@Model.LastComment.Content</p>
+                            <p class="lh-lg mb-0"><span class="fw-bold">Published: </span>@Model.LastComment.CreationDate</p>
+                            <a asp-controller="Comment" asp-action="GetAllComments" asp-route-id="@Model.Id" class="fw-bold">View All Comments</a>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            }
+
+            <div class="col">
+                <h4>Rating</h4>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Average Rating</h5>
+                        <h3 class="card-text">@Model.AverageRating</h3>
+                    </div>
                 </div>
             </div>
-            <br />
-        }
+        </div>
+        <br />
 
         @if (User?.Identity?.IsAuthenticated==true)
         {         

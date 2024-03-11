@@ -12,17 +12,20 @@ namespace TasteHub.Controllers
         private readonly ICategoryService categoryService;
         private readonly IFavoriteRecipeService favoriteRecipeService;
         private readonly ICommentService commentService;
+        private readonly IRatingService ratingService;
 
         public RecipeController(
             IRecipeService _recipeService, 
             ICategoryService _categoryService,
             IFavoriteRecipeService _favoriteRecipeService,
-            ICommentService _commentService)
+            ICommentService _commentService,
+            IRatingService _ratingService)
         {
             recipeService = _recipeService;
             categoryService = _categoryService;
             favoriteRecipeService = _favoriteRecipeService;
             commentService = _commentService;
+            ratingService = _ratingService;
         }
 
         [HttpGet]
@@ -96,6 +99,10 @@ namespace TasteHub.Controllers
             {
                 model.LastComment = comment;
             }
+
+            double averageRating = await ratingService.GetAverageRatingAboutRecipeAsync(id);
+            
+            model.AverageRating = averageRating;
 
             return View(model);
         }

@@ -84,5 +84,10 @@ namespace TasteHub.Core.Models
         /// Property for last comment about recipe
         /// </summary>
         public CommentInfoModel LastComment { get; set; }
+
+        /// <summary>
+        /// Property for average rating 
+        /// </summary>
+        public double AverageRating { get; set; }
     }
 }
