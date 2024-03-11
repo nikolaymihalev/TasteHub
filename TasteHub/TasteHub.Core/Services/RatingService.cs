@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
 using TasteHub.Infrastructure.Common;
@@ -41,9 +42,21 @@ namespace TasteHub.Core.Services
             }
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int recipeId, string userId)
         {
-            throw new NotImplementedException();
+            var rating = await repository
+                .AllReadonly<Rating>()
+                .Where(x=>x.UserId==userId && x.RecipeId==recipeId)
+                .FirstOrDefaultAsync();
+
+            if (rating == null)
+            {
+                throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "rating"));
+            }
+
+            repository.Delete(rating);
+
+            await repository.SaveChangesAsync();
         }
 
         public Task<IEnumerable<RecipeInfoViewModel>> GetAllRatingsAboutRecipeAsync(int recipeId)
