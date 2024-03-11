@@ -67,15 +67,22 @@ namespace TasteHub.Core.Services
                     x.UserId,
                     x.User.UserName,
                     x.RecipeId,
-                    x.Recipe.Title))
+                    x.Recipe.Title,
+                    x.Value))
                 .ToListAsync();
         }
 
         public async Task<double> GetAverageRatingAboutRecipeAsync(int recipeId)
         {
-            return repository.AllReadonly<Rating>()
-                .Where(x=>x.RecipeId == recipeId)
-                .Average(x=>x.Value);
+            if (repository.AllReadonly<Rating>().Any(x => x.RecipeId == recipeId)) 
+            {
+                return repository.AllReadonly<Rating>()
+                    .Where(x=>x.RecipeId == recipeId)
+                    .Average(x=>x.Value);
+
+            }
+
+            return 0;
         }
     }
 }

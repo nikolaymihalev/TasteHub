@@ -1,0 +1,28 @@
+﻿@model IEnumerable<RatingInfoModel>
+@{
+    ViewBag.Title = $"All Comments About {Model.FirstOrDefault().RecipeTitle}";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="text-center col">
+    @foreach (var r in Model)
+    {
+        <div class="card row-4" style="width: 20rem;">
+            <div class="card-body">
+                <p class="lh-lg mb-0"><span class="fw-bold">From: </span>@r.UserUsername : <h3 class="lh-lg mb-0 fw-bold"><span class="fw-bold"></span>@r.Value</h3></p>
+                
+                @if (User.IsInRole("Admin"))
+                {
+                    @* <a asp-controller="Rating" asp-action="DeleteRating" asp-route-id="@c.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a> *@
+                }
+            </div>
+        </div>
+        <br />
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

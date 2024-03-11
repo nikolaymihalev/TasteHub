@@ -39,6 +39,18 @@
                 </div>
                 <br />
             }
+            @if (Model.LastComment == null)
+            {
+                <div class="col">
+                    <h4>Last Comment</h4>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="lh-lg mb-0"><span class="fw-bold">No Comments</span></p>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            }
 
             <div class="col">
                 <h4>Rating</h4>
@@ -46,6 +58,10 @@
                     <div class="card-body">
                         <h5 class="card-title">Average Rating</h5>
                         <h3 class="card-text">@Model.AverageRating</h3>
+                        @if (Model.AverageRating > 0)
+                        {
+                            <a asp-controller="Rating" asp-action="GetAllRatings" asp-route-recipeId="@Model.Id" class="fw-bold">View All Ratings</a>                            
+                        }
                     </div>
                 </div>
             </div>
