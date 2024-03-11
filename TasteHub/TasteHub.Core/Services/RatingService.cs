@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
 using TasteHub.Infrastructure.Common;
+using TasteHub.Infrastructure.Constants;
 using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Services
@@ -20,9 +20,25 @@ namespace TasteHub.Core.Services
             logger = _logger;
         }
 
-        public Task AddAsync(RatingFormModel model)
+        public async Task AddAsync(RatingFormModel model)
         {
-            throw new NotImplementedException();
+            var entity = new Rating()
+            {
+                UserId = model.UserId,
+                RecipeId = model.RecipeId,
+                Value = model.Value,
+            };
+
+            try
+            {
+                await repository.AddAsync<Rating>(entity);
+                await repository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "RatingService.AddAsync");
+                throw new ApplicationException(ErrorMessageConstants.OperationFailedErrorMessage);
+            }
         }
 
         public Task DeleteAsync(int id)
