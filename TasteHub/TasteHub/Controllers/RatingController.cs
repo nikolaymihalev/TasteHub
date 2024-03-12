@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
+using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Controllers
 {
@@ -46,13 +48,48 @@ namespace TasteHub.Controllers
                 return BadRequest();
             }
 
+            if (recipe.CreatorId == User.Id()) 
+            {
+                return Unauthorized();
+            }
+
             var model = new RatingFormModel()
             {
                 RecipeId = recipeId,
-                Value = 0.00
+                Value = 0.00,
+                UserId = User.Id()
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddRating(RatingFormModel model, int recipeId) 
+        {
+            model.UserId = User.Id();
+
+            if (!ModelState.IsValid) 
+            {
+                return BadRequest();
+            }
+
+            var recipe = await recipeService.GetByIdAsync(recipeId);
+
+            if (recipe.CreatorId == User.Id())
+            {
+                return Unauthorized();
+            }
+
+            var ratings = await ratingService.GetAllRatingsAboutRecipeAsync(recipeId);
+
+            if (ratings.Any(x => x.UserId == User.Id())) 
+            {
+                return BadRequest();
+            }
+
+            await ratingService.AddAsync(model);
+
+            return RedirectToAction(nameof(GetAllRatings), new { recipeId = recipeId });
         }
     }
 }
