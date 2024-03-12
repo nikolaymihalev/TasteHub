@@ -111,6 +111,7 @@
                     <a class="btn btn-warning mb-2 w-100 p-3 fw-bold disabled" disabled>Already added to Favorites</a>
                 }
                 <a asp-controller="Comment" asp-action="AddComment" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Add Comment</a>
+                <a asp-controller="Rating" asp-action="AddRating" asp-route-recipeId="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Rate the @Model.Title</a>
 
             }
             <br/>            

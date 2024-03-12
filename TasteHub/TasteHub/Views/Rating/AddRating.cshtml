@@ -1,0 +1,22 @@
+﻿@model RatingFormModel
+@{
+    ViewBag.Title = "Add Rating";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<form asp-controller="Rating" asp-action="AddRating" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Value"></label>
+        <input asp-for="Value" class="form-control" placeholder="Title...">
+        <span asp-validation-for="Value" class="small text-danger"></span>
+    </div>
+    <div class="text-center">
+        <input asp-route-recipeId="@Model.RecipeId" class="btn btn-primary mt-3" type="submit" value="Save" />
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
