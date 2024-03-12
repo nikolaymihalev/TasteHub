@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
+using TasteHub.Core.Services;
 using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Controllers
@@ -32,6 +33,11 @@ namespace TasteHub.Controllers
             }
 
             var model = await ratingService.GetAllRatingsAboutRecipeAsync(recipeId);
+
+            if (model.Count() == 0) 
+            {
+                return RedirectToAction("Details", "Recipe", new { id = recipeId });
+            }
 
             model.All(x => x.RecipeTitle == recipe.Title);
 
@@ -93,6 +99,27 @@ namespace TasteHub.Controllers
             }
 
             await ratingService.AddAsync(model);
+
+            return RedirectToAction(nameof(GetAllRatings), new { recipeId = recipeId });
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteRating(int recipeId,string userId)
+        {
+            var rating = await ratingService.GetAllRatingsAboutRecipeAsync(recipeId);
+
+            if (rating.FirstOrDefault(x => x.UserId == userId) == null) 
+            {
+                return BadRequest();
+            }
+
+            if (!User.IsInRole("Admin"))
+            {
+                return Unauthorized();
+            }
+
+            await ratingService.DeleteAsync(recipeId,userId);
 
             return RedirectToAction(nameof(GetAllRatings), new { recipeId = recipeId });
         }

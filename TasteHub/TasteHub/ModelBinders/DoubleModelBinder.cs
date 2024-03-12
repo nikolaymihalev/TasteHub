@@ -21,7 +21,7 @@ namespace TasteHub.ModelBinders
                     value = value.Replace(".", CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
                     value = value.Replace(",", CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
 
-                    result = double.Parse(value, CultureInfo.CurrentCulture);
+                    result = Convert.ToDouble(value, CultureInfo.CurrentCulture);
                     success = true;
                 }
                 catch (Exception fe)

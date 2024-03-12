@@ -59,6 +59,11 @@ namespace TasteHub.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        public Task EditAsync(RatingFormModel model)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<RatingInfoModel>> GetAllRatingsAboutRecipeAsync(int recipeId)
         {
             return await repository.AllReadonly<Rating>()

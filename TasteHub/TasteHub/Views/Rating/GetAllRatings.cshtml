@@ -39,7 +39,7 @@
                 <h3 class="card-text text-center">@r.Value</h3>
                 @if (User.IsInRole("Admin"))
                 {
-                    @* <a asp-controller="Rating" asp-action="DeleteRating" asp-route-id="@c.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a> *@
+                    <a asp-controller="Rating" asp-action="DeleteRating" asp-route-recipeId="@r.RecipeId" asp-route-userId="@r.UserId" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
                 }
             </div>
         </div>
