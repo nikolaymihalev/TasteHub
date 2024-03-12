@@ -6,14 +6,26 @@
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-<form asp-controller="Rating" asp-action="AddRating" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label asp-for="Value"></label>
-        <input asp-for="Value" class="form-control" placeholder="Title...">
-        <span asp-validation-for="Value" class="small text-danger"></span>
+<form asp-controller="Rating" asp-action="AddRating" method="post" enctype="multipart/form-data">    
+    <div class="text-center">
+        <img src="~/images/stars/1.png" class="rounded mx-auto d-block" alt="Image" />
+        <input asp-route-value="1" asp-route-recipeId="@Model.RecipeId" class="btn btn-info" type="submit" value="Rate with 1 star" />
+    </div> 
+    <div class="text-center">
+        <img src="~/images/stars/2.png" class="rounded mx-auto d-block" alt="Image" />
+        <input asp-route-value="2" asp-route-recipeId="@Model.RecipeId" class="btn btn-info" type="submit" value="Rate with 2 stars" />
+    </div> 
+    <div class="text-center">
+        <img src="~/images/stars/3.png" class="rounded mx-auto d-block" alt="Image" />
+        <input asp-route-value="3" asp-route-recipeId="@Model.RecipeId" class="btn btn-info" type="submit" value="Rate with 3 stars" />
+    </div> 
+    <div class="text-center">
+        <img src="~/images/stars/4.png" class="rounded mx-auto d-block" alt="Image" />
+        <input asp-route-value="4" asp-route-recipeId="@Model.RecipeId" class="btn btn-info" type="submit" value="Rate with 4 stars" />
     </div>
     <div class="text-center">
-        <input asp-route-recipeId="@Model.RecipeId" class="btn btn-primary mt-3" type="submit" value="Save" />
+        <img src="~/images/stars/5.png" class="rounded mx-auto d-block" alt="Image" />
+        <input asp-route-value="5" asp-route-recipeId="@Model.RecipeId" class="btn btn-info" type="submit" value="Rate with 5 stars" />
     </div>
 </form>
 

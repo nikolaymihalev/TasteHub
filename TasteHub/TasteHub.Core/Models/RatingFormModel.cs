@@ -9,7 +9,7 @@ namespace TasteHub.Core.Models
         [Range(ValidationConstants.RatingMinValue,
             ValidationConstants.RatingMaxValue,
             ErrorMessage = ErrorMessageConstants.ValueErrorMessage)]
-        public double Value { get; set; }
+        public int Value { get; set; }
 
         [Required(ErrorMessage = ErrorMessageConstants.RequireErrorMessage)]
         public int RecipeId { get; set; }

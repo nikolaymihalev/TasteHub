@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
-using TasteHub.Core.Services;
-using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Controllers
 {
@@ -62,7 +60,7 @@ namespace TasteHub.Controllers
             var model = new RatingFormModel()
             {
                 RecipeId = recipeId,
-                Value = 0.00,
+                Value = 0,
                 UserId = User.Id()
             };
 
@@ -70,7 +68,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRating(RatingFormModel model, int recipeId) 
+        public async Task<IActionResult> AddRating(RatingFormModel model, int recipeId, int value) 
         {
             model.UserId = User.Id();
 

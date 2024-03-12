@@ -84,7 +84,6 @@ namespace TasteHub.Core.Services
                 return repository.AllReadonly<Rating>()
                     .Where(x=>x.RecipeId == recipeId)
                     .Average(x=>x.Value);
-
             }
 
             return 0;
