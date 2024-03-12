@@ -41,7 +41,7 @@ namespace TasteHub.Controllers
 
             if (recipe == null) 
             {
-                return BadRequest();
+                return NotFound();
             }
 
             await favoriteRecipeService.AddAsync(new FavoriteRecipeInfoModel 

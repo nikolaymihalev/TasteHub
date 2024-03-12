@@ -45,7 +45,7 @@ namespace TasteHub.Controllers
 
             if(recipe == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             if (recipe.CreatorId == User.Id()) 
@@ -74,6 +74,11 @@ namespace TasteHub.Controllers
             }
 
             var recipe = await recipeService.GetByIdAsync(recipeId);
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
 
             if (recipe.CreatorId == User.Id())
             {

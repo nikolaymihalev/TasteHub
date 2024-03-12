@@ -46,9 +46,22 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddComment(int id) 
+        public async Task<IActionResult> AddComment(int id) 
         {
             var model = new CommentFormModel();
+
+            var recipe = await recipeService.GetByIdAsync(id);
+
+            if (recipe == null) 
+            {
+                return NotFound();
+            }
+
+            if (recipe.CreatorId == User.Id()) 
+            {
+                return Unauthorized();
+            }
+
             model.RecipeId = id;
             return View(model);
         }
@@ -68,12 +81,12 @@ namespace TasteHub.Controllers
 
             if(recipe == null) 
             {
-                return BadRequest();
+                return NotFound();
             }
 
             if (recipe.CreatorId == User.Id()) 
             {
-                return BadRequest();
+                return Unauthorized();
             }
 
             await commentService.AddSync(model);
