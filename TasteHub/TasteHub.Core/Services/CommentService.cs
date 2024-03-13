@@ -100,5 +100,10 @@ namespace TasteHub.Core.Services
             
             return comment;
         }
+
+        public void DeleteRange(IEnumerable<CommentInfoModel> models)
+        {
+            repository.DeleteRange(models);
+        }
     }
 }

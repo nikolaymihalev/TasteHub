@@ -9,5 +9,6 @@ namespace TasteHub.Core.Contracts
         Task<CommentInfoModel> GetByIdAsync(int id); 
         Task<IEnumerable<CommentInfoModel>> GetAllCommentsAboutRecipeAsync(int recipeId);
         Task<CommentInfoModel?> GetLastCommentAboutRecipeAsync(int recipeId);
+        void DeleteRange(IEnumerable<CommentInfoModel> models);
     }
 }

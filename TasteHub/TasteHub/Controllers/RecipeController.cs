@@ -207,10 +207,14 @@ namespace TasteHub.Controllers
 
             if (frToDelete.Any()) 
             {
-                favoriteRecipeService.DeleteRangeAsync(frToDelete);
+                favoriteRecipeService.DeleteRange(frToDelete);
             }
 
-
+            var allCom = await commentService.GetAllCommentsAboutRecipeAsync(id);
+            if (allCom.Any()) 
+            {
+                commentService.DeleteRange(allCom);
+            }
 
             return RedirectToAction(nameof(AllRecipes));
         }
