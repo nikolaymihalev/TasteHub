@@ -68,7 +68,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRating(RatingFormModel model, int recipeId, int value) 
+        public async Task<IActionResult> AddRating(RatingFormModel model, int recipeId) 
         {
             model.UserId = User.Id();
 
@@ -120,6 +120,33 @@ namespace TasteHub.Controllers
             await ratingService.DeleteAsync(recipeId,userId);
 
             return RedirectToAction(nameof(GetAllRatings), new { recipeId = recipeId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditRating(int recipeId) 
+        {
+            var allRatings = await ratingService.GetAllRatingsAboutRecipeAsync(recipeId);
+
+            if (!allRatings.Any()) 
+            {
+                return BadRequest();
+            }
+
+            var rating = allRatings.FirstOrDefault(x => x.UserId == User.Id() && x.RecipeId == recipeId);
+
+            if (rating == null)
+            {
+                return BadRequest();
+            }
+
+            var model = new RatingFormModel()
+            {
+                RecipeId = recipeId,
+                UserId = User.Id(),
+                Value = (int)rating.Value
+            };
+
+            return View(model);
         }
     }
 }

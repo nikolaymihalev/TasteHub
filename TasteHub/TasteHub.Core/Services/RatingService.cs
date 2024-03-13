@@ -59,9 +59,27 @@ namespace TasteHub.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public Task EditAsync(RatingFormModel model)
+        public async Task EditAsync(RatingFormModel model)
         {
-            throw new NotImplementedException();
+            var allRatings = repository.AllReadonly<Rating>();
+
+            if (!allRatings.Any())
+            {
+                logger.LogError("RatingService.EditAsync");
+                throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "rating"));
+            }
+
+            var rating = allRatings.FirstOrDefault(x => x.UserId == model.UserId && x.RecipeId == model.RecipeId);
+
+            if(rating == null)
+            {
+                logger.LogError("RatingService.EditAsync");
+                throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "rating"));
+            }
+
+            rating.Value = model.Value;
+
+            await repository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<RatingInfoModel>> GetAllRatingsAboutRecipeAsync(int recipeId)
