@@ -77,9 +77,8 @@ namespace TasteHub.Core.Services
                 throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "rating"));
             }
 
-            rating.RecipeId = model.RecipeId;
-            rating.UserId = model.UserId;
-            rating.Value = model.Value;
+            await DeleteAsync(model.RecipeId, model.UserId);
+            await AddAsync(model);
 
             await repository.SaveChangesAsync();
         }
