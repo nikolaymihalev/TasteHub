@@ -187,7 +187,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteRecipe(int id) 
         {
             var recipe = await recipeService.GetByIdAsync(id);
@@ -203,9 +203,9 @@ namespace TasteHub.Controllers
             }
 
             var allFr = await favoriteRecipeService.GetAllFavoriteRecipesAsync();
-            var frToDelete = allFr.Where(x => x.RecipeId == id);
+            var frToDelete = allFr.Where(x => x.RecipeId == id).ToList();
 
-            if (frToDelete.Any()) 
+            if (frToDelete.Any())
             {
                 favoriteRecipeService.DeleteRange(frToDelete);
             }
@@ -221,6 +221,8 @@ namespace TasteHub.Controllers
             {
                 ratingService.DeleteRange(allRat);
             }
+
+            await recipeService.DeleteAsync(id);
 
             return RedirectToAction(nameof(AllRecipes));
         }

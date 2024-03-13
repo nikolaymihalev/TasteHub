@@ -103,7 +103,15 @@ namespace TasteHub.Core.Services
 
         public void DeleteRange(IEnumerable<CommentInfoModel> models)
         {
-            repository.DeleteRange(models);
+            var entites = models.Select(x => new Comment()
+            {
+                Id = x.Id, 
+                Content = x.Content,
+                CreationDate = x.CreationDate,
+                RecipeId = x.RecipeId,
+                UserId = x.UserId
+            });
+            repository.DeleteRange(entites);
         }
     }
 }

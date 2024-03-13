@@ -76,7 +76,12 @@ namespace TasteHub.Core.Services
 
         public void DeleteRange(IEnumerable<FavoriteRecipeInfoModel> models) 
         {
-            repository.DeleteRange(models);
+            var entites = models.Select(x => new FavoriteRecipe()
+            {
+                RecipeId = x.RecipeId,
+                UserId = x.UserId
+            });
+            repository.DeleteRange(entites);
         }
     }
 }
