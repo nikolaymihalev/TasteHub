@@ -107,5 +107,10 @@ namespace TasteHub.Core.Services
 
             return 0;
         }
+
+        public void DeleteRange(IEnumerable<RatingInfoModel> models) 
+        {
+            repository.DeleteRange(models);
+        }
     }
 }

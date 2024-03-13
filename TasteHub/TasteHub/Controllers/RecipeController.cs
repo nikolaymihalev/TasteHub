@@ -216,6 +216,12 @@ namespace TasteHub.Controllers
                 commentService.DeleteRange(allCom);
             }
 
+            var allRat = await ratingService.GetAllRatingsAboutRecipeAsync(id);
+            if (allRat.Any()) 
+            {
+                ratingService.DeleteRange(allRat);
+            }
+
             return RedirectToAction(nameof(AllRecipes));
         }
     }

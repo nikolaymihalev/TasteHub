@@ -9,5 +9,6 @@ namespace TasteHub.Core.Contracts
         Task EditAsync(RatingFormModel model);
         Task<double> GetAverageRatingAboutRecipeAsync(int recipeId);
         Task<IEnumerable<RatingInfoModel>> GetAllRatingsAboutRecipeAsync(int recipeId);
+        void DeleteRange(IEnumerable<RatingInfoModel> models);
     }
 }
