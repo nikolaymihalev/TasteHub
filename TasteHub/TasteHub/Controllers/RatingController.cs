@@ -139,6 +139,11 @@ namespace TasteHub.Controllers
                 return BadRequest();
             }
 
+            if (rating.UserId != User.Id()) 
+            {
+                return Unauthorized();
+            }
+
             var model = new RatingFormModel()
             {
                 RecipeId = recipeId,
@@ -147,6 +152,41 @@ namespace TasteHub.Controllers
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRating(RatingFormModel model, int recipeId)
+        {
+            var allRatings = await ratingService.GetAllRatingsAboutRecipeAsync(recipeId);
+
+            if (!allRatings.Any())
+            {
+                return BadRequest();
+            }
+
+            var rating = allRatings.FirstOrDefault(x => x.UserId == User.Id() && x.RecipeId == recipeId);
+
+            if (rating == null)
+            {
+                return BadRequest();
+            }
+
+            if (rating.UserId != User.Id())
+            {
+                return Unauthorized();
+            }
+
+            if (!ModelState.IsValid) 
+            {
+                model.UserId = User.Id();
+                model.RecipeId = recipeId;
+                return View(model);
+            }
+
+            model.UserId = User.Id();
+            await ratingService.EditAsync(model);
+
+            return RedirectToAction(nameof(GetAllRatings), new { recipeId = recipeId });
         }
     }
 }
