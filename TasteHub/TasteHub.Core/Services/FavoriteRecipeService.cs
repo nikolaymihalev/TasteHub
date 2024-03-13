@@ -73,5 +73,10 @@ namespace TasteHub.Core.Services
                 throw new ApplicationException(ErrorMessageConstants.OperationFailedErrorMessage);
             }
         }
+
+        public void DeleteRangeAsync(IEnumerable<FavoriteRecipeInfoModel> models) 
+        {
+            repository.DeleteRange(models);
+        }
     }
 }

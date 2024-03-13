@@ -185,5 +185,34 @@ namespace TasteHub.Controllers
             var model = recipes.Where(x => x.CreatorId == User?.Identity?.Name);
             return View(model);
         }
+
+        [HttpGet]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteRecipe(int id) 
+        {
+            var recipe = await recipeService.GetByIdAsync(id);
+
+            if (recipe == null) 
+            {
+                return BadRequest();
+            }
+
+            if (!User.IsInRole("Admin")) 
+            {
+                return Unauthorized();
+            }
+
+            var allFr = await favoriteRecipeService.GetAllFavoriteRecipesAsync();
+            var frToDelete = allFr.Where(x => x.RecipeId == id);
+
+            if (frToDelete.Any()) 
+            {
+                favoriteRecipeService.DeleteRangeAsync(frToDelete);
+            }
+
+
+
+            return RedirectToAction(nameof(AllRecipes));
+        }
     }
 }
