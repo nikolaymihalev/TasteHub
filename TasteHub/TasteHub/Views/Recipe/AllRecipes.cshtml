@@ -6,12 +6,28 @@
 <h2 class="text-start">Recipes</h2>
 <hr />
 
-@if (Model.Any())
-{    
-    <div class="text-center row">
-        @foreach (var r in Model)
+<li class="nav-item d-flex dropdown">
+    <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Filter by category:
+    </a>
+    <ul class="dropdown-menu">
+            
+        @foreach (var item in ViewBag.Categories)
         {
-            <div class="card col-4" style="width: 20rem; ">
+            <li class="nav-item text-center">
+                <a asp-controller="Recipe" asp-action="AllRecipes" asp-route-category="@item.Name" class="nav-link text-dark">@item.Name</a>
+            </li>
+        }
+    </ul>
+</li>
+
+@if (Model.Any())
+{
+
+    <div class="text-center row">        
+        @foreach (var r in Model)
+        {            
+            <div class="card text-center col-4" style="width: 20rem; ">
                 <div class="card-body">
                     <a asp-controller="Recipe" asp-action="Details" asp-route-id="@r.Id" class="nav-link text-dark">
                         <h5 class="card-title mt-1">@r.Title</h5>
@@ -30,8 +46,7 @@
 }
 @if (Model.Any() == false)
 {
-    <h3 class="text-start">No result!</h3>
-    <hr />
+    <h4 class="text-center">No result!</h4>
 }
 
 @section Scripts {

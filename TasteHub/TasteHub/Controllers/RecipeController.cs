@@ -39,6 +39,12 @@ namespace TasteHub.Controllers
                 model = model.Where(x => x.CategoryName.ToLower() == category.ToLower()).ToList();
             }
 
+            var categories = await categoryService.GetAllCategoriesAsync();
+            if (categories.Any()) 
+            {                
+                ViewBag.Categories = categories;
+            }
+
             return View(model);
         }
 
