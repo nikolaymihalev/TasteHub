@@ -30,9 +30,15 @@ namespace TasteHub.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> AllRecipes()
+        public async Task<IActionResult> AllRecipes(string category)
         {
             var model = await recipeService.GetAllRecipesAsync();
+
+            if (category.ToLower() != "all"&& string.IsNullOrEmpty(category) == false ) 
+            {
+                model = model.Where(x => x.CategoryName.ToLower() == category.ToLower()).ToList();
+            }
+
             return View(model);
         }
 
