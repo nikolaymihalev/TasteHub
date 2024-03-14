@@ -18,10 +18,6 @@
                     }
                     <p class="mb-0"><span class="fw-bold">Published: </span>@r.CreationDate</p>
                 </a>
-                @if (User.IsInRole("Admin"))
-                {
-                    <a asp-controller="Recipe" asp-action="DeleteRecipe" asp-route-id="@r.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>                    
-                }
             </div>
         </div>
     }

@@ -183,11 +183,20 @@ namespace TasteHub.Controllers
             var recipes = await recipeService.GetAllRecipesAsync();
 
             var model = recipes.Where(x => x.CreatorId == User?.Identity?.Name);
+
+            foreach (var recipe in model) 
+            {
+                var lastRecipeComment = await commentService.GetLastCommentAboutRecipeAsync(recipe.Id);
+
+                if (lastRecipeComment != null)
+                {
+                    recipe.LastComment = lastRecipeComment;
+                }
+            }
             return View(model);
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteRecipe(int id) 
         {
             var recipe = await recipeService.GetByIdAsync(id);
@@ -197,7 +206,7 @@ namespace TasteHub.Controllers
                 return BadRequest();
             }
 
-            if (!User.IsInRole("Admin")) 
+            if (recipe.CreatorId != User.Id()) 
             {
                 return Unauthorized();
             }
