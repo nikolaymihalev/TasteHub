@@ -124,5 +124,22 @@ namespace TasteHub.Core.Services
 
             return model;
         }
+
+        public async Task<IEnumerable<RecipeInfoViewModel>> GetRecipesSearchedByNameAsync(string title)
+        {
+            return await repository.AllReadonly<Recipe>()
+                .Where(x=>x.Title.Contains(title))
+                .Select(x => new RecipeInfoViewModel(
+                    x.Id,
+                    x.Title,
+                    x.Description == null ? string.Empty : x.Description,
+                    x.Ingredients,
+                    x.Instructions,
+                    x.CreationDate,
+                    Convert.ToBase64String(x.Image),
+                    x.Creator.UserName,
+                    x.Category.Name))
+                .ToListAsync();
+        }
     }
 }
