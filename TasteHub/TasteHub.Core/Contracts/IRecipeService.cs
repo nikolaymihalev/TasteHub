@@ -7,6 +7,7 @@ namespace TasteHub.Core.Contracts
         Task<IEnumerable<RecipeInfoViewModel>> GetAllRecipesAsync();
         Task<IEnumerable<RecipeInfoViewModel>> GetRecipesSearchedByTitleAsync(string title);
         Task<IEnumerable<RecipeInfoViewModel>> GetRecipesFilteredByCategory(string category);
+        Task<IEnumerable<RecipeInfoViewModel>> GetRecipesFilteredByDate(string sorting);       
         Task AddAsync(RecipeFormViewModel model);
         Task EditAsync(RecipeFormViewModel model);
         Task<RecipeInfoViewModel?> GetByIdAsync(int id);
