@@ -125,7 +125,7 @@ namespace TasteHub.Core.Services
             return model;
         }
 
-        public async Task<IEnumerable<RecipeInfoViewModel>> GetRecipesSearchedByNameAsync(string title)
+        public async Task<IEnumerable<RecipeInfoViewModel>> GetRecipesSearchedByTitleAsync(string title)
         {
             return await repository.AllReadonly<Recipe>()
                 .Where(x=>x.Title.Contains(title))

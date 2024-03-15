@@ -34,9 +34,12 @@ namespace TasteHub.Controllers
         {
             var model = await recipeService.GetAllRecipesAsync();
 
-            if (category.ToLower() != "all"&& string.IsNullOrEmpty(category) == false ) 
+            if (category != null) 
             {
-                model = model.Where(x => x.CategoryName.ToLower() == category.ToLower()).ToList();
+                if (category.ToLower() != "all") 
+                {
+                    model = model.Where(x => x.CategoryName.ToLower() == category.ToLower()).ToList();
+                }
             }
 
             var categories = await categoryService.GetAllCategoriesAsync();
@@ -246,6 +249,24 @@ namespace TasteHub.Controllers
             await recipeService.DeleteAsync(id);
 
             return RedirectToAction(nameof(AllRecipes));
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Search(string title) 
+        {
+            if (string.IsNullOrEmpty(title)) 
+            {
+                return BadRequest();
+            }
+            var model = await recipeService.GetRecipesSearchedByTitleAsync(title);
+
+            var categories = await categoryService.GetAllCategoriesAsync();
+            if (categories.Any())
+            {
+                ViewBag.Categories = categories;
+            }
+            return View(model);
         }
     }
 }

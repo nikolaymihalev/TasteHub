@@ -1,0 +1,49 @@
+﻿@model IEnumerable<RecipeInfoViewModel>
+
+<div class="text-end">
+    <input type="text" id="searchInput" name="query" placeholder="Enter title..">
+    <a href="#" id="searchLink" class="btn btn-info fw-bold">Search</a>
+</div>
+
+<h5 class="text-start">Filter by:</h5>
+<li class="nav-item d-flex dropdown">
+    <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Category:
+    </a>
+    <ul class="dropdown-menu">
+        @foreach (var item in ViewBag.Categories)
+        {
+            <li class="nav-item text-center">
+                <a asp-controller="Recipe" asp-action="AllRecipes" asp-route-category="@item.Name" class="nav-link text-dark">@item.Name</a>
+            </li>
+        }
+    </ul>
+</li>
+
+
+@if (Model.Any())
+{
+    <div class="text-center row">
+        @foreach (var r in Model)
+        {
+            <div class="card text-center col-4" style="width: 20rem; ">
+                <div class="card-body">
+                    <a asp-controller="Recipe" asp-action="Details" asp-route-id="@r.Id" class="nav-link text-dark">
+                        <h5 class="card-title mt-1">@r.Title</h5>
+                        <img class="card-img-top" src="data:image/png;base64,@r.Image" alt="Image">
+                        <p class="mb-0"><span class="fw-bold">Category: </span>@r.CategoryName</p>
+                        @if (r.Description != null && !string.IsNullOrEmpty(r.Description))
+                        {
+                            <p class="mb-0"><span class="fw-bold">Description: </span>@r.Description</p>
+                        }
+                        <p class="mb-0"><span class="fw-bold">Published: </span>@r.CreationDate</p>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+}
+@if (Model.Any() == false)
+{
+    <h4 class="text-center">No result!</h4>
+}
