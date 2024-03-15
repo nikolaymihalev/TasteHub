@@ -19,6 +19,12 @@ namespace TasteHub.Controllers
             return RedirectToAction("AllRecipes", "Recipe", new { category = "all"});
         }
 
+        [HttpGet]
+        public IActionResult AboutUs() 
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
