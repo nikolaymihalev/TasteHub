@@ -30,7 +30,7 @@ namespace TasteHub.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> AllRecipes(string category)
+        public async Task<IActionResult> AllRecipes(string category,string sorting)
         {
             var model = await recipeService.GetAllRecipesAsync();
 
@@ -38,7 +38,15 @@ namespace TasteHub.Controllers
             {
                 if (category.ToLower() != "all") 
                 {
-                    model = model.Where(x => x.CategoryName.ToLower() == category.ToLower()).ToList();
+                    model = await recipeService.GetRecipesFilteredByCategory(category);
+                }
+            }
+
+            if (sorting != null) 
+            {
+                if (sorting.ToLower() == "newest" || sorting.ToLower() == "oldest") 
+                {
+                    model = await recipeService.GetRecipesFilteredByDate(sorting);
                 }
             }
 

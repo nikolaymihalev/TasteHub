@@ -2,7 +2,7 @@
 
 <div class="text-end">
     <input type="text" id="searchInput" name="query" placeholder="Enter title..">
-    <a href="#" id="searchLink" class="btn btn-info fw-bold">Search</a>
+    <a href="#" id="searchLink" class="btn btn-primary">Search</a>
 </div>
 
 <h5 class="text-start">Filter by:</h5>
@@ -17,6 +17,15 @@
                 <a asp-controller="Recipe" asp-action="AllRecipes" asp-route-category="@item.Name" class="nav-link text-dark">@item.Name</a>
             </li>
         }
+    </ul>
+    <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Published Date:
+    </a>
+    <ul class="dropdown-menu">
+        <li class="nav-item text-center">
+            <a asp-controller="Recipe" asp-action="AllRecipes" asp-route-sorting="Newest" class="nav-link text-dark">Newest</a>
+            <a asp-controller="Recipe" asp-action="AllRecipes" asp-route-sorting="Oldest" class="nav-link text-dark">Oldest</a>
+        </li>
     </ul>
 </li>
 
