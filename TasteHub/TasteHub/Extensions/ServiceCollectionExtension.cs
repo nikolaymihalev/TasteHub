@@ -34,11 +34,13 @@ namespace Microsoft.Extensions.DependencyInjection
         
         public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDefaultIdentity<IdentityUser>(options => 
+
+            services.AddIdentity<IdentityUser, IdentityRole>(options => 
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireNonAlphanumeric = false;
             })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             return services;

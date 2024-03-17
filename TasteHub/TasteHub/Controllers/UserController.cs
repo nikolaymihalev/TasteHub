@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 namespace TasteHub.Controllers
-{    
+{
+    [Authorize]
     public class UserController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;
@@ -17,9 +19,20 @@ namespace TasteHub.Controllers
             roleManager = _roleManager;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> AddRole(string roleName)
         {
-            return View();
+            if (await roleManager.RoleExistsAsync(roleName) == false)
+            {
+                var role = new IdentityRole()
+                {
+                    Name = roleName,
+                };
+
+                await roleManager.CreateAsync(role);
+            }
+
+            return RedirectToAction("AllRecipes", "Recipe");
         }
     }
 }
