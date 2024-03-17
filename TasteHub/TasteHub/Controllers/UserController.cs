@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
+using TasteHub.Core.Models;
 
 namespace TasteHub.Controllers
 {
@@ -111,8 +112,6 @@ namespace TasteHub.Controllers
             }
 
             var model = new LoginViewModel();
-
-            model.ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             return View(model);
         }
