@@ -10,13 +10,16 @@ namespace TasteHub.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly SignInManager<IdentityUser> signInManager;
 
         public UserController(
             UserManager<IdentityUser> _userManager,
-            RoleManager<IdentityRole> _roleManager)
+            RoleManager<IdentityRole> _roleManager,
+            SignInManager<IdentityUser> _signInManager)
         {
             userManager = _userManager;
             roleManager = _roleManager;
+            signInManager = _signInManager;
         }
 
         [HttpGet]
@@ -52,6 +55,50 @@ namespace TasteHub.Controllers
             }
 
             return RedirectToAction("AllRecipes", "Recipe");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register()
+        {
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = new RegisterViewModel();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = new IdentityUser()
+            {
+                Email = model.Email,
+                UserName = model.UserName
+            };
+
+            var result = await userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            foreach (var item in result.Errors)
+            {
+                ModelState.AddModelError("", item.Description);
+            }
+
+            return View(model);
         }
     }
 }
