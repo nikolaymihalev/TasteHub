@@ -34,5 +34,24 @@ namespace TasteHub.Controllers
 
             return RedirectToAction("AllRecipes", "Recipe");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AddUserToRole(string username, string roleName) 
+        {
+            if (await roleManager.RoleExistsAsync(roleName))
+            {
+                var user = await userManager.FindByNameAsync(username);
+
+                if (user != null)
+                {
+                    if (await userManager.IsInRoleAsync(user, roleName) == false)
+                    {
+                        await userManager.AddToRoleAsync(user, roleName);
+                    }
+                }
+            }
+
+            return RedirectToAction("AllRecipes", "Recipe");
+        }
     }
 }

@@ -34,7 +34,6 @@ namespace Microsoft.Extensions.DependencyInjection
         
         public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
         {
-
             services.AddIdentity<IdentityUser, IdentityRole>(options => 
             {
                 options.SignIn.RequireConfirmedAccount = false;
