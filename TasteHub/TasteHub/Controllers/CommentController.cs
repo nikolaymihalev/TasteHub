@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TasteHub.Core.Contracts;
-using TasteHub.Core.Models;
+using TasteHub.Core.Models.Comment;
 
 namespace TasteHub.Controllers
 {

@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using TasteHub.Core.Attributes;
+using TasteHub.Core.Models.Category;
 using TasteHub.Infrastructure.Constants;
 
-namespace TasteHub.Core.Models
+namespace TasteHub.Core.Models.Recipe
 {
     /// <summary>
     /// Model for adding or edditing recipe

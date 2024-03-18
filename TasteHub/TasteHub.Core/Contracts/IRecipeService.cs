@@ -1,4 +1,4 @@
-﻿using TasteHub.Core.Models;
+﻿using TasteHub.Core.Models.Recipe;
 
 namespace TasteHub.Core.Contracts
 {

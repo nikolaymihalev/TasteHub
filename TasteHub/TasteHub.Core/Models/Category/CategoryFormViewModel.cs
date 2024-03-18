@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TasteHub.Infrastructure.Constants;
 
-namespace TasteHub.Core.Models
+namespace TasteHub.Core.Models.Category
 {
     /// <summary>
     /// Model for adding or edditing category
@@ -17,8 +17,8 @@ namespace TasteHub.Core.Models
         /// Category name
         /// </summary>
         [Required(ErrorMessage = ErrorMessageConstants.RequireErrorMessage)]
-        [StringLength(ValidationConstants.CategoryNameMaxLength, 
-            MinimumLength = ValidationConstants.CategoryNameMinLength, 
+        [StringLength(ValidationConstants.CategoryNameMaxLength,
+            MinimumLength = ValidationConstants.CategoryNameMinLength,
             ErrorMessage = ErrorMessageConstants.StringLengthErrorMessage)]
         public string Name { get; set; } = string.Empty;
     }

@@ -1,6 +1,7 @@
 ﻿using TasteHub.Core.Attributes;
+using TasteHub.Core.Models.Comment;
 
-namespace TasteHub.Core.Models
+namespace TasteHub.Core.Models.Recipe
 {
     /// <summary>
     /// Model for recipe information in a database
@@ -18,15 +19,15 @@ namespace TasteHub.Core.Models
             string creatorId,
             string categoryName)
         {
-            Id = id; 
-            Title = title; 
+            Id = id;
+            Title = title;
             Description = description;
             Ingredients = ingredients;
             Instructions = instructions;
             CreationDate = creationDate;
             Image = image;
             CreatorId = creatorId;
-            CategoryName = categoryName;            
+            CategoryName = categoryName;
         }
 
         /// <summary>
@@ -37,18 +38,18 @@ namespace TasteHub.Core.Models
         /// <summary>
         /// Recipe title
         /// </summary>
-        public string Title { get; set; } 
+        public string Title { get; set; }
 
         /// <summary>
         /// Recipe description
         /// </summary>
-        public string? Description { get; set; } 
+        public string? Description { get; set; }
 
         /// <summary>
         /// Recipe ingredients
         /// </summary>
-        public string Ingredients { get; set; } 
-        
+        public string Ingredients { get; set; }
+
         /// <summary>
         /// Instructions for making the recipe
         /// </summary>
@@ -64,11 +65,11 @@ namespace TasteHub.Core.Models
         /// Image of the food
         /// </summary>
         public string Image { get; set; }
-        
+
         /// <summary>
         /// Creator identifier
         /// </summary>
-        public string CreatorId { get; set; } 
+        public string CreatorId { get; set; }
 
         /// <summary>
         /// Category name

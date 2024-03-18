@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TasteHub.Core.Contracts;
-using TasteHub.Core.Models;
+using TasteHub.Core.Models.Category;
 
 namespace TasteHub.Controllers
 {

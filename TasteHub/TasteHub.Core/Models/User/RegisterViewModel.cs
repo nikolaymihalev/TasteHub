@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TasteHub.Core.Models
+namespace TasteHub.Core.Models.User
 {
     public class RegisterViewModel
     {

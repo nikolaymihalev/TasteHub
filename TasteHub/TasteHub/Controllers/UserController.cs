@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
-using TasteHub.Core.Models;
+using TasteHub.Core.Models.User;
 
 namespace TasteHub.Controllers
 {
@@ -24,6 +24,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddRole(string roleName)
         {
             if (await roleManager.RoleExistsAsync(roleName) == false)
@@ -40,6 +41,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddUserToRole(string username, string roleName) 
         {
             if (await roleManager.RoleExistsAsync(roleName))

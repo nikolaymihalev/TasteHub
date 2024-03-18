@@ -1,4 +1,4 @@
-﻿using TasteHub.Core.Models;
+﻿using TasteHub.Core.Models.Comment;
 
 namespace TasteHub.Core.Contracts
 {

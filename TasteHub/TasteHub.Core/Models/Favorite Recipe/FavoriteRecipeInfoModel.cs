@@ -1,4 +1,6 @@
-﻿namespace TasteHub.Core.Models
+﻿using TasteHub.Core.Models.Recipe;
+
+namespace TasteHub.Core.Models
 {
     /// <summary>
     /// Model for favorite recipe information in a database

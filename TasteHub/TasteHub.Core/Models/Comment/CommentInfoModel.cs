@@ -1,6 +1,6 @@
 ﻿using TasteHub.Core.Attributes;
 
-namespace TasteHub.Core.Models
+namespace TasteHub.Core.Models.Comment
 {
     public class CommentInfoModel
     {

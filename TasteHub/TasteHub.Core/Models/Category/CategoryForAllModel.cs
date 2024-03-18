@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TasteHub.Core.Contracts;
 
-namespace TasteHub.Core.Models
+namespace TasteHub.Core.Models.Category
 {
     public class CategoryForAllModel
     {

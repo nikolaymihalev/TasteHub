@@ -1,4 +1,4 @@
-﻿using TasteHub.Core.Models;
+﻿using TasteHub.Core.Models.Rating;
 
 namespace TasteHub.Core.Contracts
 {

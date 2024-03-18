@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TasteHub.Infrastructure.Constants;
 
-namespace TasteHub.Core.Models
+namespace TasteHub.Core.Models.Rating
 {
     public class RatingFormModel
     {
