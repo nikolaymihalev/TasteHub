@@ -4,12 +4,10 @@
     {
         public UserViewModel(
             string id,
-            string username,
-            int recipesCount)
+            string username)
         {
             Id = id;
             Username = username;
-            RecipesCount = recipesCount;
         }
         public string Id { get; set; }
         public string Username { get; set; }
