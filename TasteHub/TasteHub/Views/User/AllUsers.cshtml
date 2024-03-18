@@ -1,0 +1,27 @@
+﻿@model IEnumerable<UserViewModel>
+@{
+    ViewBag.Title = "All Users";
+}
+
+@if (Model.Any())
+{
+    <div class="text-center row">
+        @foreach (var r in Model)
+        {
+            <div class="card text-center col-4" style="width: 20rem; ">
+                <div class="card-body">
+                    <h5 class="card-title mt-1">@r.Username</h5>
+                    <p class="mb-0"><span class="fw-bold">Category: </span>@r.RecipesCount</p>
+                </div>
+            </div>
+        }
+    </div>
+}
+@if (Model.Any() == false)
+{
+    <h4 class="text-center">No result!</h4>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

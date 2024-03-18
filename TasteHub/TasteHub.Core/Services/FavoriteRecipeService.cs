@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
+using TasteHub.Core.Models.Recipe;
 using TasteHub.Infrastructure.Common;
 using TasteHub.Infrastructure.Constants;
 using TasteHub.Infrastructure.Data.Models;
