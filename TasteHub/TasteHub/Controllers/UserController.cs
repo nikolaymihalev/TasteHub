@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TasteHub.Core.Contracts;
 using TasteHub.Core.Models.User;
-using TasteHub.Core.Services;
 
 namespace TasteHub.Controllers
 {
@@ -12,18 +12,21 @@ namespace TasteHub.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly SignInManager<IdentityUser> signInManager;
-        private readonly UserService userService;
+        private readonly IUserService userService;
+        private readonly IRecipeService recipeService;
 
         public UserController(
             UserManager<IdentityUser> _userManager,
             RoleManager<IdentityRole> _roleManager,
             SignInManager<IdentityUser> _signInManager,
-            UserService _userService)
+            IUserService _userService,
+            IRecipeService _recipeService)
         {
             userManager = _userManager;
             roleManager = _roleManager;
             signInManager = _signInManager;
             userService = _userService;
+            recipeService = _recipeService;
         }
 
         [HttpGet]
@@ -155,7 +158,7 @@ namespace TasteHub.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AllUsers() 
+        public async Task<IActionResult> AllUsers()
         {
             var model = await userService.GetAllUsersAsync();
 

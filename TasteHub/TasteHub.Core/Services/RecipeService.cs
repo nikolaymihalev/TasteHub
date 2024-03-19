@@ -125,6 +125,13 @@ namespace TasteHub.Core.Services
             return model;
         }
 
+        public async Task<int> GetRecipesCountByUsernameAsync(string username)
+        {
+            return await repository.AllReadonly<Recipe>()
+                .Where(x => x.CreatorId == username)
+                .CountAsync();
+        }
+
         public async  Task<IEnumerable<RecipeInfoViewModel>> GetRecipesFilteredByCategory(string category)
         {
             return await repository.AllReadonly<Recipe>()
