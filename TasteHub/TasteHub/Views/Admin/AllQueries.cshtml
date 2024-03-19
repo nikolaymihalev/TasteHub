@@ -1,0 +1,31 @@
+﻿@model IEnumerable<QueryInfoModel>
+@{
+    ViewBag.Title = "All Queries";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@if (Model.Any())
+{
+    <div class="text-center row">
+        @foreach (var r in Model)
+        {
+            <div class="card text-center col-4" style="width: 20rem; ">
+                <div class="card-body">
+                    <h5 class="card-title mt-1">@r.Username</h5>
+                    <p class="mb-0"><span class="fw-bold">Descrioption: </span>@r.Description</p>
+                </div>
+            </div>
+        }
+    </div>
+}
+@if (Model.Any() == false)
+{
+    <h4 class="text-center">No result!</h4>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

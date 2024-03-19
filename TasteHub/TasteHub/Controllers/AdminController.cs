@@ -72,5 +72,13 @@ namespace TasteHub.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AllQueries() 
+        {
+            var model = await adminService.GetAllQueriesAsync();
+
+            return View(model);
+        }
     }
 }
