@@ -17,6 +17,7 @@ namespace TasteHub.Infrastructure.Data
         public DbSet<FavoriteRecipe> FavoriteRecipes { get; set; } = null!;
         public DbSet<Rating> Ratings { get; set; } = null!;
         public DbSet<Recipe> Recipes { get; set; } = null!;
+        public DbSet<AdminQuery> AdminQueries { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

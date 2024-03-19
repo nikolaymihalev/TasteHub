@@ -19,5 +19,8 @@
 
         public const double RatingMaxValue = 5.00;
         public const double RatingMinValue = 0;
+
+        public const int QueryDescriptionMaxLength = 1000;
+        public const int QueryDescriptionMinLength = 5;
     }
 }
