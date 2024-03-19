@@ -162,6 +162,12 @@ namespace TasteHub.Controllers
         {
             var model = await userService.GetAllUsersAsync();
 
+            foreach (var user in model) 
+            {
+                int count = await recipeService.GetRecipesCountByUsernameAsync(user.Id);
+                user.RecipesCount = count;
+            }
+
             return View(model);
         }
     }
