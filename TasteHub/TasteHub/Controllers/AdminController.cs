@@ -10,16 +10,16 @@ namespace TasteHub.Controllers
     {
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<IdentityUser> userManager;
-        private readonly IUserService userService;
+        private readonly IAdminService adminService;
         private readonly IRecipeService recipeService;
 
         public AdminController(
-            IUserService _userService,
+            IAdminService _adminService,
             IRecipeService _recipeService,
             RoleManager<IdentityRole> _roleManager,
             UserManager<IdentityUser> _userManager)
         {
-            userService = _userService;
+            adminService = _adminService;
             recipeService = _recipeService;
             roleManager = _roleManager;
             userManager = _userManager;
@@ -63,7 +63,7 @@ namespace TasteHub.Controllers
         [HttpGet]
         public async Task<IActionResult> AllUsers()
         {
-            var model = await userService.GetAllUsersAsync();
+            var model = await adminService.GetAllUsersAsync();
 
             foreach (var user in model)
             {

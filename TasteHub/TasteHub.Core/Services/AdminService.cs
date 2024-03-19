@@ -6,11 +6,11 @@ using TasteHub.Infrastructure.Common;
 
 namespace TasteHub.Core.Services
 {
-    public class UserService : IUserService
+    public class AdminService : IAdminService
     {
         private readonly IRepository repository;
 
-        public UserService(IRepository _repository)
+        public AdminService(IRepository _repository)
         {
             repository = _repository;
         }

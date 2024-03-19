@@ -2,7 +2,7 @@
 
 namespace TasteHub.Core.Contracts
 {
-    public interface IUserService
+    public interface IAdminService
     {
         Task<IEnumerable<UserViewModel>> GetAllUsersAsync();
     }
