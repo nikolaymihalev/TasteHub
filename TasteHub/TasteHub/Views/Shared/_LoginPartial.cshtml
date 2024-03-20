@@ -17,6 +17,12 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="FavoriteRecipe" asp-action="MyFavoriteRecipes">Favorite Recipes</a>
                 </li>
+                @if (User.IsInRole("Admin") == false)
+                {                        
+                    <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="BecomeAdmin">Become Admin</a>
+                    </li>
+                }
             </ul>
         </li>
     </li>
