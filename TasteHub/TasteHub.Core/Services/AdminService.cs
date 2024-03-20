@@ -62,5 +62,11 @@ namespace TasteHub.Core.Services
                     x.UserName))
                 .ToListAsync();
         }
+
+        public async Task<bool> UserExistsAsync(string userId)
+        {
+            return await repository.AllReadonly<AdminQuery>()
+                .AnyAsync(x => x.UserId == userId);
+        }
     }
 }

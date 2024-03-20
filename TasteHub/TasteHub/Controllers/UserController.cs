@@ -135,6 +135,11 @@ namespace TasteHub.Controllers
                 return BadRequest();
             }
 
+            if (await adminService.UserExistsAsync(model.UserId)) 
+            {
+                return BadRequest();
+            }
+
             await adminService.AddAsync(model);
 
             return RedirectToAction("AllRecipes", "Recipe");
