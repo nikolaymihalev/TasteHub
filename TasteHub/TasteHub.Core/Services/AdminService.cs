@@ -54,6 +54,15 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<RoleInfoModel>> GetAllRolesAsync()
+        {
+            return await repository.AllReadonly<IdentityRole>()
+                .Select(x => new RoleInfoModel(
+                    x.Id,
+                    x.Name))
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<UserViewModel>> GetAllUsersAsync()
         {
             return await repository.AllReadonly<IdentityUser>()
