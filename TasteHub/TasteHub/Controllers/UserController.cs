@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using TasteHub.Core.Contracts;
+using TasteHub.Core.Models.Admin;
 using TasteHub.Core.Models.User;
 
 namespace TasteHub.Controllers
@@ -9,13 +12,16 @@ namespace TasteHub.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
+        private readonly IAdminService adminService;
 
         public UserController(
             UserManager<IdentityUser> _userManager,
-            SignInManager<IdentityUser> _signInManager)
+            SignInManager<IdentityUser> _signInManager,
+            IAdminService _adminService)
         {
             userManager = _userManager;
             signInManager = _signInManager;            
+            adminService = _adminService;
         }
 
         [HttpGet]
@@ -64,7 +70,7 @@ namespace TasteHub.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Login()
+        public IActionResult Login()
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
@@ -106,6 +112,32 @@ namespace TasteHub.Controllers
             await signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
-        }        
+        }
+
+        [HttpGet]
+        public IActionResult BecomeAdmin() 
+        {
+            var model = new QueryFormModel()
+            {
+                UserId = User.Id()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BecomeAdmin(QueryFormModel model)
+        {
+            model.UserId = User.Id();
+
+            if (ModelState.IsValid == false) 
+            {
+                return BadRequest();
+            }
+
+            await adminService.AddAsync(model);
+
+            return RedirectToAction("AllRecipes", "Recipe");
+        }
     }
 }
