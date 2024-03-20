@@ -22,5 +22,8 @@
 
         public const int QueryDescriptionMaxLength = 1000;
         public const int QueryDescriptionMinLength = 5;
+
+        public const int RoleNameMaxLength = 100;
+        public const int RoleNameMinLength = 4;
     }
 }

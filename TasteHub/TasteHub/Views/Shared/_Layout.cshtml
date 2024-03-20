@@ -22,15 +22,29 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @if (User?.Identity?.IsAuthenticated ?? false)
+                        @if (User?.IsInRole("Admin")==true)
                         {
-                            @if (User?.IsInRole("Admin")==true)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="AllCategories">Categories</a>
-                                </li>                                
-                            }
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="AllCategories">Categories</a>
+                            </li>
+                            <li class="nav-item d-flex dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AddRole">Add Role</a>
+                                    </li>                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AllUsers">All Users</a>
+                                    </li>  
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AllQueries">All Queries</a>
+                                    </li>                                    
+                                </ul>
+                            </li>
                         }
+                        
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">About us</a>
                         </li>

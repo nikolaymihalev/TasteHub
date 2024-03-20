@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TasteHub.Core.Contracts;
+using TasteHub.Core.Models.Admin;
 
 namespace TasteHub.Controllers
 {
@@ -26,13 +27,23 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddRole(string roleName)
+        public IActionResult AddRole()
         {
-            if (await roleManager.RoleExistsAsync(roleName) == false)
+            var model = new RoleFormModel();
+            return View(model);
+           
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddRole(RoleFormModel model) 
+        {
+            if(ModelState.IsValid == false)
+
+            if (await roleManager.RoleExistsAsync(model.Name) == false)
             {
                 var role = new IdentityRole()
                 {
-                    Name = roleName,
+                    Name = model.Name,
                 };
 
                 await roleManager.CreateAsync(role);
