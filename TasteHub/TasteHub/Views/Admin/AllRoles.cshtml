@@ -1,0 +1,19 @@
+﻿@model IEnumerable<RoleInfoModel>
+@{
+    ViewBag.Title = "All Roles";
+}
+
+<div class="text-center row">
+    @foreach (var c in Model)
+    {
+        <div class="card col-4" style="width: 20rem; ">
+            <div class="card-body">
+                <h5 class="card-title mt-1">@c.Name</h5>                
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

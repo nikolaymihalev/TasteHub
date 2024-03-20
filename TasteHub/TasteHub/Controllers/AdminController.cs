@@ -37,7 +37,10 @@ namespace TasteHub.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRole(RoleFormModel model) 
         {
-            if(ModelState.IsValid == false)
+            if (ModelState.IsValid == false) 
+            {
+                return BadRequest();
+            }
 
             if (await roleManager.RoleExistsAsync(model.Name) == false)
             {
@@ -88,6 +91,14 @@ namespace TasteHub.Controllers
         public async Task<IActionResult> AllQueries() 
         {
             var model = await adminService.GetAllQueriesAsync();
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AllRoles() 
+        {
+            var model = await adminService.GetAllRolesAsync();
 
             return View(model);
         }
