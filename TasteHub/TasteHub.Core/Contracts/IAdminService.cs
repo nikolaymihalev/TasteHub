@@ -9,6 +9,7 @@ namespace TasteHub.Core.Contracts
         Task<IEnumerable<QueryInfoModel>> GetAllQueriesAsync();
         Task<IEnumerable<RoleInfoModel>> GetAllRolesAsync();
         Task AddAsync(QueryFormModel model);
+        Task RemoveAsync(int id);
         Task<bool> UserExistsAsync(string userId);
     }
 }

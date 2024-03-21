@@ -72,6 +72,20 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
+        public async Task RemoveAsync(int id)
+        {
+            var query = await repository.GetByIdAsync<AdminQuery>(id);
+
+            if (query == null)
+            {
+                throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "query"));
+            }
+
+            await repository.DeleteAsync<AdminQuery>(query.Id);
+
+            await repository.SaveChangesAsync();
+        }
+
         public async Task<bool> UserExistsAsync(string userId)
         {
             return await repository.AllReadonly<AdminQuery>()
