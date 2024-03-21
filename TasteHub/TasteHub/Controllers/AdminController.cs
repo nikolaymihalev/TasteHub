@@ -56,7 +56,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddUserToRole(string username, string roleName)
+        public async Task<IActionResult> AddUserToRole(string username, string roleName, int queryId)
         {
             if (await roleManager.RoleExistsAsync(roleName))
             {
@@ -67,6 +67,11 @@ namespace TasteHub.Controllers
                     if (await userManager.IsInRoleAsync(user, roleName) == false)
                     {
                         await userManager.AddToRoleAsync(user, roleName);
+    
+                        if (await adminService.QueryExistsAsync(queryId))
+                        {
+                            await adminService.RemoveAsync(queryId);
+                        }
                     }
                 }
             }
@@ -101,6 +106,19 @@ namespace TasteHub.Controllers
             var model = await adminService.GetAllRolesAsync();
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RemoveQuery(int id)
+        {
+            if (await adminService.QueryExistsAsync(id) == false) 
+            {
+                return BadRequest();
+            }
+
+            await adminService.RemoveAsync(id);
+
+            return RedirectToAction(nameof(AllQueries));
         }
     }
 }
