@@ -11,5 +11,6 @@ namespace TasteHub.Core.Contracts
         Task AddAsync(QueryFormModel model);
         Task RemoveAsync(int id);
         Task<bool> UserExistsAsync(string userId);
+        Task<QueryInfoModel> GetByIdAsync(int id);
     }
 }

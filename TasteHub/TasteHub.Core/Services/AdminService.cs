@@ -72,6 +72,17 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
+        public async Task<QueryInfoModel?> GetByIdAsync(int id)
+        {
+            return await repository.AllReadonly<AdminQuery>()
+                .Select(x=>new QueryInfoModel(
+                    x.Id,
+                    x.UserId,
+                    x.User.UserName,
+                    x.Description))
+                .FirstOrDefaultAsync(x => x.Id == id);                
+        }
+
         public async Task RemoveAsync(int id)
         {
             var query = await repository.GetByIdAsync<AdminQuery>(id);
