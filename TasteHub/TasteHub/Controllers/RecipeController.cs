@@ -186,6 +186,7 @@ namespace TasteHub.Controllers
                 return View(model);
             }
             model.CreatorId = User.Id();
+            model.CreationDate = recipe.CreationDate;
 
             using (var memoryStream = new MemoryStream())
             {
