@@ -53,7 +53,7 @@ namespace TasteHub.Core.Models.Recipe
         /// Image of the food
         /// </summary>
         public byte[] Image { get; set; } = new byte[128];
-        public IFormFile ImageFile { get; set; }
+        public IFormFile? ImageFile { get; set; }
 
         /// <summary>
         /// Date of creation

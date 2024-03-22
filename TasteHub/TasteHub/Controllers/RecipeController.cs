@@ -79,6 +79,12 @@ namespace TasteHub.Controllers
                 return View(model);
             }
 
+            if (model.ImageFile == null) 
+            {
+                model.Categories = await categoryService.GetAllCategoriesAsync();
+                return View(model);
+            }
+
             if (model.ImageFile != null && model.ImageFile.Length > 0)
             {
                 using (var memoryStream = new MemoryStream())
@@ -180,20 +186,29 @@ namespace TasteHub.Controllers
                 return Unauthorized();
             }
 
+            if (model.ImageFile == null) 
+            {
+                model.Image = Convert.FromBase64String(recipe.Image);
+            }
+
             if (!ModelState.IsValid) 
             {
                 model.Categories = await categoryService.GetAllCategoriesAsync();
                 return View(model);
             }
+
             model.CreatorId = User.Id();
             model.CreationDate = recipe.CreationDate;
 
-            using (var memoryStream = new MemoryStream())
+            if (model.ImageFile != null) 
             {
-                model.ImageFile.CopyTo(memoryStream);
-                byte[] imageBytes = memoryStream.ToArray();
+                using (var memoryStream = new MemoryStream())
+                {
+                    model.ImageFile.CopyTo(memoryStream);
+                    byte[] imageBytes = memoryStream.ToArray();
 
-                model.Image = imageBytes;
+                    model.Image = imageBytes;
+                }
             }
 
             await recipeService.EditAsync(model);
