@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <a asp-controller="Recipe" asp-action="Details" asp-route-id="@r.Id" class="nav-link text-dark">
                         <h5 class="card-title mt-1">@r.Title</h5>
-                        <img class="card-img-top" src="data:image/png;base64,@r.Image" alt="Image">
+                        <img class="card-img-top" src="data:image/png;base64,@r.Image" alt="Image" style="width: 250px; height: 150px;">
                         <p class="mb-0"><span class="fw-bold">Category: </span>@r.CategoryName</p>
                         @if (r.Description != null && !string.IsNullOrEmpty(r.Description))
                         {
