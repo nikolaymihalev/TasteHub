@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace TasteHub.Core.Attributes
 {
+    /// <summary>
+    /// Attribute for validating properties with DateTime type
+    /// </summary>
     public class DateFormatAttribute : ValidationAttribute
     {
         private string format;
