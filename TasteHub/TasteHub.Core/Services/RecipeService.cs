@@ -8,6 +8,9 @@ using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Services
 {
+    /// <summary>
+    /// Service for Recipe
+    /// </summary>
     public class RecipeService : IRecipeService
     {
         private readonly IRepository repository;
@@ -21,6 +24,11 @@ namespace TasteHub.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Add Recipe
+        /// </summary>
+        /// <param name="model">Recipe model</param>
+        /// <exception cref="ApplicationException">Operation is failed</exception>
         public async Task AddAsync(RecipeFormViewModel model)
         {
             var recipe = new Recipe()
@@ -47,6 +55,11 @@ namespace TasteHub.Core.Services
             }
         }
 
+        /// <summary>
+        /// Delete Recipe
+        /// </summary>
+        /// <param name="id">Recipe identifier</param>
+        /// <exception cref="ApplicationException">Model is invalid</exception>
         public async Task DeleteAsync(int id)
         {
             var recipe = await repository.GetByIdAsync<Recipe>(id);
@@ -62,6 +75,11 @@ namespace TasteHub.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Edit Recipe
+        /// </summary>
+        /// <param name="model">Recipe model</param>
+        /// <exception cref="ApplicationException">Model is invalid</exception>
         public async Task EditAsync(RecipeFormViewModel model)
         {
             var recipe = await repository.GetByIdAsync<Recipe>(model.Id);
@@ -84,6 +102,10 @@ namespace TasteHub.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Get all existing Recipes
+        /// </summary>
+        /// <returns>Collection of Recipe models</returns>
         public async Task<IEnumerable<RecipeInfoViewModel>> GetAllRecipesAsync()
         {
             return await repository.AllReadonly<Recipe>()
@@ -100,6 +122,12 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Get Recipe by identifier
+        /// </summary>
+        /// <param name="id">Recipe identifier</param>
+        /// <returns>Recipe model or null</returns>
+        /// <exception cref="ApplicationException">The entity doesn't exist</exception>
         public async Task<RecipeInfoViewModel?> GetByIdAsync(int id)
         {
             var entity = await repository.GetByIdAsync<Recipe>(id);           
@@ -125,6 +153,11 @@ namespace TasteHub.Core.Services
             return model;
         }
 
+        /// <summary>
+        /// Get the number of all recipes of user
+        /// </summary>
+        /// <param name="username">User username</param>
+        /// <returns>Value for number of type int</returns>
         public async Task<int> GetRecipesCountByUsernameAsync(string username)
         {
             return await repository.AllReadonly<Recipe>()
@@ -132,6 +165,11 @@ namespace TasteHub.Core.Services
                 .CountAsync();
         }
 
+        /// <summary>
+        /// Get all recipes filtered by category name
+        /// </summary>
+        /// <param name="category">Category name</param>
+        /// <returns>Collection of Recipe models</returns>
         public async  Task<IEnumerable<RecipeInfoViewModel>> GetRecipesFilteredByCategory(string category)
         {
             return await repository.AllReadonly<Recipe>()
@@ -149,6 +187,11 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Get all recipes filtered by published date
+        /// </summary>
+        /// <param name="sorting">Filter for ordering (newest/oldest)</param>
+        /// <returns>Collection of Recipe models</returns>
         public async Task<IEnumerable<RecipeInfoViewModel>> GetRecipesFilteredByDate(string sorting)
         {
             if (sorting.ToLower() == "newest") 
@@ -183,6 +226,11 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Get all recipes by searching them by title
+        /// </summary>
+        /// <param name="title">Recipe title</param>
+        /// <returns>Collection of Recipe models</returns>
         public async Task<IEnumerable<RecipeInfoViewModel>> GetRecipesSearchedByTitleAsync(string title)
         {
             return await repository.AllReadonly<Recipe>()

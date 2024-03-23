@@ -23,7 +23,7 @@ namespace TasteHub.Core.Contracts
         /// <summary>
         /// Get all existing roles
         /// </summary>
-        /// <returns>Collection of Role model</returns>
+        /// <returns>Collection of Role models</returns>
         Task<IEnumerable<RoleInfoModel>> GetAllRolesAsync();
 
         /// <summary>

@@ -10,6 +10,9 @@ using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Services
 {
+    /// <summary>
+    /// Service for Admin
+    /// </summary>
     public class AdminService : IAdminService
     {
         private readonly IRepository repository;
@@ -23,6 +26,11 @@ namespace TasteHub.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Add query for becoming admin
+        /// </summary>
+        /// <param name="model">Query model</param>
+        /// <exception cref="ApplicationException">Operation is failed</exception>
         public async Task AddAsync(QueryFormModel model)
         {
             var entity = new AdminQuery()
@@ -43,6 +51,10 @@ namespace TasteHub.Core.Services
             }
         }
 
+        /// <summary>
+        /// Get all queries from users
+        /// </summary>
+        /// <returns>Collection of Query models</returns>
         public async Task<IEnumerable<QueryInfoModel>> GetAllQueriesAsync()
         {
             return await repository.AllReadonly<AdminQuery>()
@@ -54,6 +66,10 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Get all existing roles
+        /// </summary>
+        /// <returns>Collection of Role models</returns>
         public async Task<IEnumerable<RoleInfoModel>> GetAllRolesAsync()
         {
             return await repository.AllReadonly<IdentityRole>()
@@ -63,6 +79,10 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Get all existing users 
+        /// </summary>
+        /// <returns>Collection of User models</returns>
         public async Task<IEnumerable<UserViewModel>> GetAllUsersAsync()
         {
             return await repository.AllReadonly<IdentityUser>()
@@ -72,12 +92,22 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Check if query exists by identifier
+        /// </summary>
+        /// <param name="id">Query identifier</param>
+        /// <returns>True or False</returns>
         public async Task<bool> QueryExistsAsync(int id)
         {
             return await repository.AllReadonly<AdminQuery>()
                 .AnyAsync(x => x.Id == id);             
         }
 
+        /// <summary>
+        /// Remove query
+        /// </summary>
+        /// <param name="id">Query identifier</param>
+        /// <exception cref="ApplicationException">Invalid model</exception>
         public async Task RemoveAsync(int id)
         {
             var query = await repository.GetByIdAsync<AdminQuery>(id);
@@ -92,6 +122,11 @@ namespace TasteHub.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Check if user exists by identifier
+        /// </summary>
+        /// <param name="userId">User identifier</param>
+        /// <returns>True or False</returns>
         public async Task<bool> UserExistsAsync(string userId)
         {
             return await repository.AllReadonly<AdminQuery>()

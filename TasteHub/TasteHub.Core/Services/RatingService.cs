@@ -8,6 +8,9 @@ using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Services
 {
+    /// <summary>
+    /// Service for Rating 
+    /// </summary>
     public class RatingService : IRatingService
     {
         private readonly IRepository repository;
@@ -21,6 +24,11 @@ namespace TasteHub.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Add Rating 
+        /// </summary>
+        /// <param name="model">Rating model</param>
+        /// <exception cref="ApplicationException">Operation is failed</exception>
         public async Task AddAsync(RatingFormModel model)
         {
             var entity = new Rating()
@@ -42,6 +50,12 @@ namespace TasteHub.Core.Services
             }
         }
 
+        /// <summary>
+        /// Delete Rating
+        /// </summary>
+        /// <param name="recipeId">Recipe identifier</param>
+        /// <param name="userId">User identifier</param>
+        /// <exception cref="ApplicationException">Model is invalid</exception>
         public async Task DeleteAsync(int recipeId, string userId)
         {
             var rating = await repository
@@ -59,6 +73,11 @@ namespace TasteHub.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Edit Rating
+        /// </summary>
+        /// <param name="model">Rating model</param>
+        /// <exception cref="ApplicationException">Model is invalid</exception>
         public async Task EditAsync(RatingFormModel model)
         {
             var allRatings = repository.AllReadonly<Rating>();
@@ -83,6 +102,11 @@ namespace TasteHub.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Get all ratings about recipe
+        /// </summary>
+        /// <param name="recipeId">Recipe identifier</param>
+        /// <returns>Collection of Rating models</returns>
         public async Task<IEnumerable<RatingInfoModel>> GetAllRatingsAboutRecipeAsync(int recipeId)
         {
             return await repository.AllReadonly<Rating>()
@@ -96,6 +120,11 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Get average rating about recipe
+        /// </summary>
+        /// <param name="recipeId">Recipe identifier</param>
+        /// <returns>Value of type double</returns>
         public async Task<double> GetAverageRatingAboutRecipeAsync(int recipeId)
         {
             if (repository.AllReadonly<Rating>().Any(x => x.RecipeId == recipeId)) 
@@ -108,6 +137,10 @@ namespace TasteHub.Core.Services
             return 0;
         }
 
+        /// <summary>
+        /// Delete collection of Ratings
+        /// </summary>
+        /// <param name="models">Collection of Rating models</param>
         public void DeleteRange(IEnumerable<RatingInfoModel> models) 
         {
             var entites = models.Select(x => new Rating()

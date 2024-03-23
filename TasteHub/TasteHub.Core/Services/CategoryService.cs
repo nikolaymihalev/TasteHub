@@ -8,6 +8,9 @@ using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Services
 {
+    /// <summary>
+    /// Service for Category
+    /// </summary>
     public class CategoryService : ICategoryService
     {
         private readonly IRepository repository;
@@ -21,6 +24,11 @@ namespace TasteHub.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Add Category
+        /// </summary>
+        /// <param name="model">Category model</param>
+        /// <exception cref="ApplicationException">Operation is failed</exception>
         public async Task AddAsync(CategoryFormViewModel model)
         {
             var category = new Category()
@@ -40,6 +48,11 @@ namespace TasteHub.Core.Services
             }
         }
 
+        /// <summary>
+        /// Delete Category
+        /// </summary>
+        /// <param name="id">Category identifier</param>
+        /// <exception cref="ApplicationException">Model is invalid</exception>
         public async Task DeleteAsync(int id)
         {
             var category = await repository.GetByIdAsync<Category>(id);
@@ -54,6 +67,11 @@ namespace TasteHub.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Edit Category
+        /// </summary>
+        /// <param name="model">Category model</param>
+        /// <exception cref="ApplicationException">Model is invalid</exception>
         public async Task EditAsync(CategoryFormViewModel model)
         {
             var category = await repository.GetByIdAsync<Category>(model.Id);
@@ -68,14 +86,25 @@ namespace TasteHub.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Get all existing categories
+        /// </summary>
+        /// <returns>Collection of Category models</returns>
         public async Task<IEnumerable<CategoryInfoViewModel>> GetAllCategoriesAsync()
         {
-            return repository.AllReadonly<Category>()
+            return await repository.AllReadonly<Category>()
                 .Select(x => new CategoryInfoViewModel(
                     x.Id,
-                    x.Name));
+                    x.Name))
+                .ToListAsync();
         }
 
+        /// <summary>
+        /// Get Category by identifier
+        /// </summary>
+        /// <param name="id">Category identifier</param>
+        /// <returns>Category model or null</returns>
+        /// <exception cref="ApplicationException">The entity doesn't exist</exception>
         public async Task<CategoryInfoViewModel?> GetByIdAsync(int id)
         {
             var entity = await repository.GetByIdAsync<Category>(id);
@@ -92,6 +121,12 @@ namespace TasteHub.Core.Services
             return model;
         }
 
+        /// <summary>
+        /// Get Category by name
+        /// </summary>
+        /// <param name="name">Category name</param>
+        /// <returns>Category model or null</returns>
+        /// <exception cref="ApplicationException">The entity doesn't exist</exception>
         public async Task<CategoryInfoViewModel?> GetByNameAsync(string name)
         {
             var entity = await repository.AllReadonly<Category>().Where(x=>x.Name==name).FirstOrDefaultAsync();

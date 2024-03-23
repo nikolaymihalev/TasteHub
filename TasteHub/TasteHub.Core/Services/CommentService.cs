@@ -8,6 +8,9 @@ using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Services
 {
+    /// <summary>
+    /// Service for Comment
+    /// </summary>
     public class CommentService : ICommentService
     {
         private readonly IRepository repository;
@@ -21,6 +24,11 @@ namespace TasteHub.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Add Comment
+        /// </summary>
+        /// <param name="model">Comment model</param>
+        /// <exception cref="ApplicationException">Operation is failed</exception>
         public async Task AddSync(CommentFormModel model)
         {
             var entity = new Comment()
@@ -43,6 +51,11 @@ namespace TasteHub.Core.Services
             }
         }
 
+        /// <summary>
+        /// Delete Comment
+        /// </summary>
+        /// <param name="id">Comment identifier</param>
+        /// <exception cref="ApplicationException">Model is invalid</exception>
         public async Task DeleteAsync(int id)
         {
             var comment = await repository.GetByIdAsync<Comment>(id);
@@ -57,6 +70,11 @@ namespace TasteHub.Core.Services
             await repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Get all existing comments about recipe
+        /// </summary>
+        /// <param name="recipeId">Recipe identifier</param>
+        /// <returns>Collection of Comment models</returns>
         public async Task<IEnumerable<CommentInfoModel>> GetAllCommentsAboutRecipeAsync(int recipeId)
         {
             return await repository.AllReadonly<Comment>()
@@ -72,6 +90,11 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Get last comment about recipe
+        /// </summary>
+        /// <param name="recipeId">Recipe identifier</param>
+        /// <returns>Comment model or null</returns>
         public async Task<CommentInfoModel?> GetLastCommentAboutRecipeAsync(int recipeId)
         {
             var comments = await GetAllCommentsAboutRecipeAsync(recipeId);
@@ -79,6 +102,12 @@ namespace TasteHub.Core.Services
             return comments.OrderByDescending(x=>x.CreationDate).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Get Comment by identifier
+        /// </summary>
+        /// <param name="id">Comment identifier</param>
+        /// <returns>Comment model</returns>
+        /// <exception cref="ApplicationException">The entity doesn't exist</exception>
         public async Task<CommentInfoModel> GetByIdAsync(int id)
         {
             var entity = await repository.GetByIdAsync<Comment>(id);
@@ -101,6 +130,10 @@ namespace TasteHub.Core.Services
             return comment;
         }
 
+        /// <summary>
+        /// Delete range of comments
+        /// </summary>
+        /// <param name="models">Collection of Comment models</param>
         public void DeleteRange(IEnumerable<CommentInfoModel> models)
         {
             var entites = models.Select(x => new Comment()

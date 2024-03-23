@@ -9,6 +9,9 @@ using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Core.Services
 {
+    /// <summary>
+    /// Service for Favorite Recipe
+    /// </summary>
     public class FavoriteRecipeService : IFavoriteRecipeService
     {
         private readonly IRepository repository;
@@ -22,6 +25,11 @@ namespace TasteHub.Core.Services
             logger = _logger;
         }
 
+        /// <summary>
+        /// Add Favorite recipe
+        /// </summary>
+        /// <param name="model">Favorite Recipe model</param>
+        /// <exception cref="ApplicationException">Operation is failed</exception>
         public async Task AddAsync(FavoriteRecipeInfoModel model)
         {
             var entity = new FavoriteRecipe() 
@@ -42,6 +50,10 @@ namespace TasteHub.Core.Services
             }
         }
 
+        /// <summary>
+        /// Get all existing favorite recipes
+        /// </summary>
+        /// <returns>Collection of Favortie Recipe models</returns>
         public async Task<IEnumerable<FavoriteRecipeInfoModel>> GetAllFavoriteRecipesAsync()
         {
             return await repository.AllReadonly<FavoriteRecipe>()
@@ -60,6 +72,12 @@ namespace TasteHub.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Remove Favorite recipe
+        /// </summary>
+        /// <param name="id">Favorite Recipe identifier</param>
+        /// <param name="userId">User identifier</param>
+        /// <exception cref="ApplicationException">Operation is failed</exception>
         public async Task RemoveAsync(int id, string userId)
         {
             try
@@ -74,6 +92,10 @@ namespace TasteHub.Core.Services
             }
         }
 
+        /// <summary>
+        /// Delete collection of Favorite recipes
+        /// </summary>
+        /// <param name="models">Collecton of Favorite Recipe models</param>
         public void DeleteRange(IEnumerable<FavoriteRecipeInfoModel> models) 
         {
             var entites = models.Select(x => new FavoriteRecipe()
@@ -84,6 +106,11 @@ namespace TasteHub.Core.Services
             repository.DeleteRange(entites);
         }
 
+        /// <summary>
+        /// Get all favorite recipes for user
+        /// </summary>
+        /// <param name="userId">User identifier</param>
+        /// <returns>Collection of Favortie Recipe models</returns>
         public async Task<IEnumerable<FavoriteRecipeInfoModel>> GetAllFavoriteRecipesForUserAsync(string userId)
         {
             return await repository.AllReadonly<FavoriteRecipe>()
