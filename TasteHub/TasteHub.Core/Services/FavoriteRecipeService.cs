@@ -83,5 +83,24 @@ namespace TasteHub.Core.Services
             });
             repository.DeleteRange(entites);
         }
+
+        public async Task<IEnumerable<FavoriteRecipeInfoModel>> GetAllFavoriteRecipesForUserAsync(string userId)
+        {
+            return await repository.AllReadonly<FavoriteRecipe>()
+                .Where(x=>x.UserId==userId)
+                .Select(x => new FavoriteRecipeInfoModel(
+                    x.User.Id,
+                    x.RecipeId,
+                    new RecipeInfoViewModel(x.Recipe.Id,
+                        x.Recipe.Title,
+                        x.Recipe.Description == null ? string.Empty : x.Recipe.Description,
+                        x.Recipe.Ingredients,
+                        x.Recipe.Instructions,
+                        x.Recipe.CreationDate,
+                        Convert.ToBase64String(x.Recipe.Image),
+                        x.Recipe.Creator.UserName,
+                        x.Recipe.Category.Name)))
+                .ToListAsync();
+        }
     }
 }

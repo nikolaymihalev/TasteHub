@@ -14,6 +14,13 @@ namespace TasteHub.Core.Contracts
         Task<IEnumerable<FavoriteRecipeInfoModel>> GetAllFavoriteRecipesAsync();
 
         /// <summary>
+        /// Get all favorite recipes for user
+        /// </summary>
+        /// <param name="userId">User identifier</param>
+        /// <returns>Collection of Favortie Recipe models</returns>
+        Task<IEnumerable<FavoriteRecipeInfoModel>> GetAllFavoriteRecipesForUserAsync(string userId);
+
+        /// <summary>
         /// Add Favorite recipe
         /// </summary>
         /// <param name="model">Favorite Recipe model</param>

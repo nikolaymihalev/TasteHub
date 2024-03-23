@@ -21,8 +21,7 @@ namespace TasteHub.Controllers
         [HttpGet]
         public async Task<IActionResult> MyFavoriteRecipes()
         {
-            var allRecipes = await favoriteRecipeService.GetAllFavoriteRecipesAsync();
-            var model = allRecipes.Where(x => x.UserId == User.Id());
+            var model = await favoriteRecipeService.GetAllFavoriteRecipesForUserAsync(User.Id());
 
             return View(model);
         }
