@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace TasteHub.Infrastructure.Common
+﻿namespace TasteHub.Infrastructure.Common
 {
     /// <summary>
     /// Interface for repository methods

@@ -4,6 +4,9 @@ using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Infrastructure.Data.Configurations
 {
+    /// <summary>
+    /// Configuration for Recipe entity
+    /// </summary>
     internal class RecipeConfiguration : IEntityTypeConfiguration<Recipe>
     {
         public void Configure(EntityTypeBuilder<Recipe> builder)

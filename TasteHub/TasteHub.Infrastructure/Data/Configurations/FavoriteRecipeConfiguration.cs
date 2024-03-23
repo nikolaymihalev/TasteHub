@@ -4,6 +4,9 @@ using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Infrastructure.Data.Configurations
 {
+    /// <summary>
+    /// Configuration for Favorite Recipe entity
+    /// </summary>
     internal class FavoriteRecipeConfiguration : IEntityTypeConfiguration<FavoriteRecipe>
     {
         public void Configure(EntityTypeBuilder<FavoriteRecipe> builder)

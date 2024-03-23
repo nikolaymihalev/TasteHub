@@ -4,6 +4,9 @@ using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Infrastructure.Data.Configurations
 {
+    /// <summary>
+    /// Configuration for Rating entity
+    /// </summary>
     internal class RatingConfiguration : IEntityTypeConfiguration<Rating>
     {
         public void Configure(EntityTypeBuilder<Rating> builder)

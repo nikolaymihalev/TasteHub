@@ -4,6 +4,9 @@ using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Infrastructure.Data.Configurations
 {
+    /// <summary>
+    /// Configuration for Comment entity
+    /// </summary>
     internal class CommentConfiguration : IEntityTypeConfiguration<Comment>
     {
         public void Configure(EntityTypeBuilder<Comment> builder)

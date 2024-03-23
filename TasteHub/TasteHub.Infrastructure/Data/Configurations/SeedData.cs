@@ -3,6 +3,9 @@ using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.Infrastructure.Data.Configurations
 {
+    /// <summary>
+    /// Class for seeding database 
+    /// </summary>
     internal class SeedData
     {
         public SeedData()

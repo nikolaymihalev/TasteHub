@@ -1,5 +1,8 @@
 ﻿namespace TasteHub.Infrastructure.Constants
 {
+    /// <summary>
+    /// Constants for validation properties
+    /// </summary>
     public static class ValidationConstants
     {
         public const int CategoryNameMaxLength = 60;

@@ -1,5 +1,8 @@
 ﻿namespace TasteHub.Infrastructure.Constants
 {
+    /// <summary>
+    /// Constants for error messages 
+    /// </summary>
     public static class ErrorMessageConstants
     {
         public const string RequireErrorMessage = "The field {0} is required!";
