@@ -66,8 +66,10 @@ namespace TasteHub.Infrastructure.Common
         {
             T? entity = await GetByIdAsync<T>(id);
 
-            if(entity != null)
-                Delete<T>(entity);
+            if (entity != null) 
+            {
+                DbSet<T>().Remove(entity);
+            }
         }
 
         /// <summary>
