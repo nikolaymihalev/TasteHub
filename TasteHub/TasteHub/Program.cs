@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-using TasteHub.Infrastructure.Data;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationDbContext(builder.Configuration);
