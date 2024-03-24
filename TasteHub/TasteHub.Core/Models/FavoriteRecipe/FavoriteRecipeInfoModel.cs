@@ -3,7 +3,7 @@
 namespace TasteHub.Core.Models
 {
     /// <summary>
-    /// Model for favorite recipe information in a database
+    /// Model for information about favorite recipe
     /// </summary>
     public class FavoriteRecipeInfoModel
     {
@@ -16,6 +16,7 @@ namespace TasteHub.Core.Models
             RecipeId = recipeId;
             Recipe = recipe;
         }
+
         /// <summary>
         /// Creator identifier
         /// </summary>
@@ -27,7 +28,7 @@ namespace TasteHub.Core.Models
         public int RecipeId { get; set; }
 
         /// <summary>
-        /// Recipe
+        /// Recipe model
         /// </summary>
         public RecipeInfoViewModel Recipe { get; set; }
     }
