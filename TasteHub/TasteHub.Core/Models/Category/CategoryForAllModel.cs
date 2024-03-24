@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TasteHub.Core.Contracts;
-
-namespace TasteHub.Core.Models.Category
+﻿namespace TasteHub.Core.Models.Category
 {
+    /// <summary>
+    /// Model for all categories 
+    /// </summary>
     public class CategoryForAllModel
     {
         public CategoryForAllModel(

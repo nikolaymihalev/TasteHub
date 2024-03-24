@@ -1,9 +1,7 @@
-﻿using TasteHub.Core.Contracts;
-
-namespace TasteHub.Core.Models.Category
+﻿namespace TasteHub.Core.Models.Category
 {
     /// <summary>
-    /// Model for category information in a database
+    /// Model for information about category
     /// </summary>
     public class CategoryInfoViewModel
     {
