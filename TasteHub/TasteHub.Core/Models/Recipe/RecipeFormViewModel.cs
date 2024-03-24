@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using TasteHub.Core.Attributes;
 using TasteHub.Core.Models.Category;
 using TasteHub.Infrastructure.Constants;
 
@@ -48,11 +47,14 @@ namespace TasteHub.Core.Models.Recipe
              ErrorMessage = ErrorMessageConstants.StringLengthErrorMessage)]
         public string Instructions { get; set; } = string.Empty;
 
-
         /// <summary>
         /// Image of the food
         /// </summary>
         public byte[] Image { get; set; } = new byte[128];
+
+        /// <summary>
+        /// Uploaded file from user for recipe image
+        /// </summary>
         public IFormFile? ImageFile { get; set; }
 
         /// <summary>
@@ -75,6 +77,5 @@ namespace TasteHub.Core.Models.Recipe
         /// Collection of categories
         /// </summary>
         public IEnumerable<CategoryInfoViewModel> Categories { get; set; } = new List<CategoryInfoViewModel>();
-
     }
 }

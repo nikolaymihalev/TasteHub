@@ -4,7 +4,7 @@ using TasteHub.Core.Models.Comment;
 namespace TasteHub.Core.Models.Recipe
 {
     /// <summary>
-    /// Model for recipe information in a database
+    /// Model for information about recipe
     /// </summary>
     public class RecipeInfoViewModel
     {
