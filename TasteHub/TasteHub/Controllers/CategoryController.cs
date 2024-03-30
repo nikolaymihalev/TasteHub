@@ -9,8 +9,7 @@ namespace TasteHub.Controllers
     public class CategoryController : BaseController
     {
         private readonly ICategoryService categoryService;
-        private readonly IRecipeService recipeService;
-        
+        private readonly IRecipeService recipeService;        
 
         public CategoryController(
             ICategoryService _categoryService,
