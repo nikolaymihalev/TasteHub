@@ -43,6 +43,11 @@
         /// <summary>
         /// Save changes in database
         /// </summary>
-        Task<int> SaveChangesAsync();        
+        Task<int> SaveChangesAsync();
+
+        /// <summary>
+        /// Add range of entities to database
+        /// </summary>
+        Task AddRangeAsync<T>(IEnumerable<T> entities) where T : class;
     }
 }

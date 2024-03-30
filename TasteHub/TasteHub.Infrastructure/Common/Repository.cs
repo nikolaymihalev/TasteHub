@@ -102,5 +102,13 @@ namespace TasteHub.Infrastructure.Common
         {
             return await this.Context.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// Add range of entities to database
+        /// </summary>
+        public async Task AddRangeAsync<T>(IEnumerable<T> entities) where T : class
+        {
+            await this.DbSet<T>().AddRangeAsync(entities);
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return RedirectToAction("AllRecipes", "Recipe", new { category = "all"});
         }
