@@ -80,10 +80,9 @@ namespace TasteHub.UnitTests
         [Test]
         public void Test_GetLastCommentForRecipe() 
         {
-            string expectedContent = "Well done!";
+            string expectedContent = "It is delicious";
             string expectedUsername = "guest@mail.com";
-            var expectedCreationDate = DateTime.Parse("29-02-2024");
-            int expectedId = 2;
+            int expectedId = 3;
             string expectedUserId = "c208dab4-2a45-43e5-81dd-eb173111575b";
             int expectedRecipeId = 1;
             string expectedRecipeTitle = "Chocolate cheesecake";
@@ -92,7 +91,6 @@ namespace TasteHub.UnitTests
 
             Assert.AreEqual(expectedContent, comment.Content);
             Assert.AreEqual(expectedUsername, comment.UserUsername);
-            Assert.AreEqual(expectedCreationDate, comment.CreationDate);
             Assert.AreEqual(expectedId, comment.Id);
             Assert.AreEqual(expectedUserId, comment.UserId);
             Assert.AreEqual(expectedRecipeId, comment.RecipeId);
@@ -102,7 +100,7 @@ namespace TasteHub.UnitTests
         [Test]
         public void Test_GetCommentsByRecipe() 
         {
-            int expectedCount = 2;
+            int expectedCount = 3;
 
             int actualCount = commentService.GetAllCommentsAboutRecipeAsync(1).Result.Count();
 
@@ -147,6 +145,33 @@ namespace TasteHub.UnitTests
             Assert.IsTrue(expectedDate == comment.CreationDate);
             Assert.IsTrue(comment.RecipeTitle == string.Empty);
             Assert.IsTrue(comment.UserUsername == string.Empty);
+        }
+
+        [Test]
+        public void Test_Add()
+        {
+            int expectedCount = 3;
+            int expectedId = 3;
+            int expectedRecipeId = 1;
+            string expectedContent = "It is delicious";
+            string expectedUserId = "c208dab4-2a45-43e5-81dd-eb173111575b";
+
+            var model = new CommentFormModel()
+            {
+                Content = "It is delicious",
+                RecipeId = 1,
+                UserId = "c208dab4-2a45-43e5-81dd-eb173111575b"
+            };
+
+            _ = commentService.AddSync(model);
+            int actualCount = commentService.GetAllCommentsAboutRecipeAsync(1).Result.Count();
+            var comment = commentService.GetLastCommentAboutRecipeAsync(1).Result;
+
+            Assert.IsTrue(expectedCount == actualCount);
+            Assert.IsTrue(expectedId == comment.Id);
+            Assert.IsTrue(expectedRecipeId == comment.RecipeId);
+            Assert.IsTrue(expectedContent == comment.Content);
+            Assert.IsTrue(expectedUserId == comment.UserId);
         }
     }
 }
