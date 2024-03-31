@@ -6,3 +6,5 @@ global using TasteHub.Core.Models.Category;
 global using TasteHub.Core.Services;
 global using TasteHub.Infrastructure.Common;
 global using TasteHub.Infrastructure.Data;
+global using Microsoft.AspNetCore.Identity;
+global using TasteHub.Infrastructure.Data.Models;

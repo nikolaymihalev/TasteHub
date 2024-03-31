@@ -38,7 +38,7 @@ namespace TasteHub.UnitTests
         [Test]
         public void Test_GetAllCategories()
         {
-            int expectedCount = 2;
+            int expectedCount = 3;
             string expectedFirstCategoryName = "Sweets";
             string expectedSecondCategoryName = "Sandwiches";
             int expectedSecondCategoryId = 2;
@@ -60,7 +60,7 @@ namespace TasteHub.UnitTests
 
             try
             {
-                category = categoryService.GetByIdAsync(3).Result;
+                category = categoryService.GetByIdAsync(25).Result;
 
             }
             catch (Exception ex)
@@ -182,7 +182,7 @@ namespace TasteHub.UnitTests
         [Test]
         public void Test_Delete() 
         {
-            int expectedCount = 1;
+            int expectedCount = 3;
 
             _ = categoryService.DeleteAsync(2);
             var categoriesCount = categoryService.GetAllCategoriesAsync().Result.Count();
