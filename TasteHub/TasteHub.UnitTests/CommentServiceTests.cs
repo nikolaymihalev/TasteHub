@@ -1,4 +1,7 @@
-﻿namespace TasteHub.UnitTests
+﻿using TasteHub.Core.Models.Comment;
+using TasteHub.Core.Services;
+
+namespace TasteHub.UnitTests
 {
     [TestFixture]
     public class CommentServiceTests
@@ -104,6 +107,46 @@
             int actualCount = commentService.GetAllCommentsAboutRecipeAsync(1).Result.Count();
 
             Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public void Test_GetByIdShouldThrowException() 
+        {
+            string result = string.Empty;
+            CommentInfoModel? comment = null;
+
+            try
+            {
+                comment = commentService.GetByIdAsync(25).Result;
+            }
+            catch (Exception ex)
+            {
+                result = ex.InnerException.Message;
+            }
+
+            Assert.IsNull(comment);
+            Assert.AreEqual("This comment doesn't exist!", result);
+        }
+
+        [Test]
+        public void Test_GetById() 
+        {
+            int expectedId = 1;
+            string expectedContent = "Amazing recipe!";
+            string expectedUserId = "c208dab4-2a45-43e5-81dd-eb173111575b";
+            int expectedRecipeId = 1;
+            DateTime expectedDate = DateTime.Parse("25-02-2024");
+
+            var comment = commentService.GetByIdAsync(1).Result;
+
+            Assert.IsTrue(comment != null);
+            Assert.IsTrue(expectedId == comment.Id);
+            Assert.IsTrue(expectedContent == comment.Content);
+            Assert.IsTrue(expectedUserId == comment.UserId);
+            Assert.IsTrue(expectedRecipeId == comment.RecipeId);
+            Assert.IsTrue(expectedDate == comment.CreationDate);
+            Assert.IsTrue(comment.RecipeTitle == string.Empty);
+            Assert.IsTrue(comment.UserUsername == string.Empty);
         }
     }
 }
