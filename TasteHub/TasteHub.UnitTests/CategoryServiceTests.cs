@@ -1,21 +1,23 @@
-﻿namespace TasteHub.UnitTests
+﻿using TasteHub.Infrastructure.Data.Models;
+
+namespace TasteHub.UnitTests
 {
     [TestFixture]
     public class CategoryServiceTests
     {
         private ApplicationDbContext context;
         private IRepository repository;
-        private IEnumerable<CategoryInfoViewModel> categories;
+        private IEnumerable<Category> categories;
         private ILogger<CategoryService> logger;
         private ICategoryService categoryService;
 
         [SetUp]
         public void SetUp()
         {
-            this.categories = new List<CategoryInfoViewModel>()
+            this.categories = new List<Category>()
             {
-                new CategoryInfoViewModel(1,"Sweets"),
-                new CategoryInfoViewModel(2, "Sandwiches")
+                new Category(){ Id = 1, Name = "Sweets" },
+                new Category(){ Id = 2, Name = "Sandwiches" }
             };
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()                
@@ -23,8 +25,10 @@
                 .Options;
 
             this.context = new ApplicationDbContext(options);
+            
             this.repository = new Repository(this.context);
-            this.repository.AddRangeAsync(this.categories);
+            this.repository.AddRangeAsync<Category>(this.categories);
+            this.repository.SaveChangesAsync();
 
             var loggerFactory = new LoggerFactory();
             this.logger = loggerFactory.CreateLogger<CategoryService>();
@@ -35,10 +39,10 @@
         [Test]
         public void Test_GetAllCategories()
         {
-            var expectedCount = 2;
-            var expectedFirstCategoryName = "Sweets";
-            var expectedSecondCategoryName = "Sandwiches";
-            var expectedSecondCategoryId = 2;
+            int expectedCount = 2;
+            string expectedFirstCategoryName = "Sweets";
+            string expectedSecondCategoryName = "Sandwiches";
+            int expectedSecondCategoryId = 2;
 
 
             var actualCategories = categoryService.GetAllCategoriesAsync().Result.ToList();
@@ -47,6 +51,72 @@
             Assert.AreEqual(expectedFirstCategoryName, actualCategories[0].Name);
             Assert.AreEqual(expectedSecondCategoryName, actualCategories[1].Name);
             Assert.AreEqual(expectedSecondCategoryId, actualCategories[1].Id);
+        }
+
+        [Test]
+        public void Test_GetByIdShouldReturnNull()
+        {
+            string result = "";
+            CategoryInfoViewModel? category = null;
+
+            try
+            {
+                category = categoryService.GetByIdAsync(3).Result;
+
+            }
+            catch (Exception ex)
+            {
+                result = ex.InnerException.Message;
+            }
+
+            Assert.IsNull(category);
+            Assert.AreEqual("This category doesn't exist!", result);
+        }
+
+        [Test]
+        public void Test_GetById()
+        {
+            int expectedId = 2;
+            string expectedName = "Sandwiches";
+
+            var category = categoryService.GetByIdAsync(2).Result;
+
+            Assert.IsTrue(category != null);
+            Assert.AreEqual(expectedId, category.Id);
+            Assert.AreEqual(expectedName, category.Name);
+        }
+
+        [Test]
+        public void Test_GetByNameShouldReturnNull()
+        {
+            string result = "";
+            CategoryInfoViewModel? category = null;
+
+            try
+            {
+                category = categoryService.GetByNameAsync("Pizza").Result;
+
+            }
+            catch (Exception ex)
+            {
+                result = ex.InnerException.Message;
+            }
+
+            Assert.IsNull(category);
+            Assert.AreEqual("This category doesn't exist!", result);
+        }
+
+        [Test]
+        public void Test_GetByName() 
+        {
+            int expectedId = 1;
+            string expectedName = "Sweets";
+
+            var category = categoryService.GetByNameAsync("Sweets").Result;
+
+            Assert.IsTrue(category != null);
+            Assert.AreEqual(expectedId, category.Id);
+            Assert.AreEqual(expectedName, category.Name);
         }
 
         [TearDown]
