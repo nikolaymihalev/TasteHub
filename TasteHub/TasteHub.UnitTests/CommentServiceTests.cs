@@ -26,7 +26,7 @@ namespace TasteHub.UnitTests
                 NormalizedEmail = "guest@mail.com"
             };
 
-            recipe = new Recipe() 
+            recipe = new Recipe()
             {
                 Id = 1,
                 Title = "Chocolate cheesecake",
@@ -39,7 +39,7 @@ namespace TasteHub.UnitTests
                 CategoryId = 2,
             };
 
-            comments = new List<Comment>() 
+            comments = new List<Comment>()
             {
                 new Comment()
                 {
@@ -78,7 +78,7 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_GetLastCommentForRecipe() 
+        public void Test_GetLastCommentForRecipe()
         {
             string expectedContent = "It is delicious";
             string expectedUsername = "guest@mail.com";
@@ -98,7 +98,7 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_GetCommentsByRecipe() 
+        public void Test_GetCommentsByRecipe()
         {
             int expectedCount = 3;
 
@@ -108,7 +108,7 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_GetByIdShouldThrowException() 
+        public void Test_GetByIdShouldThrowException()
         {
             string result = string.Empty;
             CommentInfoModel? comment = null;
@@ -127,7 +127,7 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_GetById() 
+        public void Test_GetById()
         {
             int expectedId = 1;
             string expectedContent = "Amazing recipe!";
@@ -172,6 +172,51 @@ namespace TasteHub.UnitTests
             Assert.IsTrue(expectedRecipeId == comment.RecipeId);
             Assert.IsTrue(expectedContent == comment.Content);
             Assert.IsTrue(expectedUserId == comment.UserId);
+        }
+
+        [Test]
+        public void Test_DeleteRange()
+        {
+            IEnumerable<CommentInfoModel> models = new CommentInfoModel[]
+            {
+                new CommentInfoModel(
+                    4,
+                    "Very tasty",
+                    DateTime.Now,
+                    "c208dab4-2a45-43e5-81dd-eb173111575b",
+                    "user",
+                     1,
+                     "Chocolate cheesecake"),
+                new CommentInfoModel(
+                    5,
+                    "Very bad",
+                    DateTime.Now,
+                    "c208dab4-2a45-43e5-81dd-eb173111575b",
+                    "user",
+                     1,
+                     "Chocolate cheesecake"),
+            };
+
+            IList<CommentFormModel> modelsToAdd = models
+                .Select(x => new CommentFormModel()
+                {
+                    Content = x.Content,
+                    UserId = x.UserId,
+                    RecipeId = x.RecipeId
+                }).ToList();
+
+            var firstComment = modelsToAdd[0];
+            _ = commentService.AddSync(firstComment);
+
+            var secondComment = modelsToAdd[1];
+            commentService.AddSync(secondComment);
+
+
+            Assert.IsTrue(5 == commentService.GetAllCommentsAboutRecipeAsync(1).Result.Count());
+
+            commentService.DeleteRange(models);
+
+            Assert.IsTrue(3 == commentService.GetAllCommentsAboutRecipeAsync(1).Result.Count());
         }
     }
 }
