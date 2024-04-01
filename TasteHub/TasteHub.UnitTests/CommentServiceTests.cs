@@ -173,6 +173,26 @@ namespace TasteHub.UnitTests
             Assert.IsTrue(expectedUserId == comment.UserId);
         }
 
+        [Test]
+        public void Test_Delete() 
+        {
+            int expectedCount = 3;
+
+            var model = new CommentFormModel()
+            {
+                Content = "Very bad!",
+                RecipeId = 1,
+                UserId = "c208dab4-2a45-43e5-81dd-eb173111575b"
+            };
+
+            _ = commentService.AddSync(model);
+            _ = commentService.DeleteAsync(4);
+
+            int actualCount = commentService.GetAllCommentsAboutRecipeAsync(1).Result.Count();
+
+            Assert.IsTrue(expectedCount == actualCount);
+        }
+
         [TearDown]
         public void TearDown()
         {
