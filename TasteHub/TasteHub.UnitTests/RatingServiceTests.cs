@@ -1,4 +1,5 @@
-﻿using TasteHub.Core.Services;
+﻿using TasteHub.Core.Models.Rating;
+using TasteHub.Core.Services;
 
 namespace TasteHub.UnitTests
 {
@@ -90,6 +91,52 @@ namespace TasteHub.UnitTests
             this.logger = loggerFactory.CreateLogger<RatingService>();
 
             ratingService = new RatingService(this.repository, logger);
+        }
+
+        [Test]
+        public void Test_Add() 
+        {
+            int expectedCount = 2;
+
+            var model = new RatingFormModel()
+            {
+                RecipeId = 1,
+                UserId = tester.Id,
+                Value = 3
+            };
+
+            _ = ratingService.AddAsync(model);
+
+            int actualCount = ratingService.GetAllRatingsAboutRecipeAsync(1).Result.Count();
+
+            Assert.IsTrue(expectedCount == actualCount);
+        }
+
+        [Test]
+        public void Test_AddShouldThrowException() 
+        {
+            string expectedException = "Operation failed. Try again!";
+
+            var model = new RatingFormModel()
+            {
+                RecipeId = 1,
+                UserId = guest.Id,
+                Value = 5
+            };
+
+            string actualException = ratingService.AddAsync(model).Exception.InnerException.Message;
+
+            Assert.IsTrue(expectedException == actualException);
+        }
+
+        [Test]
+        public void Test_DeleteShouldThrowException() 
+        {
+            string expectedException = "Invalid rating!";
+
+            string actualException = ratingService.DeleteAsync(1000, "invalidid").Exception.InnerException.Message;
+        
+            Assert.IsTrue(expectedException == actualException);
         }
 
         [TearDown]
