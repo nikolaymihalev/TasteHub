@@ -1,5 +1,4 @@
 ﻿using TasteHub.Core.Models.Comment;
-using TasteHub.Core.Services;
 
 namespace TasteHub.UnitTests
 {
@@ -174,49 +173,10 @@ namespace TasteHub.UnitTests
             Assert.IsTrue(expectedUserId == comment.UserId);
         }
 
-        [Test]
-        public void Test_DeleteRange()
+        [TearDown]
+        public void TearDown()
         {
-            IEnumerable<CommentInfoModel> models = new CommentInfoModel[]
-            {
-                new CommentInfoModel(
-                    4,
-                    "Very tasty",
-                    DateTime.Now,
-                    "c208dab4-2a45-43e5-81dd-eb173111575b",
-                    "user",
-                     1,
-                     "Chocolate cheesecake"),
-                new CommentInfoModel(
-                    5,
-                    "Very bad",
-                    DateTime.Now,
-                    "c208dab4-2a45-43e5-81dd-eb173111575b",
-                    "user",
-                     1,
-                     "Chocolate cheesecake"),
-            };
-
-            IList<CommentFormModel> modelsToAdd = models
-                .Select(x => new CommentFormModel()
-                {
-                    Content = x.Content,
-                    UserId = x.UserId,
-                    RecipeId = x.RecipeId
-                }).ToList();
-
-            var firstComment = modelsToAdd[0];
-            _ = commentService.AddSync(firstComment);
-
-            var secondComment = modelsToAdd[1];
-            commentService.AddSync(secondComment);
-
-
-            Assert.IsTrue(5 == commentService.GetAllCommentsAboutRecipeAsync(1).Result.Count());
-
-            commentService.DeleteRange(models);
-
-            Assert.IsTrue(3 == commentService.GetAllCommentsAboutRecipeAsync(1).Result.Count());
+            this.context.Dispose();
         }
     }
 }

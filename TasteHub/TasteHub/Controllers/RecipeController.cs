@@ -255,19 +255,28 @@ namespace TasteHub.Controllers
 
             if (frToDelete.Any())
             {
-                favoriteRecipeService.DeleteRange(frToDelete);
+                foreach (var favorite in frToDelete) 
+                {
+                    await favoriteRecipeService.DeleteAsync(favorite.RecipeId, favorite.UserId);
+                }
             }
 
             var allCom = await commentService.GetAllCommentsAboutRecipeAsync(id);
             if (allCom.Any()) 
             {
-                commentService.DeleteRange(allCom);
+                foreach (var comment in allCom) 
+                {
+                    await commentService.DeleteAsync(comment.Id);
+                }
             }
 
             var allRat = await ratingService.GetAllRatingsAboutRecipeAsync(id);
             if (allRat.Any()) 
             {
-                ratingService.DeleteRange(allRat);
+                foreach (var rating in allRat) 
+                {
+                    await ratingService.DeleteAsync(rating.RecipeId, rating.UserId);
+                }
             }
 
             await recipeService.DeleteAsync(id);

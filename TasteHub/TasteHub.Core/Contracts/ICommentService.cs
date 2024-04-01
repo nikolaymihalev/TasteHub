@@ -39,11 +39,5 @@ namespace TasteHub.Core.Contracts
         /// <param name="recipeId">Recipe identifier</param>
         /// <returns>Comment model or null</returns>
         Task<CommentInfoModel?> GetLastCommentAboutRecipeAsync(int recipeId);
-
-        /// <summary>
-        /// Delete range of comments
-        /// </summary>
-        /// <param name="models">Collection of Comment models</param>
-        void DeleteRange(IEnumerable<CommentInfoModel> models);
     }
 }

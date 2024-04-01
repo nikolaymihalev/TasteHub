@@ -39,11 +39,5 @@ namespace TasteHub.Core.Contracts
         /// <param name="recipeId">Recipe identifier</param>
         /// <returns>Collection of Rating models</returns>
         Task<IEnumerable<RatingInfoModel>> GetAllRatingsAboutRecipeAsync(int recipeId);
-
-        /// <summary>
-        /// Delete collection of Ratings
-        /// </summary>
-        /// <param name="models">Collection of Rating models</param>
-        void DeleteRange(IEnumerable<RatingInfoModel> models);
     }
 }

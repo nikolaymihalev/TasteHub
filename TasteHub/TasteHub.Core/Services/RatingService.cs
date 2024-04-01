@@ -60,8 +60,7 @@ namespace TasteHub.Core.Services
         {
             var rating = await repository
                 .AllReadonly<Rating>()
-                .Where(x=>x.UserId==userId && x.RecipeId==recipeId)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.RecipeId == recipeId);
 
             if (rating == null)
             {
@@ -135,21 +134,6 @@ namespace TasteHub.Core.Services
             }
 
             return 0;
-        }
-
-        /// <summary>
-        /// Delete collection of Ratings
-        /// </summary>
-        /// <param name="models">Collection of Rating models</param>
-        public void DeleteRange(IEnumerable<RatingInfoModel> models) 
-        {
-            var entites = models.Select(x => new Rating()
-            {
-                RecipeId = x.RecipeId,
-                UserId = x.UserId,
-                Value = x.Value
-            });
-            repository.DeleteRange(entites);
         }
     }
 }

@@ -34,9 +34,8 @@ namespace TasteHub.Core.Contracts
         Task RemoveAsync(int id,string userId);
 
         /// <summary>
-        /// Delete collection of Favorite recipes
+        /// Delete Favorite recipe
         /// </summary>
-        /// <param name="models">Collecton of Favorite Recipe models</param>
-        void DeleteRange(IEnumerable<FavoriteRecipeInfoModel> models);
+        Task DeleteAsync(int recipeId, string userId);
     }
 }

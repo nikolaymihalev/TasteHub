@@ -93,20 +93,6 @@ namespace TasteHub.Core.Services
         }
 
         /// <summary>
-        /// Delete collection of Favorite recipes
-        /// </summary>
-        /// <param name="models">Collecton of Favorite Recipe models</param>
-        public void DeleteRange(IEnumerable<FavoriteRecipeInfoModel> models) 
-        {
-            var entites = models.Select(x => new FavoriteRecipe()
-            {
-                RecipeId = x.RecipeId,
-                UserId = x.UserId
-            });
-            repository.DeleteRange(entites);
-        }
-
-        /// <summary>
         /// Get all favorite recipes for user
         /// </summary>
         /// <param name="userId">User identifier</param>
@@ -128,6 +114,26 @@ namespace TasteHub.Core.Services
                         x.Recipe.Creator.UserName,
                         x.Recipe.Category.Name)))
                 .ToListAsync();
+        }
+
+        /// <summary>
+        /// Delete Favorite recipe
+        /// </summary>
+        /// <param name="recipeId">Recipe identifier</param>
+        /// <param name="userId">User identifier</param>
+        /// <exception cref="ApplicationException">Model is invalid</exception>
+        public async Task DeleteAsync(int recipeId, string userId)
+        {
+            var favorite = await repository.AllReadonly<FavoriteRecipe>().FirstOrDefaultAsync(x=> x.RecipeId == recipeId && x.UserId == userId);
+
+            if (favorite == null)
+            {
+                throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "favorite recipe"));
+            }
+
+            repository.Delete<FavoriteRecipe>(favorite);
+
+            await repository.SaveChangesAsync();
         }
     }
 }
