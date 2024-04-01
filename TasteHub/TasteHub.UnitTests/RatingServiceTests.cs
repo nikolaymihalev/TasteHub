@@ -1,45 +1,45 @@
-﻿using TasteHub.Core.Models;
+﻿using TasteHub.Core.Services;
 
 namespace TasteHub.UnitTests
 {
     [TestFixture]
-    public class FavoriteRecipeServiceTests
+    public class RatingServiceTests
     {
         private ApplicationDbContext context;
         private IRepository repository;
-        private FavoriteRecipe favoriteRecipe;
+        private Rating rating;
         private IdentityUser user;
         private IdentityUser guest;
         private IdentityUser tester;
         private Recipe recipe;
         private Category category;
-        private ILogger<FavoriteRecipeService> logger;
-        private IFavoriteRecipeService favoriteRecipeService;
+        private ILogger<RatingService> logger;
+        private IRatingService ratingService;
 
         [SetUp]
         public void SetUp()
         {
             user = new IdentityUser()
             {
-                Id = "261d1ded-cecc-4f10-80e9-b192247bb14f",
+                Id = "9e59b694-139f-4eb8-91ba-b54ba7fa4b10",
                 UserName = "user@mail.com",
                 NormalizedUserName = "user@mail.com",
                 Email = "user@mail.com",
                 NormalizedEmail = "user@mail.com"
             };
-            
+
             guest = new IdentityUser()
             {
-                Id = "728146da-7fce-4d15-882e-73b69fd17832",
+                Id = "a8b74cb2-a1e8-488e-85ef-c714a85c072d",
                 UserName = "guest@mail.com",
                 NormalizedUserName = "guest@mail.com",
                 Email = "guest@mail.com",
                 NormalizedEmail = "guest@mail.com"
             };
-            
+
             tester = new IdentityUser()
             {
-                Id = "236fbb4a-b60c-48c6-854a-828819d9d03a",
+                Id = "556ff379-8109-4dad-acf7-56a4b586932a",
                 UserName = "tester@mail.com",
                 NormalizedUserName = "tester@mail.com",
                 Email = "tester@mail.com",
@@ -60,13 +60,14 @@ namespace TasteHub.UnitTests
 
             category = new Category()
             {
-                Name = "Pizza"
+                Name = "Noodles"
             };
 
-            favoriteRecipe = new FavoriteRecipe()
+            rating = new Rating()
             {
                 RecipeId = 1,
                 UserId = guest.Id,
+                Value = 5
             };
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -77,7 +78,7 @@ namespace TasteHub.UnitTests
 
             this.repository = new Repository(this.context);
 
-            this.repository.AddAsync<FavoriteRecipe>(this.favoriteRecipe);
+            this.repository.AddAsync<Rating>(this.rating);
             this.repository.AddAsync<Recipe>(recipe);
             this.repository.AddAsync<Category>(category);
             this.repository.AddAsync<IdentityUser>(user);
@@ -86,77 +87,9 @@ namespace TasteHub.UnitTests
             this.repository.SaveChangesAsync();
 
             var loggerFactory = new LoggerFactory();
-            this.logger = loggerFactory.CreateLogger<FavoriteRecipeService>();
+            this.logger = loggerFactory.CreateLogger<RatingService>();
 
-            favoriteRecipeService = new FavoriteRecipeService(this.repository, logger);
-        }
-
-        [Test]
-        public void Test_Add()
-        {
-            int expectedCount = 2;
-
-            var model = new FavoriteRecipeInfoModel(
-                user.Id,
-                1,
-                null);
-
-            _ = favoriteRecipeService.AddAsync(model);
-
-            int actualCount = favoriteRecipeService.GetAllFavoriteRecipesAsync().Result.Count();
-
-            Assert.IsTrue(expectedCount == actualCount);
-        }
-
-        [Test]
-        public void Test_AddShouldThrowException() 
-        {
-            string expectedException = "Operation failed. Try again!";
-
-            var model = new FavoriteRecipeInfoModel(
-                guest.Id,
-                1,
-                null);
-
-            var result = favoriteRecipeService.AddAsync(model).Exception.InnerException.Message;
-
-            Assert.IsTrue(expectedException == result);
-        }
-
-        [Test]
-        public void Test_GetAllFavoriteRecipes()
-        {
-            int expectedCount = 2;
-
-            int actualCount = favoriteRecipeService.GetAllFavoriteRecipesAsync().Result.Count();
-
-            Assert.IsTrue(expectedCount == actualCount);
-        }
-
-        [Test]
-        public void Test_GetUserFavoriteRecipes()
-        {
-            int expectedCount = 1;
-            int expectedRecipeId = 1;
-            string expectedUserId = "728146da-7fce-4d15-882e-73b69fd17832";
-
-            var favoriteRecipes = favoriteRecipeService.GetAllFavoriteRecipesForUserAsync(guest.Id).Result.ToList();
-            var firstFavoriteRecipe = favoriteRecipes[0];
-
-            Assert.IsTrue(expectedCount == favoriteRecipes.Count());
-            Assert.IsTrue(firstFavoriteRecipe != null);
-            Assert.IsTrue(expectedRecipeId == firstFavoriteRecipe.RecipeId);
-            Assert.IsTrue(expectedUserId == firstFavoriteRecipe.UserId);
-        }
-
-        [Test]
-        public void Test_DeleteShouldThrowException()
-        {
-            var expectedException = "Invalid favorite recipe!";
-
-            var result = favoriteRecipeService.DeleteAsync(1000,"invalidid").Exception.InnerException.Message;
-
-            Assert.IsTrue(expectedException == result);
+            ratingService = new RatingService(this.repository, logger);
         }
 
         [TearDown]

@@ -1,6 +1,4 @@
-﻿using TasteHub.Infrastructure.Data.Models;
-
-namespace TasteHub.UnitTests
+﻿namespace TasteHub.UnitTests
 {
     [TestFixture]
     public class CategoryServiceTests

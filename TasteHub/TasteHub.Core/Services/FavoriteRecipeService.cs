@@ -104,7 +104,9 @@ namespace TasteHub.Core.Services
         /// <exception cref="ApplicationException">Model is invalid</exception>
         public async Task DeleteAsync(int recipeId, string userId)
         {
-            var favorite = await repository.AllReadonly<FavoriteRecipe>().FirstOrDefaultAsync(x=> x.RecipeId == recipeId && x.UserId == userId);
+            var favorite = await repository
+                .AllReadonly<FavoriteRecipe>()
+                .FirstOrDefaultAsync(x=> x.RecipeId == recipeId && x.UserId == userId);
 
             if (favorite == null)
             {
