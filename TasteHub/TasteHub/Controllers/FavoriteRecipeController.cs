@@ -65,7 +65,7 @@ namespace TasteHub.Controllers
                 return BadRequest();
             }
 
-            await favoriteRecipeService.RemoveAsync(id, User.Id());
+            await favoriteRecipeService.DeleteAsync(id, User.Id());
 
             return RedirectToAction(nameof(MyFavoriteRecipes));
         }

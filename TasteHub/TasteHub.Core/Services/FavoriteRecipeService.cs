@@ -73,26 +73,6 @@ namespace TasteHub.Core.Services
         }
 
         /// <summary>
-        /// Remove Favorite recipe
-        /// </summary>
-        /// <param name="id">Favorite Recipe identifier</param>
-        /// <param name="userId">User identifier</param>
-        /// <exception cref="ApplicationException">Operation is failed</exception>
-        public async Task RemoveAsync(int id, string userId)
-        {
-            try
-            {
-                repository.Delete(new FavoriteRecipe(){ RecipeId = id, UserId = userId });
-                await repository.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "FavoriteRecipeService.RemoveAsync");
-                throw new ApplicationException(ErrorMessageConstants.OperationFailedErrorMessage);
-            }
-        }
-
-        /// <summary>
         /// Get all favorite recipes for user
         /// </summary>
         /// <param name="userId">User identifier</param>

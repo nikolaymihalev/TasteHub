@@ -11,7 +11,7 @@ namespace TasteHub.Core.Contracts
         /// Add Comment
         /// </summary>
         /// <param name="model">Comment model</param>
-        Task AddSync(CommentFormModel model);
+        Task AddAsync(CommentFormModel model);
 
         /// <summary>
         /// Delete Comment

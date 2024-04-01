@@ -27,15 +27,10 @@ namespace TasteHub.Core.Contracts
         Task AddAsync(FavoriteRecipeInfoModel model);
 
         /// <summary>
-        /// Remove Favorite recipe
+        /// Delete Favorite recipe
         /// </summary>
         /// <param name="id">Favorite Recipe identifier</param>
         /// <param name="userId">User identifier</param>
-        Task RemoveAsync(int id,string userId);
-
-        /// <summary>
-        /// Delete Favorite recipe
-        /// </summary>
         Task DeleteAsync(int recipeId, string userId);
     }
 }

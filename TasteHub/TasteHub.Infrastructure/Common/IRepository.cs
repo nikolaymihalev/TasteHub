@@ -36,11 +36,6 @@
         void Delete<T>(T entity) where T : class;
 
         /// <summary>
-        /// Delete range of entities from database
-        /// </summary>
-        void DeleteRange<T>(IEnumerable<T> entities) where T : class;
-
-        /// <summary>
         /// Save changes in database
         /// </summary>
         Task<int> SaveChangesAsync();

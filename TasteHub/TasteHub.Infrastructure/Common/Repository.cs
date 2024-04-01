@@ -88,14 +88,6 @@ namespace TasteHub.Infrastructure.Common
         }
 
         /// <summary>
-        /// Delete range of entities from database
-        /// </summary>
-        public void DeleteRange<T>(IEnumerable<T> entities) where T : class
-        {
-            this.DbSet<T>().RemoveRange(entities);
-        }
-
-        /// <summary>
         /// Save changes in database
         /// </summary>
         public async Task<int> SaveChangesAsync()

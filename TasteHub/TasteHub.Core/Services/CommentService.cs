@@ -29,7 +29,7 @@ namespace TasteHub.Core.Services
         /// </summary>
         /// <param name="model">Comment model</param>
         /// <exception cref="ApplicationException">Operation is failed</exception>
-        public async Task AddSync(CommentFormModel model)
+        public async Task AddAsync(CommentFormModel model)
         {
             var entity = new Comment()
             {

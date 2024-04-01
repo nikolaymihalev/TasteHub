@@ -1,4 +1,5 @@
 ﻿using TasteHub.Core.Models;
+using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.UnitTests
 {
@@ -10,6 +11,7 @@ namespace TasteHub.UnitTests
         private FavoriteRecipe favoriteRecipe;
         private IdentityUser user;
         private IdentityUser guest;
+        private IdentityUser tester;
         private Recipe recipe;
         private Category category;
         private ILogger<FavoriteRecipeService> logger;
@@ -20,7 +22,7 @@ namespace TasteHub.UnitTests
         {
             user = new IdentityUser()
             {
-                Id = "c208dab4-2a45-43e5-81dd-eb173111575b",
+                Id = "261d1ded-cecc-4f10-80e9-b192247bb14f",
                 UserName = "user@mail.com",
                 NormalizedUserName = "user@mail.com",
                 Email = "user@mail.com",
@@ -29,16 +31,24 @@ namespace TasteHub.UnitTests
             
             guest = new IdentityUser()
             {
-                Id = "6131b2c1-b80a-49ec-83ae-51fb006b5c89",
+                Id = "728146da-7fce-4d15-882e-73b69fd17832",
                 UserName = "guest@mail.com",
                 NormalizedUserName = "guest@mail.com",
                 Email = "guest@mail.com",
                 NormalizedEmail = "guest@mail.com"
             };
+            
+            tester = new IdentityUser()
+            {
+                Id = "236fbb4a-b60c-48c6-854a-828819d9d03a",
+                UserName = "tester@mail.com",
+                NormalizedUserName = "tester@mail.com",
+                Email = "tester@mail.com",
+                NormalizedEmail = "tester@mail.com"
+            };
 
             recipe = new Recipe()
             {
-                Id = 1,
                 Title = "Chocolate cheesecake",
                 Description = "Have a sweet tooth with my special occasion chocolate cheesecake!",
                 Ingredients = "biscuits - 200 g, cocoa; cow butter - 60 g; cream cheese - 500 g; chocolate - 160 g (50% cocoa); sugar - 100 g, brown; eggs - 2 pcs.; whiskey - 20 ml; FOR THE CHOCOLATE GANACHE; chocolate - 160 g (50% cocoa); cream - 160 g confectionery (30% fat); cow butter - 50 g; FOR DECORATION; fresh fruit - optional; sugar pearls",
@@ -51,8 +61,7 @@ namespace TasteHub.UnitTests
 
             category = new Category()
             {
-                Id = 1,
-                Name = "Sweets"
+                Name = "Pizza"
             };
 
             favoriteRecipe = new FavoriteRecipe()
@@ -74,6 +83,7 @@ namespace TasteHub.UnitTests
             this.repository.AddAsync<Category>(category);
             this.repository.AddAsync<IdentityUser>(user);
             this.repository.AddAsync<IdentityUser>(guest);
+            this.repository.AddAsync<IdentityUser>(tester);
             this.repository.SaveChangesAsync();
 
             var loggerFactory = new LoggerFactory();
@@ -83,12 +93,12 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_Add() 
+        public void Test_Add()
         {
             int expectedCount = 2;
 
             var model = new FavoriteRecipeInfoModel(
-                guest.Id,
+                user.Id,
                 1,
                 null);
 
@@ -97,6 +107,57 @@ namespace TasteHub.UnitTests
             int actualCount = favoriteRecipeService.GetAllFavoriteRecipesAsync().Result.Count();
 
             Assert.IsTrue(expectedCount == actualCount);
+        }
+
+        [Test]
+        public void Test_AddShouldThrowException() 
+        {
+            string expectedException = "Operation failed. Try again!";
+
+            var model = new FavoriteRecipeInfoModel(
+                guest.Id,
+                1,
+                null);
+
+            var result = favoriteRecipeService.AddAsync(model).Exception.InnerException.Message;
+
+            Assert.IsTrue(expectedException == result);
+        }
+
+        [Test]
+        public void Test_GetAllFavoriteRecipes()
+        {
+            int expectedCount = 2;
+
+            int actualCount = favoriteRecipeService.GetAllFavoriteRecipesAsync().Result.Count();
+
+            Assert.IsTrue(expectedCount == actualCount);
+        }
+
+        [Test]
+        public void Test_GetUserFavoriteRecipes()
+        {
+            int expectedCount = 1;
+            int expectedRecipeId = 1;
+            string expectedUserId = "728146da-7fce-4d15-882e-73b69fd17832";
+
+            var favoriteRecipes = favoriteRecipeService.GetAllFavoriteRecipesForUserAsync(guest.Id).Result.ToList();
+            var firstFavoriteRecipe = favoriteRecipes[0];
+
+            Assert.IsTrue(expectedCount == favoriteRecipes.Count());
+            Assert.IsTrue(firstFavoriteRecipe != null);
+            Assert.IsTrue(expectedRecipeId == firstFavoriteRecipe.RecipeId);
+            Assert.IsTrue(expectedUserId == firstFavoriteRecipe.UserId);
+        }
+
+        [Test]
+        public void Test_DeleteShouldThrowException()
+        {
+            var expectedException = "Invalid favorite recipe!";
+
+            var result = favoriteRecipeService.DeleteAsync(1000,"invalidid").Exception.InnerException.Message;
+
+            Assert.IsTrue(expectedException == result);
         }
 
         [TearDown]

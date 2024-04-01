@@ -89,7 +89,7 @@ namespace TasteHub.Controllers
                 return Unauthorized();
             }
 
-            await commentService.AddSync(model);
+            await commentService.AddAsync(model);
 
             return RedirectToAction(nameof(GetAllComments), new { id = id });
         }

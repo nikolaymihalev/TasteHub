@@ -1,4 +1,5 @@
 ﻿using TasteHub.Core.Models.Comment;
+using TasteHub.Core.Services;
 
 namespace TasteHub.UnitTests
 {
@@ -162,7 +163,7 @@ namespace TasteHub.UnitTests
                 UserId = "c208dab4-2a45-43e5-81dd-eb173111575b"
             };
 
-            _ = commentService.AddSync(model);
+            _ = commentService.AddAsync(model);
             int actualCount = commentService.GetAllCommentsAboutRecipeAsync(1).Result.Count();
             var comment = commentService.GetLastCommentAboutRecipeAsync(1).Result;
 
@@ -171,6 +172,23 @@ namespace TasteHub.UnitTests
             Assert.IsTrue(expectedRecipeId == comment.RecipeId);
             Assert.IsTrue(expectedContent == comment.Content);
             Assert.IsTrue(expectedUserId == comment.UserId);
+        }
+
+        [Test]
+        public void Test_AddShouldThrowException() 
+        {
+            string expectedException = "Operation failed. Try again!";
+
+            var model = new CommentFormModel()
+            {
+                Content = "Amazing recipe!",
+                UserId = user.Id,
+                RecipeId = recipe.Id,
+            };
+
+            var result = commentService.AddAsync(model).Exception.InnerException.Message;
+
+            Assert.IsTrue(expectedException == result);
         }
 
         [Test]
@@ -185,12 +203,21 @@ namespace TasteHub.UnitTests
                 UserId = "c208dab4-2a45-43e5-81dd-eb173111575b"
             };
 
-            _ = commentService.AddSync(model);
+            _ = commentService.AddAsync(model);
             _ = commentService.DeleteAsync(4);
 
             int actualCount = commentService.GetAllCommentsAboutRecipeAsync(1).Result.Count();
 
             Assert.IsTrue(expectedCount == actualCount);
+        }
+
+        [Test]
+        public void Test_DeleteShouldThrowException() 
+        {
+            string expectedException = "Invalid comment!";
+            var result = commentService.DeleteAsync(15000).Exception.InnerException.Message;
+
+            Assert.IsTrue(expectedException == result);
         }
 
         [TearDown]
