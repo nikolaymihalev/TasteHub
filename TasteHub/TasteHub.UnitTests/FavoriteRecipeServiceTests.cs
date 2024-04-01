@@ -1,17 +1,19 @@
-﻿using TasteHub.Core.Models.Comment;
+﻿using TasteHub.Core.Models;
 
 namespace TasteHub.UnitTests
 {
     [TestFixture]
-    public class CommentServiceTests
+    public class FavoriteRecipeServiceTests
     {
         private ApplicationDbContext context;
         private IRepository repository;
-        private IEnumerable<Comment> comments;
+        private FavoriteRecipe favoriteRecipe;
         private IdentityUser user;
+        private IdentityUser guest;
         private Recipe recipe;
-        private ILogger<CommentService> logger;
-        private ICommentService commentService;
+        private Category category;
+        private ILogger<FavoriteRecipeService> logger;
+        private IFavoriteRecipeService favoriteRecipeService;
 
         [SetUp]
         public void SetUp()
@@ -24,6 +26,15 @@ namespace TasteHub.UnitTests
                 Email = "user@mail.com",
                 NormalizedEmail = "user@mail.com"
             };
+            
+            guest = new IdentityUser()
+            {
+                Id = "6131b2c1-b80a-49ec-83ae-51fb006b5c89",
+                UserName = "guest@mail.com",
+                NormalizedUserName = "guest@mail.com",
+                Email = "guest@mail.com",
+                NormalizedEmail = "guest@mail.com"
+            };
 
             recipe = new Recipe()
             {
@@ -35,28 +46,21 @@ namespace TasteHub.UnitTests
                 Image = File.ReadAllBytes(Path.Combine(@"D:\Projects\Apps\TasteHub\TasteHub\TasteHub\TasteHub.Infrastructure\Images", "Cheesecake.png")),
                 CreationDate = DateTime.Now,
                 CreatorId = user.Id,
-                CategoryId = 2,
+                CategoryId = 1,
             };
 
-            comments = new List<Comment>()
+            category = new Category()
             {
-                new Comment()
-                {
-                    Id = 1,
-                    Content = "Amazing recipe!",
-                    CreationDate = DateTime.Parse("25-02-2024"),
-                    UserId = user.Id,
-                    RecipeId = recipe.Id,
-                },
-                new Comment()
-                {
-                    Id = 2,
-                    Content = "Well done!",
-                    CreationDate = DateTime.Parse("29-02-2024"),
-                    UserId = user.Id,
-                    RecipeId = recipe.Id,
-                }
+                Id = 1,
+                Name = "Sweets"
             };
+
+            favoriteRecipe = new FavoriteRecipe()
+            {
+                RecipeId = 1,
+                UserId = guest.Id,
+            };
+
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "TasteHubDb")
                 .Options;
@@ -65,130 +69,32 @@ namespace TasteHub.UnitTests
 
             this.repository = new Repository(this.context);
 
-            this.repository.AddRangeAsync<Comment>(this.comments);
+            this.repository.AddAsync<FavoriteRecipe>(this.favoriteRecipe);
             this.repository.AddAsync<Recipe>(recipe);
+            this.repository.AddAsync<Category>(category);
             this.repository.AddAsync<IdentityUser>(user);
+            this.repository.AddAsync<IdentityUser>(guest);
             this.repository.SaveChangesAsync();
 
             var loggerFactory = new LoggerFactory();
-            this.logger = loggerFactory.CreateLogger<CommentService>();
+            this.logger = loggerFactory.CreateLogger<FavoriteRecipeService>();
 
-            commentService = new CommentService(this.repository, logger);
+            favoriteRecipeService = new FavoriteRecipeService(this.repository, logger);
         }
 
         [Test]
-        public void Test_GetLastCommentForRecipe()
+        public void Test_Add() 
         {
-            string expectedContent = "It is delicious";
-            string expectedUsername = "user@mail.com";
-            int expectedId = 3;
-            string expectedUserId = "c208dab4-2a45-43e5-81dd-eb173111575b";
-            int expectedRecipeId = 1;
-            string expectedRecipeTitle = "Chocolate cheesecake";
+            int expectedCount = 2;
 
-            var comment = commentService.GetLastCommentAboutRecipeAsync(1).Result;
+            var model = new FavoriteRecipeInfoModel(
+                guest.Id,
+                1,
+                null);
 
-            Assert.AreEqual(expectedContent, comment.Content);
-            Assert.AreEqual(expectedUsername, comment.UserUsername);
-            Assert.AreEqual(expectedId, comment.Id);
-            Assert.AreEqual(expectedUserId, comment.UserId);
-            Assert.AreEqual(expectedRecipeId, comment.RecipeId);
-            Assert.AreEqual(expectedRecipeTitle, comment.RecipeTitle);
-        }
+            _ = favoriteRecipeService.AddAsync(model);
 
-        [Test]
-        public void Test_GetCommentsByRecipe()
-        {
-            int expectedCount = 3;
-
-            int actualCount = commentService.GetAllCommentsAboutRecipeAsync(1).Result.Count();
-
-            Assert.AreEqual(expectedCount, actualCount);
-        }
-
-        [Test]
-        public void Test_GetByIdShouldThrowException()
-        {
-            string result = string.Empty;
-            CommentInfoModel? comment = null;
-
-            try
-            {
-                comment = commentService.GetByIdAsync(25).Result;
-            }
-            catch (Exception ex)
-            {
-                result = ex.InnerException.Message;
-            }
-
-            Assert.IsNull(comment);
-            Assert.AreEqual("This comment doesn't exist!", result);
-        }
-
-        [Test]
-        public void Test_GetById()
-        {
-            int expectedId = 1;
-            string expectedContent = "Amazing recipe!";
-            string expectedUserId = "c208dab4-2a45-43e5-81dd-eb173111575b";
-            int expectedRecipeId = 1;
-            DateTime expectedDate = DateTime.Parse("25-02-2024");
-
-            var comment = commentService.GetByIdAsync(1).Result;
-
-            Assert.IsTrue(comment != null);
-            Assert.IsTrue(expectedId == comment.Id);
-            Assert.IsTrue(expectedContent == comment.Content);
-            Assert.IsTrue(expectedUserId == comment.UserId);
-            Assert.IsTrue(expectedRecipeId == comment.RecipeId);
-            Assert.IsTrue(expectedDate == comment.CreationDate);
-            Assert.IsTrue(comment.RecipeTitle == string.Empty);
-            Assert.IsTrue(comment.UserUsername == string.Empty);
-        }
-
-        [Test]
-        public void Test_Add()
-        {
-            int expectedCount = 3;
-            int expectedId = 3;
-            int expectedRecipeId = 1;
-            string expectedContent = "It is delicious";
-            string expectedUserId = "c208dab4-2a45-43e5-81dd-eb173111575b";
-
-            var model = new CommentFormModel()
-            {
-                Content = "It is delicious",
-                RecipeId = 1,
-                UserId = "c208dab4-2a45-43e5-81dd-eb173111575b"
-            };
-
-            _ = commentService.AddSync(model);
-            int actualCount = commentService.GetAllCommentsAboutRecipeAsync(1).Result.Count();
-            var comment = commentService.GetLastCommentAboutRecipeAsync(1).Result;
-
-            Assert.IsTrue(expectedCount == actualCount);
-            Assert.IsTrue(expectedId == comment.Id);
-            Assert.IsTrue(expectedRecipeId == comment.RecipeId);
-            Assert.IsTrue(expectedContent == comment.Content);
-            Assert.IsTrue(expectedUserId == comment.UserId);
-        }
-
-        [Test]
-        public void Test_Delete() 
-        {
-            int expectedCount = 3;
-
-            var model = new CommentFormModel()
-            {
-                Content = "Very bad!",
-                RecipeId = 1,
-                UserId = "c208dab4-2a45-43e5-81dd-eb173111575b"
-            };
-
-            _ = commentService.AddSync(model);
-            _ = commentService.DeleteAsync(4);
-
-            int actualCount = commentService.GetAllCommentsAboutRecipeAsync(1).Result.Count();
+            int actualCount = favoriteRecipeService.GetAllFavoriteRecipesAsync().Result.Count();
 
             Assert.IsTrue(expectedCount == actualCount);
         }
