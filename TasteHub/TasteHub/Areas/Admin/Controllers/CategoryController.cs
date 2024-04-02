@@ -1,22 +1,20 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models.Category;
 
-namespace TasteHub.Controllers
+namespace TasteHub.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class CategoryController : BaseController
+    public class CategoryController : BaseAdminController
     {
         private readonly ICategoryService categoryService;
-        private readonly IRecipeService recipeService;        
+        private readonly IRecipeService recipeService;
 
         public CategoryController(
             ICategoryService _categoryService,
             IRecipeService _recipeService)
         {
-            categoryService = _categoryService;   
-            recipeService = _recipeService;   
+            categoryService = _categoryService;
+            recipeService = _recipeService;
         }
 
         [HttpGet]
@@ -38,7 +36,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddCategory() 
+        public IActionResult AddCategory()
         {
             if (!User.IsInRole("Admin"))
             {
@@ -50,9 +48,9 @@ namespace TasteHub.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCategory(CategoryFormViewModel model) 
+        public async Task<IActionResult> AddCategory(CategoryFormViewModel model)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -68,7 +66,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditCategory(int id) 
+        public async Task<IActionResult> EditCategory(int id)
         {
             if (!User.IsInRole("Admin"))
             {
@@ -92,7 +90,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditCategory(CategoryFormViewModel model, int id) 
+        public async Task<IActionResult> EditCategory(CategoryFormViewModel model, int id)
         {
             if (!User.IsInRole("Admin"))
             {
@@ -117,7 +115,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteCategory(int id) 
+        public async Task<IActionResult> DeleteCategory(int id)
         {
             if (!User.IsInRole("Admin"))
             {
@@ -125,14 +123,14 @@ namespace TasteHub.Controllers
             }
 
             var category = await categoryService.GetByIdAsync(id);
-            if (category == null) 
+            if (category == null)
             {
                 return BadRequest();
             }
 
             bool isInUse = await IsCategoryInUse(category.Name);
 
-            if (isInUse) 
+            if (isInUse)
             {
                 return BadRequest();
             }
@@ -142,7 +140,7 @@ namespace TasteHub.Controllers
             return RedirectToAction(nameof(AllCategories));
         }
 
-        private async Task<bool> IsCategoryInUse(string name) 
+        private async Task<bool> IsCategoryInUse(string name)
         {
             var allRecipes = await recipeService.GetAllRecipesAsync();
             var recipes = allRecipes.Where(x => x.CategoryName == name);

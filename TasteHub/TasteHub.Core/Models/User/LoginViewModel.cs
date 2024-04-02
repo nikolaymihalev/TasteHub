@@ -8,10 +8,10 @@ namespace TasteHub.Core.Models.User
     public class LoginViewModel
     {
         /// <summary>
-        /// User username
+        /// User email
         /// </summary>
         [Required]
-        public string UserName { get; set; } = null!;
+        public string Email { get; set; } = null!;
 
         /// <summary>
         /// User password

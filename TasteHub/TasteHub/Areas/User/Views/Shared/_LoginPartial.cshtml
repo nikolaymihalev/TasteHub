@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <li class="nav-item d-flex dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                View
+            </a>
+            <ul class="dropdown-menu" style="background-color: #fc9f74">
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-area="User" asp-controller="Recipe" asp-action="Mine">Mine Recipes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-area="User" asp-controller="FavoriteRecipe" asp-action="MyFavoriteRecipes">Favorite Recipes</a>
+                </li>
+                @if (User.IsInRole("Admin") == false)
+                {                        
+                    <li class="nav-item">
+                    <a class="nav-link text-white" asp-area="User" asp-controller="Home" asp-action="BecomeAdmin">Become Admin</a>
+                    </li>
+                }
+            </ul>
+        </li>
+    </li>
+    <li class="nav-item">
+            <form class="form-inline" asp-area="User" asp-controller="Home" asp-action="Logout" asp-route-returnUrl="@Url.Action("AllRecipes", "Recipe", new { area = "User" })">
+                <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
+            </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-white" asp-area="User" asp-controller="Home" asp-action="Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" asp-area="User" asp-controller="Home" asp-action="Login">Login</a>
+    </li>
+}
+</ul>

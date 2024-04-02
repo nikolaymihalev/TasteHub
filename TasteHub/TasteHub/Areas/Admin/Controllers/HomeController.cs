@@ -1,20 +1,18 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models.Admin;
 
-namespace TasteHub.Controllers
-{
-    [Authorize(Roles = "Admin")]
-    public class AdminController : BaseController
+namespace TasteHub.Areas.Admin.Controllers
+{    
+    public class HomeController : BaseAdminController
     {
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<IdentityUser> userManager;
         private readonly IAdminService adminService;
         private readonly IRecipeService recipeService;
 
-        public AdminController(
+        public HomeController(
             IAdminService _adminService,
             IRecipeService _recipeService,
             RoleManager<IdentityRole> _roleManager,
@@ -30,11 +28,11 @@ namespace TasteHub.Controllers
         public IActionResult AddRole()
         {
             var model = new RoleFormModel();
-            return View(model);           
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRole(RoleFormModel model) 
+        public async Task<IActionResult> AddRole(RoleFormModel model)
         {
             if (ModelState.IsValid == false)
             {
@@ -66,7 +64,7 @@ namespace TasteHub.Controllers
                     if (await userManager.IsInRoleAsync(user, roleName) == false)
                     {
                         await userManager.AddToRoleAsync(user, roleName);
-    
+
                         if (await adminService.QueryExistsAsync(queryId))
                         {
                             await adminService.RemoveAsync(queryId);
@@ -92,7 +90,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AllQueries() 
+        public async Task<IActionResult> AllQueries()
         {
             var model = await adminService.GetAllQueriesAsync();
 
@@ -100,7 +98,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AllRoles() 
+        public async Task<IActionResult> AllRoles()
         {
             var model = await adminService.GetAllRolesAsync();
 
@@ -110,7 +108,7 @@ namespace TasteHub.Controllers
         [HttpGet]
         public async Task<IActionResult> RemoveQuery(int id)
         {
-            if (await adminService.QueryExistsAsync(id) == false) 
+            if (await adminService.QueryExistsAsync(id) == false)
             {
                 return BadRequest();
             }

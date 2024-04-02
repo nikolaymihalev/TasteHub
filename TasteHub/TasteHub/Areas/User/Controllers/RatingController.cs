@@ -4,7 +4,7 @@ using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models.Rating;
 
-namespace TasteHub.Controllers
+namespace TasteHub.Areas.User.Controllers
 {
     public class RatingController : BaseController
     {
@@ -12,7 +12,7 @@ namespace TasteHub.Controllers
         private readonly IRecipeService recipeService;
 
         public RatingController(
-            IRatingService _ratingService, 
+            IRatingService _ratingService,
             IRecipeService _recipeService)
         {
             ratingService = _ratingService;
@@ -25,14 +25,14 @@ namespace TasteHub.Controllers
         {
             var recipe = await recipeService.GetByIdAsync(recipeId);
 
-            if (recipe == null) 
+            if (recipe == null)
             {
                 return NotFound();
             }
 
             var model = await ratingService.GetAllRatingsAboutRecipeAsync(recipeId);
 
-            if (model.Count() == 0) 
+            if (model.Count() == 0)
             {
                 return RedirectToAction("Details", "Recipe", new { id = recipeId });
             }
@@ -43,16 +43,16 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddRating(int recipeId) 
+        public async Task<IActionResult> AddRating(int recipeId)
         {
             var recipe = await recipeService.GetByIdAsync(recipeId);
 
-            if(recipe == null)
+            if (recipe == null)
             {
                 return NotFound();
             }
 
-            if (recipe.CreatorId == User.Id()) 
+            if (recipe.CreatorId == User.Id())
             {
                 return Unauthorized();
             }
@@ -68,11 +68,11 @@ namespace TasteHub.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRating(RatingFormModel model, int recipeId) 
+        public async Task<IActionResult> AddRating(RatingFormModel model, int recipeId)
         {
             model.UserId = User.Id();
 
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -91,23 +91,23 @@ namespace TasteHub.Controllers
 
             var ratings = await ratingService.GetAllRatingsAboutRecipeAsync(recipeId);
 
-            if (ratings.Any(x => x.UserId == User.Id())) 
+            if (ratings.Any(x => x.UserId == User.Id()))
             {
                 return BadRequest();
             }
 
             await ratingService.AddAsync(model);
 
-            return RedirectToAction(nameof(GetAllRatings), new { recipeId = recipeId });
+            return RedirectToAction(nameof(GetAllRatings), new { recipeId });
         }
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteRating(int id,int recipeId,string userId)
+        public async Task<IActionResult> DeleteRating(int id, int recipeId, string userId)
         {
             var rating = await ratingService.GetAllRatingsAboutRecipeAsync(recipeId);
 
-            if (rating.FirstOrDefault(x => x.UserId == userId) == null) 
+            if (rating.FirstOrDefault(x => x.UserId == userId) == null)
             {
                 return BadRequest();
             }
@@ -119,15 +119,15 @@ namespace TasteHub.Controllers
 
             await ratingService.DeleteAsync(id);
 
-            return RedirectToAction(nameof(GetAllRatings), new { recipeId = recipeId });
+            return RedirectToAction(nameof(GetAllRatings), new { recipeId });
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditRating(int recipeId) 
+        public async Task<IActionResult> EditRating(int recipeId)
         {
             var allRatings = await ratingService.GetAllRatingsAboutRecipeAsync(recipeId);
 
-            if (!allRatings.Any()) 
+            if (!allRatings.Any())
             {
                 return BadRequest();
             }
@@ -139,7 +139,7 @@ namespace TasteHub.Controllers
                 return BadRequest();
             }
 
-            if (rating.UserId != User.Id()) 
+            if (rating.UserId != User.Id())
             {
                 return Unauthorized();
             }
@@ -176,7 +176,7 @@ namespace TasteHub.Controllers
                 return Unauthorized();
             }
 
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 model.UserId = User.Id();
                 model.RecipeId = recipeId;
@@ -186,7 +186,7 @@ namespace TasteHub.Controllers
             model.UserId = User.Id();
             await ratingService.EditAsync(model);
 
-            return RedirectToAction(nameof(GetAllRatings), new { recipeId = recipeId });
+            return RedirectToAction(nameof(GetAllRatings), new { recipeId });
         }
     }
 }

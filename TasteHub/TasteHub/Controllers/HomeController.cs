@@ -14,19 +14,13 @@ namespace TasteHub.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return RedirectToAction("AllRecipes", "Recipe", new { category = "all"});
-        }
-
-        [HttpGet]
-        public IActionResult AboutUs() 
-        {
-            return View();
+            return RedirectToAction("AllRecipes", "Recipe", new { area = "User",category = "all" });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(int statusCode)
         {
-            if (statusCode == 400) 
+            if (statusCode == 400)
             {
                 return View("Error400");
             }

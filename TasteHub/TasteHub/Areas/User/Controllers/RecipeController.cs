@@ -4,7 +4,7 @@ using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models.Recipe;
 
-namespace TasteHub.Controllers
+namespace TasteHub.Areas.User.Controllers
 {
     public class RecipeController : BaseController
     {
@@ -15,7 +15,7 @@ namespace TasteHub.Controllers
         private readonly IRatingService ratingService;
 
         public RecipeController(
-            IRecipeService _recipeService, 
+            IRecipeService _recipeService,
             ICategoryService _categoryService,
             IFavoriteRecipeService _favoriteRecipeService,
             ICommentService _commentService,
@@ -30,29 +30,29 @@ namespace TasteHub.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> AllRecipes(string category,string sorting)
+        public async Task<IActionResult> AllRecipes(string category, string sorting)
         {
             var model = await recipeService.GetAllRecipesAsync();
 
-            if (category != null) 
+            if (category != null)
             {
-                if (category.ToLower() != "all") 
+                if (category.ToLower() != "all")
                 {
                     model = await recipeService.GetRecipesFilteredByCategory(category);
                 }
             }
 
-            if (sorting != null) 
+            if (sorting != null)
             {
-                if (sorting.ToLower() == "newest" || sorting.ToLower() == "oldest") 
+                if (sorting.ToLower() == "newest" || sorting.ToLower() == "oldest")
                 {
                     model = await recipeService.GetRecipesFilteredByDate(sorting);
                 }
             }
 
             var categories = await categoryService.GetAllCategoriesAsync();
-            if (categories.Any()) 
-            {                
+            if (categories.Any())
+            {
                 ViewBag.Categories = categories;
             }
 
@@ -60,7 +60,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddRecipe() 
+        public async Task<IActionResult> AddRecipe()
         {
             var model = new RecipeFormViewModel()
             {
@@ -73,13 +73,13 @@ namespace TasteHub.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRecipe(RecipeFormViewModel model)
         {
-            if (ModelState.IsValid==false)
+            if (ModelState.IsValid == false)
             {
                 model.Categories = await categoryService.GetAllCategoriesAsync();
                 return View(model);
             }
 
-            if (model.ImageFile == null) 
+            if (model.ImageFile == null)
             {
                 model.Categories = await categoryService.GetAllCategoriesAsync();
                 return View(model);
@@ -96,7 +96,7 @@ namespace TasteHub.Controllers
                     model.CreatorId = User.Id();
                     model.CreationDate = DateTime.Now;
 
-                    await recipeService.AddAsync(model);    
+                    await recipeService.AddAsync(model);
                 }
                 return RedirectToAction(nameof(AllRecipes));
             }
@@ -107,11 +107,11 @@ namespace TasteHub.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int id) 
+        public async Task<IActionResult> Details(int id)
         {
             var model = await recipeService.GetByIdAsync(id);
 
-            if(model == null) 
+            if (model == null)
             {
                 return BadRequest();
             }
@@ -124,20 +124,20 @@ namespace TasteHub.Controllers
 
             var comment = await commentService.GetLastCommentAboutRecipeAsync(id);
 
-            if (comment != null) 
+            if (comment != null)
             {
                 model.LastComment = comment;
             }
 
             double averageRating = await ratingService.GetAverageRatingAboutRecipeAsync(id);
-            
+
             model.AverageRating = averageRating;
 
             return View(model);
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditRecipe(int id) 
+        public async Task<IActionResult> EditRecipe(int id)
         {
             var recipe = await recipeService.GetByIdAsync(id);
 
@@ -146,7 +146,7 @@ namespace TasteHub.Controllers
                 return BadRequest();
             }
 
-            if (recipe.CreatorId != User.Id()) 
+            if (recipe.CreatorId != User.Id())
             {
                 return Unauthorized();
             }
@@ -170,7 +170,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditRecipe(RecipeFormViewModel model,int id) 
+        public async Task<IActionResult> EditRecipe(RecipeFormViewModel model, int id)
         {
             var recipe = await recipeService.GetByIdAsync(id);
 
@@ -186,12 +186,12 @@ namespace TasteHub.Controllers
                 return Unauthorized();
             }
 
-            if (model.ImageFile == null) 
+            if (model.ImageFile == null)
             {
                 model.Image = Convert.FromBase64String(recipe.Image);
             }
 
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 model.Categories = await categoryService.GetAllCategoriesAsync();
                 return View(model);
@@ -200,7 +200,7 @@ namespace TasteHub.Controllers
             model.CreatorId = User.Id();
             model.CreationDate = recipe.CreationDate;
 
-            if (model.ImageFile != null) 
+            if (model.ImageFile != null)
             {
                 using (var memoryStream = new MemoryStream())
                 {
@@ -213,17 +213,17 @@ namespace TasteHub.Controllers
 
             await recipeService.EditAsync(model);
 
-            return RedirectToAction(nameof(AllRecipes));            
+            return RedirectToAction(nameof(AllRecipes));
         }
 
         [HttpGet]
-        public async Task<IActionResult> Mine() 
+        public async Task<IActionResult> Mine()
         {
             var recipes = await recipeService.GetAllRecipesAsync();
 
             var model = recipes.Where(x => x.CreatorId == User?.Identity?.Name);
 
-            foreach (var recipe in model) 
+            foreach (var recipe in model)
             {
                 var lastRecipeComment = await commentService.GetLastCommentAboutRecipeAsync(recipe.Id);
 
@@ -236,16 +236,16 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteRecipe(int id) 
+        public async Task<IActionResult> DeleteRecipe(int id)
         {
             var recipe = await recipeService.GetByIdAsync(id);
 
-            if (recipe == null) 
+            if (recipe == null)
             {
                 return BadRequest();
             }
 
-            if (recipe.CreatorId != User.Id()) 
+            if (recipe.CreatorId != User.Id())
             {
                 return Unauthorized();
             }
@@ -255,25 +255,25 @@ namespace TasteHub.Controllers
 
             if (frToDelete.Any())
             {
-                foreach (var favorite in frToDelete) 
+                foreach (var favorite in frToDelete)
                 {
                     await favoriteRecipeService.DeleteAsync(favorite.RecipeId, favorite.UserId);
                 }
             }
 
             var allCom = await commentService.GetAllCommentsAboutRecipeAsync(id);
-            if (allCom.Any()) 
+            if (allCom.Any())
             {
-                foreach (var comment in allCom) 
+                foreach (var comment in allCom)
                 {
                     await commentService.DeleteAsync(comment.Id);
                 }
             }
 
             var allRat = await ratingService.GetAllRatingsAboutRecipeAsync(id);
-            if (allRat.Any()) 
+            if (allRat.Any())
             {
-                foreach (var rating in allRat) 
+                foreach (var rating in allRat)
                 {
                     await ratingService.DeleteAsync(rating.Id);
                 }
@@ -286,9 +286,9 @@ namespace TasteHub.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Search(string title) 
+        public async Task<IActionResult> Search(string title)
         {
-            if (string.IsNullOrEmpty(title)) 
+            if (string.IsNullOrEmpty(title))
             {
                 return BadRequest();
             }

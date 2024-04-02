@@ -6,21 +6,21 @@ using TasteHub.Core.Contracts;
 using TasteHub.Core.Models.Admin;
 using TasteHub.Core.Models.User;
 
-namespace TasteHub.Controllers
+namespace TasteHub.Areas.User.Controllers
 {
-    public class UserController : BaseController
+    public class HomeController : BaseController
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly IAdminService adminService;
 
-        public UserController(
+        public HomeController(
             UserManager<IdentityUser> _userManager,
             SignInManager<IdentityUser> _signInManager,
             IAdminService _adminService)
         {
             userManager = _userManager;
-            signInManager = _signInManager;            
+            signInManager = _signInManager;
             adminService = _adminService;
         }
 
@@ -30,7 +30,7 @@ namespace TasteHub.Controllers
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home", new { area = "" });
             }
 
             var model = new RegisterViewModel();
@@ -57,7 +57,7 @@ namespace TasteHub.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Login", "User");
+                return RedirectToAction("Login", "Home");
             }
 
             foreach (var item in result.Errors)
@@ -74,7 +74,7 @@ namespace TasteHub.Controllers
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home", new { area = "" });
             }
 
             var model = new LoginViewModel();
@@ -91,7 +91,7 @@ namespace TasteHub.Controllers
                 return View(model);
             }
 
-            var user = await userManager.FindByNameAsync(model.UserName);
+            var user = await userManager.FindByEmailAsync(model.Email);
 
             if (user != null)
             {
@@ -99,7 +99,7 @@ namespace TasteHub.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home", new { area = "" });
                 }
             }
 
@@ -111,11 +111,11 @@ namespace TasteHub.Controllers
         {
             await signInManager.SignOutAsync();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = ""});
         }
 
         [HttpGet]
-        public IActionResult BecomeAdmin() 
+        public IActionResult BecomeAdmin()
         {
             var model = new QueryFormModel()
             {
@@ -130,12 +130,12 @@ namespace TasteHub.Controllers
         {
             model.UserId = User.Id();
 
-            if (ModelState.IsValid == false) 
+            if (ModelState.IsValid == false)
             {
                 return BadRequest();
             }
 
-            if (await adminService.UserExistsAsync(model.UserId)) 
+            if (await adminService.UserExistsAsync(model.UserId))
             {
                 return BadRequest();
             }
@@ -143,6 +143,13 @@ namespace TasteHub.Controllers
             await adminService.AddAsync(model);
 
             return RedirectToAction("AllRecipes", "Recipe");
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult AboutUs()
+        {
+            return View();
         }
     }
 }

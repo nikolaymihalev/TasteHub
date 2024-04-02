@@ -3,7 +3,7 @@ using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
 
-namespace TasteHub.Controllers
+namespace TasteHub.Areas.User.Controllers
 {
     public class FavoriteRecipeController : BaseController
     {
@@ -11,7 +11,7 @@ namespace TasteHub.Controllers
         private readonly IRecipeService recipeService;
 
         public FavoriteRecipeController(
-            IFavoriteRecipeService _favoriteRecipeService, 
+            IFavoriteRecipeService _favoriteRecipeService,
             IRecipeService _recipeService)
         {
             favoriteRecipeService = _favoriteRecipeService;
@@ -27,40 +27,40 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddFavoriteRecipe(int id) 
+        public async Task<IActionResult> AddFavoriteRecipe(int id)
         {
             var recipes = await favoriteRecipeService.GetAllFavoriteRecipesAsync();
 
-            if (recipes.Any(x => x.RecipeId == id)) 
+            if (recipes.Any(x => x.RecipeId == id))
             {
                 return BadRequest();
             }
 
             var recipe = await recipeService.GetByIdAsync(id);
 
-            if (recipe == null) 
+            if (recipe == null)
             {
                 return NotFound();
             }
 
-            await favoriteRecipeService.AddAsync(new FavoriteRecipeInfoModel 
+            await favoriteRecipeService.AddAsync(new FavoriteRecipeInfoModel
             (
                 User.Id(),
                 id,
                 recipe
             ));
 
-            return RedirectToAction("Details","Recipe", new { id = id });
+            return RedirectToAction("Details", "Recipe", new { id });
         }
 
         [HttpGet]
-        public async Task<IActionResult> RemoveFavoriteRecipe(int id) 
+        public async Task<IActionResult> RemoveFavoriteRecipe(int id)
         {
             var recipes = await favoriteRecipeService.GetAllFavoriteRecipesAsync();
 
             var recipe = recipes.FirstOrDefault(x => x.UserId == User.Id() && x.RecipeId == id);
 
-            if (recipe == null) 
+            if (recipe == null)
             {
                 return BadRequest();
             }
