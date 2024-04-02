@@ -99,6 +99,10 @@ namespace TasteHub.Areas.User.Controllers
 
                 if (result.Succeeded)
                 {
+                    if (await userManager.IsInRoleAsync(user, "Admin")) 
+                    {
+                        return RedirectToAction("Admin", "Home", new { area = "" });
+                    }
                     return RedirectToAction("Index", "Home", new { area = "" });
                 }
             }
@@ -136,6 +140,13 @@ namespace TasteHub.Areas.User.Controllers
             }
 
             if (await adminService.UserExistsAsync(model.UserId))
+            {
+                return BadRequest();
+            }
+
+            var user = await userManager.FindByIdAsync(model.UserId);
+
+            if (await userManager.IsInRoleAsync(user, "Admin")) 
             {
                 return BadRequest();
             }

@@ -11,18 +11,17 @@
                 View
             </a>
             <ul class="dropdown-menu" style="background-color: #fc9f74">
+
                 <li class="nav-item">
                     <a class="nav-link text-white" asp-area="User" asp-controller="Recipe" asp-action="Mine">Mine Recipes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white" asp-area="User" asp-controller="FavoriteRecipe" asp-action="MyFavoriteRecipes">Favorite Recipes</a>
-                </li>
-                @if (User.IsInRole("Admin") == false)
-                {                        
-                    <li class="nav-item">
+                </li>                   
+                <li class="nav-item">
                     <a class="nav-link text-white" asp-area="User" asp-controller="Home" asp-action="BecomeAdmin">Become Admin</a>
-                    </li>
-                }
+                </li>
+                
             </ul>
         </li>
     </li>
