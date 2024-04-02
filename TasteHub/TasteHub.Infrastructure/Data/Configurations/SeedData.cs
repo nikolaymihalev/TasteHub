@@ -123,6 +123,7 @@ namespace TasteHub.Infrastructure.Data.Configurations
         {
             FirstRating = new Rating()
             {
+                Id = 1,
                 UserId = Guest.Id,
                 RecipeId = ChocolateCheesecake.Id,
                 Value = 5
@@ -130,6 +131,7 @@ namespace TasteHub.Infrastructure.Data.Configurations
 
             SecondRating = new Rating()
             {
+                Id = 2,
                 UserId = Creator.Id,
                 RecipeId = Burger.Id,
                 Value = 4.6

@@ -30,14 +30,13 @@ namespace TasteHub.Controllers
         public IActionResult AddRole()
         {
             var model = new RoleFormModel();
-            return View(model);
-           
+            return View(model);           
         }
 
         [HttpPost]
         public async Task<IActionResult> AddRole(RoleFormModel model) 
         {
-            if (ModelState.IsValid == false) 
+            if (ModelState.IsValid == false)
             {
                 return BadRequest();
             }

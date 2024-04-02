@@ -103,7 +103,7 @@ namespace TasteHub.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteRating(int recipeId,string userId)
+        public async Task<IActionResult> DeleteRating(int id,int recipeId,string userId)
         {
             var rating = await ratingService.GetAllRatingsAboutRecipeAsync(recipeId);
 
@@ -117,7 +117,7 @@ namespace TasteHub.Controllers
                 return Unauthorized();
             }
 
-            await ratingService.DeleteAsync(recipeId,userId);
+            await ratingService.DeleteAsync(id);
 
             return RedirectToAction(nameof(GetAllRatings), new { recipeId = recipeId });
         }

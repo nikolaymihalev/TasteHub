@@ -6,18 +6,25 @@
     public class RatingInfoModel
     {
         public RatingInfoModel(
+            int id,
             string userId,
             string userUsername,
             int recipeId,
             string recipeTitle,
             double value)
         {
+            Id = id;
             UserId = userId;
             UserUsername = userUsername;
             RecipeId = recipeId;
             RecipeTitle = recipeTitle;
             Value = value;
         }
+
+        /// <summary>
+        /// Rating identifier
+        /// </summary>
+        public int Id { get; set; }
 
         /// <summary>
         /// User identifier

@@ -1,22 +1,12 @@
 ﻿@model RatingFormModel
 
-<div class="text-center">
-    <img src="~/images/stars/1.png" class="rounded mx-auto d-block" style="width: 500px;" alt="Image" />
-    <input asp-route-value="1" asp-route-recipeId="@Model.RecipeId" class="btn btn-info" type="submit" value="Rate with 1 star" />
-</div>
-<div class="text-center">
-    <img src="~/images/stars/2.png" class="rounded mx-auto d-block" style="width: 500px;" alt="Image" />
-    <input asp-route-value="2" asp-route-recipeId="@Model.RecipeId" class="btn btn-info" type="submit" value="Rate with 2 stars" />
-</div>
-<div class="text-center">
-    <img src="~/images/stars/3.png" class="rounded mx-auto d-block" style="width: 500px;" alt="Image" />
-    <input asp-route-value="3" asp-route-recipeId="@Model.RecipeId" class="btn btn-info" type="submit" value="Rate with 3 stars" />
-</div>
-<div class="text-center">
-    <img src="~/images/stars/4.png" class="rounded mx-auto d-block" style="width: 500px;" alt="Image" />
-    <input asp-route-value="4" asp-route-recipeId="@Model.RecipeId" class="btn btn-info" type="submit" value="Rate with 4 stars" />
-</div>
-<div class="text-center">
-    <img src="~/images/stars/5.png" class="rounded mx-auto d-block" style="width: 500px;" alt="Image" />
-    <input asp-route-value="5" asp-route-recipeId="@Model.RecipeId" class="btn btn-info" type="submit" value="Rate with 5 stars" />
-</div>
+@for(int i = 1;i<=5;i++)
+{    
+    string imageText = i + ".png";
+    string label = $"Rate with {i} star";
+
+    <div class="text-center">
+        <img src="~/images/stars/@imageText" class="rounded mx-auto d-block" style="width: 500px;" alt="Image" />
+        <input asp-route-value="@i" asp-route-recipeId="@Model.RecipeId" class="btn btn-info" type="submit" value=@label />
+    </div>
+}

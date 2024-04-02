@@ -8,6 +8,10 @@ namespace TasteHub.Infrastructure.Data.Models
     [Comment("Rating entity")]
     public class Rating
     {
+        [Comment("Rating identifier")]
+        [Key]
+        public int Id { get; set; }
+
         [Comment("Identifier of the user")]
         [Required]
         public string UserId { get; set; } = string.Empty;

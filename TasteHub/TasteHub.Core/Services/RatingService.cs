@@ -56,19 +56,18 @@ namespace TasteHub.Core.Services
         /// <param name="recipeId">Recipe identifier</param>
         /// <param name="userId">User identifier</param>
         /// <exception cref="ApplicationException">Model is invalid</exception>
-        public async Task DeleteAsync(int recipeId, string userId)
+        public async Task DeleteAsync(int id)
         {
             var rating = await repository
                 .AllReadonly<Rating>()
-                .FirstOrDefaultAsync(x => x.UserId == userId && x.RecipeId == recipeId);
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (rating == null)
             {
                 throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "rating"));
             }
 
-            repository.Delete(rating);
-
+            await repository.DeleteAsync<Rating>(id);
             await repository.SaveChangesAsync();
         }
 
@@ -81,12 +80,6 @@ namespace TasteHub.Core.Services
         {
             var allRatings = repository.AllReadonly<Rating>();
 
-            if (!allRatings.Any())
-            {
-                logger.LogError("RatingService.EditAsync");
-                throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "rating"));
-            }
-
             var rating = allRatings.FirstOrDefault(x => x.UserId == model.UserId && x.RecipeId == model.RecipeId);
 
             if(rating == null)
@@ -95,7 +88,7 @@ namespace TasteHub.Core.Services
                 throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "rating"));
             }
 
-            await DeleteAsync(model.RecipeId, model.UserId);
+            await DeleteAsync(rating.Id);
             await AddAsync(model);
 
             await repository.SaveChangesAsync();
@@ -111,6 +104,7 @@ namespace TasteHub.Core.Services
             return await repository.AllReadonly<Rating>()
                 .Where(x => x.RecipeId == recipeId)
                 .Select(x => new RatingInfoModel(
+                    x.Id,
                     x.UserId,
                     x.User.UserName,
                     x.RecipeId,

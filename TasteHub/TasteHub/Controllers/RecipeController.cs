@@ -275,7 +275,7 @@ namespace TasteHub.Controllers
             {
                 foreach (var rating in allRat) 
                 {
-                    await ratingService.DeleteAsync(rating.RecipeId, rating.UserId);
+                    await ratingService.DeleteAsync(rating.Id);
                 }
             }
 

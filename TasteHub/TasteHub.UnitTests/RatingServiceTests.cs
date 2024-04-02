@@ -1,5 +1,7 @@
-﻿using TasteHub.Core.Models.Rating;
+﻿using Newtonsoft.Json.Linq;
+using TasteHub.Core.Models.Rating;
 using TasteHub.Core.Services;
+using TasteHub.Infrastructure.Data.Models;
 
 namespace TasteHub.UnitTests
 {
@@ -66,6 +68,7 @@ namespace TasteHub.UnitTests
 
             rating = new Rating()
             {
+                Id = 1,
                 RecipeId = 1,
                 UserId = guest.Id,
                 Value = 5
@@ -94,7 +97,7 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_Add() 
+        public void Test_Add()
         {
             int expectedCount = 2;
 
@@ -113,7 +116,7 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_AddShouldThrowException() 
+        public void Test_AddShouldThrowException()
         {
             string expectedException = "Operation failed. Try again!";
 
@@ -130,13 +133,101 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_DeleteShouldThrowException() 
+        public void Test_DeleteShouldThrowException()
         {
             string expectedException = "Invalid rating!";
 
-            string actualException = ratingService.DeleteAsync(1000, "invalidid").Exception.InnerException.Message;
-        
+            string actualException = ratingService.DeleteAsync(1000).Exception.InnerException.Message;
+
             Assert.IsTrue(expectedException == actualException);
+        }
+
+        [Test]
+        public void Test_GetAllRatingsAboutRecipe()
+        {
+            int expectedCount = 2;
+
+            int actualCount = ratingService.GetAllRatingsAboutRecipeAsync(1).Result.Count();
+
+            Assert.IsTrue(expectedCount == actualCount);
+        }
+
+        [Test]
+        public void Test_GetAverageRatingAboutRecipe() 
+        {
+            double expectedValue = 4;
+
+            double actualValue = ratingService.GetAverageRatingAboutRecipeAsync(1).Result;
+
+            Assert.AreEqual(expectedValue, actualValue);
+        }
+
+        [Test]
+        public void Test_GetAverageRatingShouldReturnZero() 
+        {
+            double expectedValue = 0;
+
+            double actualValue = ratingService.GetAverageRatingAboutRecipeAsync(1000).Result;
+
+            Assert.AreEqual(expectedValue, actualValue);
+        }
+
+        [Test]
+        public void Test_EditShouldThrowException()
+        {
+            string expectedException = "Invalid rating!";
+
+            var model = new RatingFormModel()
+            {
+                RecipeId = 100000,
+                UserId = "invalidid",
+                Value = 2
+            };
+
+            string actualException = ratingService.EditAsync(model).Exception.InnerException.Message;
+
+            Assert.IsTrue(expectedException == actualException);
+        }
+
+        [Test]
+        public void Test_Edit()
+        {
+            double expectedValue = 5;
+
+            var model = new RatingFormModel()
+            {
+                RecipeId = 1,
+                UserId = guest.Id,
+                Value = 5
+            };
+
+            _ = ratingService.EditAsync(model);
+            var lastRatingAboutRecipe = ratingService.GetAllRatingsAboutRecipeAsync(1).Result
+                .ToList()
+                .FirstOrDefault(x=>x.RecipeId == model.RecipeId && x.UserId == model.UserId);
+
+            Assert.IsTrue(expectedValue == lastRatingAboutRecipe.Value);
+        }
+
+        [Test]
+        public void Test_Delete()
+        {
+            int expectedCount = 2;
+
+            var model = new RatingFormModel()
+            {
+                RecipeId = 1,
+                UserId = tester.Id,
+                Value = 1
+            };
+
+            _ = ratingService.AddAsync(model);
+            _ = ratingService.DeleteAsync(3);
+
+            int actualCount = ratingService.GetAllRatingsAboutRecipeAsync(1).Result.Count();
+
+            Assert.IsTrue(expectedCount == actualCount);
+
         }
 
         [TearDown]

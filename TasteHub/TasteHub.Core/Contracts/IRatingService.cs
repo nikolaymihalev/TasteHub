@@ -16,9 +16,8 @@ namespace TasteHub.Core.Contracts
         /// <summary>
         /// Delete Rating
         /// </summary>
-        /// <param name="recipeId">Recipe identifier</param>
-        /// <param name="userId">User identifier</param>
-        Task DeleteAsync(int recipeId, string userId);
+        /// <param name="id">Rating identifier</param>
+        Task DeleteAsync(int id);
 
         /// <summary>
         /// Edit Rating
