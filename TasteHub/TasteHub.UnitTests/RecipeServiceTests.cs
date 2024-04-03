@@ -185,6 +185,53 @@ namespace TasteHub.UnitTests
             Assert.IsTrue(expectedInstructions == recipe.Instructions);
         }
 
+        [Test]
+        public void Test_GetAllRecipes() 
+        {
+            //11 because of other test classes otherwise change to 1
+            int expectedCount = 11;
+
+            int actualCount = recipeService.GetAllRecipesAsync().Result.Count();
+
+            Assert.IsTrue(expectedCount == actualCount);
+        }
+
+        [Test]
+        public void Test_GetByIdShouldThrowException()
+        {
+            string expectedException = "This recipe doesn't exist!";
+
+            string actualException = recipeService.GetByIdAsync(10000).Exception.InnerException.Message;
+
+            Assert.AreEqual(expectedException, actualException);
+        }
+
+        [Test]
+        public void Test_GetById()
+        {
+            //Id is 20 because of other test classes otherwise change to 1
+            int id = 20;
+
+            string expectedTitle = "Cheesecake";
+            string expectedDescription = "Have a sweet tooth!";
+            string expectedIngredients = "biscuits - 200 g";
+            string expectedInstructions = "The bottom of the pan";
+            string expectedCreatorId = "9e59b694-139f-4eb8-91ba-b54ba7fa4b10";
+            string expectedCategoryName = "Sweets";
+            DateTime expectedCreationDate = DateTime.Parse("25.01.2021");
+
+            var recipe = recipeService.GetByIdAsync(id).Result;
+
+            Assert.NotNull(recipe);
+            Assert.IsTrue(expectedTitle == recipe.Title);
+            Assert.IsTrue(expectedDescription == recipe.Description);
+            Assert.IsTrue(expectedIngredients == recipe.Ingredients);
+            Assert.IsTrue(expectedInstructions == recipe.Instructions);
+            Assert.IsTrue(expectedCreatorId == recipe.CreatorId);
+            Assert.IsTrue(expectedCategoryName == recipe.CategoryName);
+            Assert.IsTrue(expectedCreationDate == recipe.CreationDate);
+        }
+
         [TearDown]
         public void TearDown()
         {
