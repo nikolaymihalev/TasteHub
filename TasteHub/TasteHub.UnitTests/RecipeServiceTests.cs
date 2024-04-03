@@ -84,7 +84,7 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_Add() 
+        public void Test_Add()
         {
             //5 because of other test classes otherwise change to 2
             int expectedCount = 5;
@@ -101,6 +101,30 @@ namespace TasteHub.UnitTests
             };
 
             _ = recipeService.AddAsync(model);
+
+            int actualCount = recipeService.GetAllRecipesAsync().Result.Count();
+
+            Assert.IsTrue(expectedCount == actualCount);
+        }
+
+        [Test]
+        public void Test_DeleteShouldThrowException()
+        {
+            string expectedException = "Invalid recipe!";
+
+            string actualException = recipeService.DeleteAsync(10000).Exception.InnerException.Message;
+
+            Assert.IsTrue(expectedException == actualException);
+        }
+
+        [Test]
+        public void Test_Delete() 
+        {
+            //7 because of other test classes otherwise change to 1
+            int expectedCount = 7;
+
+            //21 because of other test classes otherwise change to 2
+            _ = recipeService.DeleteAsync(21);
 
             int actualCount = recipeService.GetAllRecipesAsync().Result.Count();
 
