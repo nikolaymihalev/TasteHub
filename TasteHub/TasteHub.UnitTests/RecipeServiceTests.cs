@@ -232,6 +232,17 @@ namespace TasteHub.UnitTests
             Assert.IsTrue(expectedCreationDate == recipe.CreationDate);
         }
 
+        [Test]
+        public void Test_GetRecipesCountByUserId()
+        {
+            //12 because of other test classes otherwise change to 1
+            int expectedCount = 12;
+
+            int actualCount = recipeService.GetRecipesCountByUserIdAsync("9e59b694-139f-4eb8-91ba-b54ba7fa4b10").Result;
+
+            Assert.IsTrue(expectedCount == actualCount);
+        }
+
         [TearDown]
         public void TearDown()
         {

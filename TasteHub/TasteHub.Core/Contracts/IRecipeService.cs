@@ -62,8 +62,8 @@ namespace TasteHub.Core.Contracts
         /// <summary>
         /// Get the number of all recipes of user
         /// </summary>
-        /// <param name="username">User username</param>
+        /// <param name="userId">User identifier</param>
         /// <returns>Value for number of type int</returns>
-        Task<int> GetRecipesCountByUsernameAsync(string username);
+        Task<int> GetRecipesCountByUserIdAsync(string userId);
     }
 }

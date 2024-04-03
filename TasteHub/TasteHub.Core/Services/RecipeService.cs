@@ -158,10 +158,10 @@ namespace TasteHub.Core.Services
         /// </summary>
         /// <param name="username">User username</param>
         /// <returns>Value for number of type int</returns>
-        public async Task<int> GetRecipesCountByUsernameAsync(string username)
+        public async Task<int> GetRecipesCountByUserIdAsync(string userId)
         {
             return await repository.AllReadonly<Recipe>()
-                .Where(x => x.CreatorId == username)
+                .Where(x => x.CreatorId == userId)
                 .CountAsync();
         }
 
