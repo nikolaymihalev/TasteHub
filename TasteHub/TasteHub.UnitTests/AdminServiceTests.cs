@@ -9,6 +9,7 @@ namespace TasteHub.UnitTests
         private IRepository repository;
         private IdentityUser user1;
         private IdentityUser user2;
+        private IdentityRole role;
         private AdminQuery query;
         private ILogger<AdminService> logger;
         private IAdminService adminService;
@@ -34,6 +35,12 @@ namespace TasteHub.UnitTests
                 NormalizedEmail = "secondUser@mail.com"
             };
 
+            role = new IdentityRole()
+            {
+                NormalizedName = "Admin",
+                Name = "Admin"
+            };
+
             query = new AdminQuery()
             {
                 Id = 1,
@@ -51,6 +58,7 @@ namespace TasteHub.UnitTests
 
             this.repository.AddAsync<IdentityUser>(user1);
             this.repository.AddAsync<IdentityUser>(user2);
+            this.repository.AddAsync<IdentityRole>(role);
             this.repository.AddAsync<AdminQuery>(query);
             this.repository.SaveChangesAsync();
 
@@ -128,6 +136,16 @@ namespace TasteHub.UnitTests
             string actualException = adminService.RemoveAsync(1000000).Exception.InnerException.Message;
 
             Assert.AreEqual(expectedException, actualException);
+        }
+
+        [Test]
+        public void Test_GetAllRoles()
+        {
+            int expectedCount = 1;
+
+            int actualCount = adminService.GetAllRolesAsync().Result.Count();
+
+            Assert.AreEqual(expectedCount, actualCount);
         }
 
         [TearDown]
