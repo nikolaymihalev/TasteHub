@@ -281,6 +281,46 @@ namespace TasteHub.UnitTests
             Assert.IsEmpty(recipes);
         }
 
+        [Test]
+        public void Test_GetSortedRecipesShouldReturnNull()
+        {
+            var recipes = recipeService.GetRecipesFilteredByDate("InvalidSorting").Result;
+
+            Assert.IsEmpty(recipes);
+        }
+
+        [Test]
+        public void Test_GetSortedNewestRecipes()
+        {
+            string sorting = "Newest";
+
+            var recipes = recipeService.GetRecipesFilteredByDate(sorting).Result.ToList();
+            var dates = new List<DateTime>();
+
+            foreach (var recipe in recipes) 
+            {
+                dates.Add(recipe.CreationDate);
+            }
+
+            Assert.That(dates, Is.Ordered.Descending);
+        }
+
+        [Test]
+        public void Test_GetSortedOldestRecipes()
+        {
+            string sorting = "Oldest";
+
+            var recipes = recipeService.GetRecipesFilteredByDate(sorting).Result.ToList();
+            var dates = new List<DateTime>();
+
+            foreach (var recipe in recipes)
+            {
+                dates.Add(recipe.CreationDate);
+            }
+
+            Assert.That(dates, Is.Ordered);
+        }
+
         [TearDown]
         public void TearDown()
         {
