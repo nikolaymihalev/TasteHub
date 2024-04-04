@@ -118,7 +118,7 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_Delete() 
+        public void Test_Delete()
         {
             //7 because of other test classes otherwise change to 1
             int expectedCount = 7;
@@ -132,7 +132,7 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_EditShouldThrowException() 
+        public void Test_EditShouldThrowException()
         {
             string expectedException = "Invalid recipe!";
 
@@ -154,7 +154,7 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_Edit() 
+        public void Test_Edit()
         {
             string expectedTitle = "Cheesecake 2";
             string expectedDescription = "Have a sweet tooth!!!";
@@ -186,7 +186,7 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_GetAllRecipes() 
+        public void Test_GetAllRecipes()
         {
             //11 because of other test classes otherwise change to 1
             int expectedCount = 11;
@@ -241,6 +241,25 @@ namespace TasteHub.UnitTests
             int actualCount = recipeService.GetRecipesCountByUserIdAsync("9e59b694-139f-4eb8-91ba-b54ba7fa4b10").Result;
 
             Assert.IsTrue(expectedCount == actualCount);
+        }
+
+        [Test]
+        public void Test_GetRecipesFilteredByCategory()
+        {
+            string expectedCategory = "Sweets";
+
+            var recipes = recipeService.GetRecipesFilteredByCategory("Sweets").Result;
+
+            Assert.IsNotEmpty(recipes); 
+            Assert.IsTrue(recipes.All(x => x.CategoryName == expectedCategory));
+        }
+
+        [Test]
+        public void Test_GetRecipesFilteredByCategoryShouldReturnNull()
+        {
+            var recipes = recipeService.GetRecipesFilteredByCategory("InvalidCategory").Result;
+
+            Assert.IsEmpty(recipes);
         }
 
         [TearDown]

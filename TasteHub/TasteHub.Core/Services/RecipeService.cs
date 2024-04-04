@@ -194,10 +194,26 @@ namespace TasteHub.Core.Services
         /// <returns>Collection of Recipe models</returns>
         public async Task<IEnumerable<RecipeInfoViewModel>> GetRecipesFilteredByDate(string sorting)
         {
-            if (sorting.ToLower() == "newest") 
+            if (sorting.ToLower() == "newest")
             {
                 return await repository.AllReadonly<Recipe>()
-                    .OrderByDescending(x=>x.CreationDate)
+                    .OrderByDescending(x => x.CreationDate)
+                    .Select(x => new RecipeInfoViewModel(
+                        x.Id,
+                        x.Title,
+                        x.Description == null ? string.Empty : x.Description,
+                        x.Ingredients,
+                        x.Instructions,
+                        x.CreationDate,
+                        Convert.ToBase64String(x.Image),
+                        x.Creator.UserName,
+                        x.Category.Name))
+                    .ToListAsync();
+            }
+            else if (sorting.ToLower() == "oldest") 
+            {
+                return await repository.AllReadonly<Recipe>()
+                    .OrderBy(x => x.CreationDate)
                     .Select(x => new RecipeInfoViewModel(
                         x.Id,
                         x.Title,
@@ -211,19 +227,7 @@ namespace TasteHub.Core.Services
                     .ToListAsync();
             }
 
-            return await repository.AllReadonly<Recipe>()
-                .OrderBy(x => x.CreationDate)
-                .Select(x => new RecipeInfoViewModel(
-                    x.Id,
-                    x.Title,
-                    x.Description == null ? string.Empty : x.Description,
-                    x.Ingredients,
-                    x.Instructions,
-                    x.CreationDate,
-                    Convert.ToBase64String(x.Image),
-                    x.Creator.UserName,
-                    x.Category.Name))
-                .ToListAsync();
+            return new List<RecipeInfoViewModel>();
         }
 
         /// <summary>
