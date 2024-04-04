@@ -262,6 +262,25 @@ namespace TasteHub.UnitTests
             Assert.IsEmpty(recipes);
         }
 
+        [Test]
+        public void Test_GetSearchedRecipes()
+        {
+            string expectedTitle = "cake";
+
+            var recipes = recipeService.GetRecipesSearchedByTitleAsync("cake").Result;
+
+            Assert.IsNotEmpty(recipes);
+            Assert.IsTrue(recipes.All(x => x.Title.Contains(expectedTitle)));
+        }
+
+        [Test]
+        public void Test_GetSearchedRecipesShouldReturnNull()
+        {
+            var recipes = recipeService.GetRecipesSearchedByTitleAsync("InvalidTitle").Result;
+
+            Assert.IsEmpty(recipes);
+        }
+
         [TearDown]
         public void TearDown()
         {
