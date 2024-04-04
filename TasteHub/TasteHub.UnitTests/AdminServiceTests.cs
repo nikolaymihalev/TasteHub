@@ -148,6 +148,28 @@ namespace TasteHub.UnitTests
             Assert.AreEqual(expectedCount, actualCount);
         }
 
+        [Test]
+        public void Test_UserExistsShouldReturnTrue() 
+        {
+            Assert.IsTrue(adminService.UserExistsAsync("da971740-b838-4149-ad81-d8e56ba80540").Result);
+        }
+        
+        [Test]
+        public void Test_UserExistsShouldReturnFalse() 
+        {
+            Assert.IsFalse(adminService.UserExistsAsync("InvalidIdentifer").Result);
+        }
+
+        [Test]
+        public void Test_GetAllUsers() 
+        {
+            int expectedCount = 2;
+
+            int actualCount = adminService.GetAllUsersAsync().Result.Count();
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
         [TearDown]
         public void TearDown()
         {
