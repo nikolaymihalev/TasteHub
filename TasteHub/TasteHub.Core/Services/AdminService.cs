@@ -117,7 +117,7 @@ namespace TasteHub.Core.Services
                 throw new ApplicationException(string.Format(ErrorMessageConstants.InvalidModelErrorMessage, "query"));
             }
 
-            await repository.DeleteAsync<AdminQuery>(query.Id);
+            await repository.DeleteAsync<AdminQuery>(id);
 
             await repository.SaveChangesAsync();
         }

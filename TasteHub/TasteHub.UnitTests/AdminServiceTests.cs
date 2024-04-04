@@ -78,6 +78,58 @@ namespace TasteHub.UnitTests
             Assert.AreEqual(expectedCount, actualCount);
         }
 
+        [Test]
+        public void Test_GetAllQueries()
+        {
+            int expectedCount = 2;
+
+            int actualCount = adminService.GetAllQueriesAsync().Result.Count();
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public void Test_QueryExistsShouldReturnTrue() 
+        {
+            Assert.IsTrue(adminService.QueryExistsAsync(1).Result);
+        }
+        
+        [Test]
+        public void Test_QueryExistsShouldReturnFalse() 
+        {
+            Assert.IsFalse(adminService.QueryExistsAsync(100000).Result);
+        }
+
+        [Test]
+        public void Test_RemoveQuery() 
+        {
+            int expectedCount = 2;
+
+            var model = new QueryFormModel()
+            {
+                UserId = user1.Id,
+                Description = "I want to be an Admin because it is very interesting"
+            };
+
+            _ = adminService.AddAsync(model);
+
+            _ = adminService.RemoveAsync(3);
+
+            int actualCount = adminService.GetAllQueriesAsync().Result.Count();
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public void Test_RemoveQueryShouldThrowException()
+        {
+            string expectedException = "Invalid query!";
+
+            string actualException = adminService.RemoveAsync(1000000).Exception.InnerException.Message;
+
+            Assert.AreEqual(expectedException, actualException);
+        }
+
         [TearDown]
         public void TearDown()
         {
