@@ -18,8 +18,8 @@
                     <h5 class="card-title mt-1">@q.Username</h5>
                     <p class="mb-0"><span class="fw-bold">Descrioption: </span>@q.Description</p>
                     <br>
-                    <a asp-controller="Admin" asp-action="AddUserToRole" asp-route-username="@q.Username" asp-route-roleName="Admin" asp-route-queryId="@q.Id" class="btn btn-success mb-2 w-100 p-3 fw-bold">Confirm</a>
-                    <a asp-controller="Admin" asp-action="RemoveQuery" asp-route-id="@q.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Decline</a>
+                    <a asp-area="Admin" asp-controller="Home" asp-action="AddUserToRole" asp-route-username="@q.Username" asp-route-roleName="Admin" asp-route-queryId="@q.Id" class="btn btn-success mb-2 w-100 p-3 fw-bold">Confirm</a>
+                    <a asp-area="Admin" asp-controller="Home" asp-action="RemoveQuery" asp-route-id="@q.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Decline</a>
                 </div>
             </div>
         }

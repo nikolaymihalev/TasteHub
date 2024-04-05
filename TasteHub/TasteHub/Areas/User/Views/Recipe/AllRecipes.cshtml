@@ -16,7 +16,7 @@
         @foreach (var item in ViewBag.Categories)
         {
             <li class="nav-item text-center">
-                <a asp-controller="Recipe" asp-action="AllRecipes" asp-route-category="@item.Name" class="nav-link text-dark">@item.Name</a>
+                <a asp-area="User" asp-controller="Recipe" asp-action="AllRecipes" asp-route-category="@item.Name" class="nav-link text-dark">@item.Name</a>
             </li>
         }
     </ul>
@@ -25,8 +25,8 @@
     </a>
     <ul class="dropdown-menu">
         <li class="nav-item text-center">
-            <a asp-controller="Recipe" asp-action="AllRecipes" asp-route-sorting="Newest" class="nav-link text-dark">Newest</a>
-            <a asp-controller="Recipe" asp-action="AllRecipes" asp-route-sorting="Oldest" class="nav-link text-dark">Oldest</a>
+            <a asp-area="User" asp-controller="Recipe" asp-action="AllRecipes" asp-route-sorting="Newest" class="nav-link text-dark">Newest</a>
+            <a asp-area="User" asp-controller="Recipe" asp-action="AllRecipes" asp-route-sorting="Oldest" class="nav-link text-dark">Oldest</a>
         </li>
     </ul>
 </li>

@@ -9,10 +9,10 @@
         <div class="card col-4" style="width: 20rem; ">
             <div class="card-body">                
                 <h5 class="card-title mt-1">@c.Name</h5> 
-                <a asp-controller="Category" asp-action="EditCategory" asp-route-id="@c.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Edit</a>
+                <a asp-area="Admin" asp-controller="Category" asp-action="EditCategory" asp-route-id="@c.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Edit</a>
                 @if (!c.IsInUse)
                 {
-                    <a asp-controller="Category" asp-action="DeleteCategory" asp-route-id="@c.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
+                    <a asp-area="Admin" asp-controller="Category" asp-action="DeleteCategory" asp-route-id="@c.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
                 }                                       
             </div>
         </div>

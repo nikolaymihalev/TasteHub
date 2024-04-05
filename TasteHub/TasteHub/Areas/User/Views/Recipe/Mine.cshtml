@@ -11,7 +11,7 @@
     {
         <div class="card col-4" style="width: 20rem; ">
             <div class="card-body">
-                <a asp-controller="Recipe" asp-action="Details" asp-route-id="@r.Id" class="nav-link text-dark">
+                <a asp-area="User" asp-controller="Recipe" asp-action="Details" asp-route-id="@r.Id" class="nav-link text-dark">
                     <h5 class="card-title mt-1">@r.Title</h5>
                     <img class="card-img-top" src="data:image/png;base64,@r.Image" alt="Image">
                     <p class="mb-0"><span class="fw-bold">Category: </span>@r.CategoryName</p>
@@ -23,13 +23,13 @@
                 </a>
                 @if (r.LastComment != null)
                 {
-                    <a asp-controller="Comment" asp-action="GetAllComments" asp-route-id="@r.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">View Comments</a>                    
+                    <a asp-area="User" asp-controller="Comment" asp-action="GetAllComments" asp-route-id="@r.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">View Comments</a>
                 }
                 @if (r.LastComment == null)
                 {
                     <a class="btn btn-warning mb-2 w-100 p-3 fw-bold disabled" disabled>No Comments!</a>
                 }
-                <a asp-controller="Recipe" asp-action="DeleteRecipe" asp-route-id="@r.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
+                <a asp-area="User" asp-controller="Recipe" asp-action="DeleteRecipe" asp-route-id="@r.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
 
             </div>
         </div>

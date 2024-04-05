@@ -11,7 +11,7 @@
     {
         <div class="card col-4" style="width: 20rem; ">
             <div class="card-body">
-                <a asp-controller="Recipe" asp-action="Details" asp-route-id="@r.Recipe.Id" class="nav-link text-dark">
+                <a asp-area="User" asp-controller="Recipe" asp-action="Details" asp-route-id="@r.Recipe.Id" class="nav-link text-dark">
                     <h5 class="card-title mt-1">@r.Recipe.Title</h5>
                     <img class="card-img-top" src="data:image/png;base64,@r.Recipe.Image" alt="Image">
                     <p class="mb-0"><span class="fw-bold">Category: </span>@r.Recipe.CategoryName</p>
@@ -21,7 +21,7 @@
                     }
                     <p class="mb-0"><span class="fw-bold">Published: </span>@r.Recipe.CreationDate</p>
                 </a>
-                <a asp-controller="FavoriteRecipe" asp-action="RemoveFavoriteRecipe" asp-route-id="@r.Recipe.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Remove</a>
+                <a asp-area="User" asp-controller="FavoriteRecipe" asp-action="RemoveFavoriteRecipe" asp-route-id="@r.Recipe.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Remove</a>
 
             </div>
         </div>

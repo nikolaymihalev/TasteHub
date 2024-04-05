@@ -6,7 +6,7 @@
 <h2 class="title">@ViewBag.Title</h2>
 <hr />
 
-<form asp-controller="Category" asp-action="AddCategory" method="post" enctype="multipart/form-data">
+<form asp-area="Admin" asp-controller="Category" asp-action="AddCategory" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="@Model.Id" />
     <div class="form-group">
         <label asp-for="Name"></label>

@@ -6,7 +6,7 @@
 <h2 class="title">@ViewBag.Title</h2>
 <hr />
 
-<form asp-controller="Rating" asp-action="AddRating" method="post" enctype="multipart/form-data">    
+<form asp-area="User" asp-controller="Rating" asp-action="AddRating" method="post" enctype="multipart/form-data">
     <partial name="_RatingPartial" model="@Model" />
 </form>
 

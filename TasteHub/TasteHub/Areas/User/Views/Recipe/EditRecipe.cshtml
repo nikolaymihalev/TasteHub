@@ -9,7 +9,7 @@
 <h4 class="text-center">@Model.Title</h4>
 <hr />
 
-<form asp-controller="Recipe" asp-action="EditRecipe" method="post" enctype="multipart/form-data">
+<form asp-area="User" asp-controller="Recipe" asp-action="EditRecipe" method="post" enctype="multipart/form-data">
     <partial name="_RecipeFormPartial" model="@Model" />
 </form>
 

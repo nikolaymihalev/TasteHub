@@ -49,7 +49,7 @@ namespace TasteHub.Areas.Admin.Controllers
                 await roleManager.CreateAsync(role);
             }
 
-            return RedirectToAction("AllRecipes", "Recipe");
+            return RedirectToAction(nameof(AllRoles));
         }
 
         [HttpGet]
@@ -73,7 +73,7 @@ namespace TasteHub.Areas.Admin.Controllers
                 }
             }
 
-            return RedirectToAction("AllRecipes", "Recipe");
+            return RedirectToAction(nameof(AllUsers));
         }
 
         [HttpGet]
