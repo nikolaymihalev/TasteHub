@@ -84,6 +84,9 @@ namespace TasteHub.Areas.Admin.Controllers
             foreach (var user in model)
             {
                 user.RecipesCount = await recipeService.GetRecipesCountByUserIdAsync(user.Id);
+                var person = await userManager.FindByIdAsync(user.Id);
+                var userRoles = await userManager.GetRolesAsync(person);
+                user.RoleName = userRoles[0];
             }
 
             return View(model);

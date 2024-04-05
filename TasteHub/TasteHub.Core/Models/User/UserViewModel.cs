@@ -27,5 +27,10 @@
         /// User recipes count
         /// </summary>
         public int RecipesCount { get; set; }
+
+        /// <summary>
+        /// User role
+        /// </summary>
+        public string RoleName { get; set; }
     }
 }
