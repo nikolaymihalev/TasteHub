@@ -26,7 +26,7 @@ namespace TasteHub.Controllers
                     return RedirectToAction("AllUsers", "Home", new { area = "Admin"});
                 }
             }
-            return RedirectToAction("AllRecipes", "Recipe", new { area = "User",category = "all" });
+            return RedirectToAction("AllRecipes", "Recipe", new { area = "User"});
         }
 
         [HttpGet]

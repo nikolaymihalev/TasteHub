@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RecipeInfoViewModel>
+﻿@model RecipeQueryModel
 @{
     ViewBag.Title = "All Recipes";
 }
@@ -25,37 +25,62 @@
     </a>
     <ul class="dropdown-menu">
         <li class="nav-item text-center">
-            <a asp-area="User" asp-controller="Recipe" asp-action="AllRecipes" asp-route-sorting="@Model.FirstOrDefault()?.Sorting" class="nav-link text-dark">Newest</a>
-            <a asp-area="User" asp-controller="Recipe" asp-action="AllRecipes" asp-route-sorting="@Model.FirstOrDefault()?.Sorting" class="nav-link text-dark">Oldest</a>
+            <a asp-area="User" asp-controller="Recipe" asp-action="AllRecipes" asp-route-sorting="Newest" class="nav-link text-dark">Newest</a>
+            <a asp-area="User" asp-controller="Recipe" asp-action="AllRecipes" asp-route-sorting="Oldest" class="nav-link text-dark">Oldest</a>
         </li>
     </ul>
 </li>
 
-<partial name="_RecipesPartial" model="Model" />
+<partial name="_RecipesPartial" model="Model.Recipes" />
 
 <br>
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
-        <li class="page-item disabled">
-            <a class="page-link">Previous</a>
-        </li>
-        @for(int i=0;i<=Model.FirstOrDefault()?.MaxPerPage;i++)
+        @if (Model.CurrentPage > 1)
         {
-            int currentPage = i+1;
+            <li class="page-item">
+                @{
+                    int previousPage = Model.CurrentPage - 1;            
+                }
+                <a class="page-link"
+                   asp-area="User"
+                   asp-controller="Recipe"
+                   asp-action="AllRecipes"
+                   asp-route-currentPage="@previousPage"
+                   asp-route-sorting="@Model.Sorting"
+                   asp-route-category="@Model.Category"
+                >Previous</a>
+            </li>            
+        }
+        @for(int i=1;i<=Model.PagesCount;i++)
+        {
             <li class="page-item"><a class="page-link" 
                 asp-area="User" 
                 asp-controller="Recipe" 
                 asp-action="AllRecipes"
-                asp-route-sorting="@Model.FirstOrDefault()?.Sorting"
-                asp-route-category="@Model.FirstOrDefault()?.CategoryName"
-                asp-route-currentPage="@currentPage">
-                   @currentPage</a>
+                asp-route-currentPage="@i"
+                asp-route-sorting="@Model.Sorting"
+                asp-route-category="@Model.Category">
+                   @i</a>
             </li>
         }
-        <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-        </li>
+        @if (Model.CurrentPage < Model.PagesCount)
+        {            
+            <li class="page-item">
+                @{
+                    int nextPage = Model.CurrentPage + 1;
+                }
+                <a class="page-link"
+                   asp-area="User"
+                   asp-controller="Recipe"
+                   asp-action="AllRecipes"
+                   asp-route-currentPage="@nextPage"
+                   asp-route-sorting="@Model.Sorting"
+                   asp-route-category="@Model.Category">
+                   Next</a>
+            </li>
+        }
     </ul>
 </nav>
 

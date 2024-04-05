@@ -195,28 +195,27 @@ namespace TasteHub.Core.Services
         /// <param name="sorting">Date filter</param>
         /// <param name="currentPage">Current page</param>
         /// <returns>Collection of recipe model</returns>
-        public async Task<IEnumerable<RecipeInfoViewModel>> GetRecipesForPage(string? category=null, string? sorting=null,int currentPage = 1)
+        public async Task<RecipeQueryModel> GetRecipesForPage(string? category=null, string? sorting=null,int currentPage = 1)
         {
-            int formula = currentPage * ValidationConstants.MaxRecipesPerPage - 1;
+            var model = new RecipeQueryModel();
 
-            if (currentPage == 1) 
+            int formula = (currentPage-1) * ValidationConstants.MaxRecipesPerPage;
+
+            if (currentPage <= 1) 
             {
                 formula = 0;
             }
 
-            var model = await GetAllRecipesAsync();
+            model.Recipes = await GetAllRecipesAsync();
 
             if (category != null)
             {
                 if (category.ToLower() != "all")
                 {
-                    model = model
+                    model.Recipes = model.Recipes
                         .Where(x => x.CategoryName.ToLower() == category.ToLower())                        
                         .ToList();
-                    foreach (var item in model) 
-                    {
-                        item.CategoryName = category;
-                    }
+                    model.Category = category;
                 }
             }
 
@@ -224,30 +223,22 @@ namespace TasteHub.Core.Services
             {
                 if (sorting.ToLower() == "newest")
                 {
-                    model = model.OrderByDescending(x => x.CreationDate).ToList();
-                    foreach (var item in model)
-                    {
-                        item.Sorting = sorting;
-                    }
+                    model.Recipes = model.Recipes.OrderByDescending(x => x.CreationDate).ToList();
+                    model.Sorting = sorting;
                 }
                 else if (sorting.ToLower() == "oldest")
                 {
-                    model = model.OrderBy(x => x.CreationDate).ToList();
-                    foreach (var item in model)
-                    {
-                        item.Sorting = sorting;
-                    }
+                    model.Recipes = model.Recipes.OrderBy(x => x.CreationDate).ToList();
+                    model.Sorting = sorting;
                 }
             }
+            model.PagesCount = Math.Ceiling((model.Recipes.Count() / Convert.ToDouble(ValidationConstants.MaxRecipesPerPage)));
 
-            model = model                
+            model.Recipes = model.Recipes
                 .Skip(formula)
                 .Take(ValidationConstants.MaxRecipesPerPage);
 
-            foreach (var item in model)
-            {
-                item.CurrentPage = currentPage;
-            }
+            model.CurrentPage = currentPage;            
 
             return model;
         }

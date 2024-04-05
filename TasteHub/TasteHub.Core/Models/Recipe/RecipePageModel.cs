@@ -19,9 +19,5 @@ namespace TasteHub.Core.Models.Recipe
         /// Property for average rating 
         /// </summary>
         public double AverageRating { get; set; }
-
-        public string? Sorting { get; set; }
-        public int MaxPerPage { get; set; } = ValidationConstants.MaxRecipesPerPage;
-        public int CurrentPage { get; set; }
     }
 }
