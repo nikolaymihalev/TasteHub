@@ -28,5 +28,7 @@
 
         public const int RoleNameMaxLength = 100;
         public const int RoleNameMinLength = 4;
+
+        public const int MaxRecipesPerPage = 1;
     }
 }

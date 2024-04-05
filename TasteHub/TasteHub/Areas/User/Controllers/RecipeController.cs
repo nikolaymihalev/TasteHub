@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models.Recipe;
+using TasteHub.Infrastructure.Constants;
 
 namespace TasteHub.Areas.User.Controllers
 {
@@ -30,25 +31,9 @@ namespace TasteHub.Areas.User.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> AllRecipes(string category, string sorting)
+        public async Task<IActionResult> AllRecipes(string category, string sorting,int currentPage = 1)
         {
-            var model = await recipeService.GetAllRecipesAsync();
-
-            if (category != null)
-            {
-                if (category.ToLower() != "all")
-                {
-                    model = await recipeService.GetRecipesFilteredByCategory(category);
-                }
-            }
-
-            if (sorting != null)
-            {
-                if (sorting.ToLower() == "newest" || sorting.ToLower() == "oldest")
-                {
-                    model = await recipeService.GetRecipesFilteredByDate(sorting);
-                }
-            }
+            var model = await recipeService.GetRecipesForPage(category,sorting,currentPage);
 
             var categories = await categoryService.GetAllCategoriesAsync();
             if (categories.Any())

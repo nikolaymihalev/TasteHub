@@ -18,21 +18,7 @@ namespace TasteHub.Core.Contracts
         /// </summary>
         /// <param name="title">Recipe title</param>
         /// <returns>Collection of Recipe models</returns>
-        Task<IEnumerable<RecipeInfoViewModel>> GetRecipesSearchedByTitleAsync(string title);
-
-        /// <summary>
-        /// Get all recipes filtered by category name
-        /// </summary>
-        /// <param name="category">Category name</param>
-        /// <returns>Collection of Recipe models</returns>
-        Task<IEnumerable<RecipeInfoViewModel>> GetRecipesFilteredByCategory(string category);
-
-        /// <summary>
-        /// Get all recipes filtered by published date
-        /// </summary>
-        /// <param name="sorting">Filter for ordering (newest/oldest)</param>
-        /// <returns>Collection of Recipe models</returns>
-        Task<IEnumerable<RecipeInfoViewModel>> GetRecipesFilteredByDate(string sorting);       
+        Task<IEnumerable<RecipeInfoViewModel>> GetRecipesSearchedByTitleAsync(string title);    
 
         /// <summary>
         /// Add Recipe
@@ -65,5 +51,14 @@ namespace TasteHub.Core.Contracts
         /// <param name="userId">User identifier</param>
         /// <returns>Value for number of type int</returns>
         Task<int> GetRecipesCountByUserIdAsync(string userId);
+
+        /// <summary>
+        /// Get recipes for page
+        /// </summary>
+        /// <param name="category">Category filter</param>
+        /// <param name="sorting">Date filter</param>
+        /// <param name="currentPage">Current page</param>
+        /// <returns>Collection of recipe model</returns>
+        Task<IEnumerable<RecipeInfoViewModel>> GetRecipesForPage(string? category = null, string? sorting = null, int currentPage=1);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models.Recipe;
 using TasteHub.Infrastructure.Common;
@@ -166,71 +167,6 @@ namespace TasteHub.Core.Services
         }
 
         /// <summary>
-        /// Get all recipes filtered by category name
-        /// </summary>
-        /// <param name="category">Category name</param>
-        /// <returns>Collection of Recipe models</returns>
-        public async  Task<IEnumerable<RecipeInfoViewModel>> GetRecipesFilteredByCategory(string category)
-        {
-            return await repository.AllReadonly<Recipe>()
-                .Where(x => x.Category.Name.ToLower() == category.ToLower())
-                .Select(x => new RecipeInfoViewModel(
-                    x.Id,
-                    x.Title,
-                    x.Description == null ? string.Empty : x.Description,
-                    x.Ingredients,
-                    x.Instructions,
-                    x.CreationDate,
-                    Convert.ToBase64String(x.Image),
-                    x.Creator.UserName,
-                    x.Category.Name))
-                .ToListAsync();
-        }
-
-        /// <summary>
-        /// Get all recipes filtered by published date
-        /// </summary>
-        /// <param name="sorting">Filter for ordering (newest/oldest)</param>
-        /// <returns>Collection of Recipe models</returns>
-        public async Task<IEnumerable<RecipeInfoViewModel>> GetRecipesFilteredByDate(string sorting)
-        {
-            if (sorting.ToLower() == "newest")
-            {
-                return await repository.AllReadonly<Recipe>()
-                    .OrderByDescending(x => x.CreationDate)
-                    .Select(x => new RecipeInfoViewModel(
-                        x.Id,
-                        x.Title,
-                        x.Description == null ? string.Empty : x.Description,
-                        x.Ingredients,
-                        x.Instructions,
-                        x.CreationDate,
-                        Convert.ToBase64String(x.Image),
-                        x.Creator.UserName,
-                        x.Category.Name))
-                    .ToListAsync();
-            }
-            else if (sorting.ToLower() == "oldest") 
-            {
-                return await repository.AllReadonly<Recipe>()
-                    .OrderBy(x => x.CreationDate)
-                    .Select(x => new RecipeInfoViewModel(
-                        x.Id,
-                        x.Title,
-                        x.Description == null ? string.Empty : x.Description,
-                        x.Ingredients,
-                        x.Instructions,
-                        x.CreationDate,
-                        Convert.ToBase64String(x.Image),
-                        x.Creator.UserName,
-                        x.Category.Name))
-                    .ToListAsync();
-            }
-
-            return new List<RecipeInfoViewModel>();
-        }
-
-        /// <summary>
         /// Get all recipes by searching them by title
         /// </summary>
         /// <param name="title">Recipe title</param>
@@ -250,6 +186,51 @@ namespace TasteHub.Core.Services
                     x.Creator.UserName,
                     x.Category.Name))
                 .ToListAsync();
+        }
+
+        /// <summary>
+        /// Get recipes for page
+        /// </summary>
+        /// <param name="category">Category filter</param>
+        /// <param name="sorting">Date filter</param>
+        /// <param name="currentPage">Current page</param>
+        /// <returns>Collection of recipe model</returns>
+        public async Task<IEnumerable<RecipeInfoViewModel>> GetRecipesForPage(string? category=null, string? sorting=null,int currentPage = 1)
+        {
+            int formula = currentPage * ValidationConstants.MaxRecipesPerPage - 1;
+
+            if (currentPage == 1) 
+            {
+                formula = 0;
+            }
+
+            var model = await GetAllRecipesAsync();
+
+            if (category != null)
+            {
+                if (category.ToLower() != "all")
+                {
+                    model = model.Where(x => x.CategoryName.ToLower() == category.ToLower()).ToList();
+                }
+            }
+
+            if (sorting != null)
+            {
+                if (sorting.ToLower() == "newest")
+                {
+                    model = model.OrderByDescending(x => x.CreationDate).ToList();
+                }
+                else if (sorting.ToLower() == "oldest")
+                {
+                    model = model.OrderBy(x => x.CreationDate).ToList();
+                }
+            }
+
+            model = model
+                .Skip(formula)
+                .Take(ValidationConstants.MaxRecipesPerPage);
+
+            return model;
         }
     }
 }
