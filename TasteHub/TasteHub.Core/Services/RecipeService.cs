@@ -210,7 +210,13 @@ namespace TasteHub.Core.Services
             {
                 if (category.ToLower() != "all")
                 {
-                    model = model.Where(x => x.CategoryName.ToLower() == category.ToLower()).ToList();
+                    model = model
+                        .Where(x => x.CategoryName.ToLower() == category.ToLower())                        
+                        .ToList();
+                    foreach (var item in model) 
+                    {
+                        item.CategoryName = category;
+                    }
                 }
             }
 
@@ -219,16 +225,29 @@ namespace TasteHub.Core.Services
                 if (sorting.ToLower() == "newest")
                 {
                     model = model.OrderByDescending(x => x.CreationDate).ToList();
+                    foreach (var item in model)
+                    {
+                        item.Sorting = sorting;
+                    }
                 }
                 else if (sorting.ToLower() == "oldest")
                 {
                     model = model.OrderBy(x => x.CreationDate).ToList();
+                    foreach (var item in model)
+                    {
+                        item.Sorting = sorting;
+                    }
                 }
             }
 
-            model = model
+            model = model                
                 .Skip(formula)
                 .Take(ValidationConstants.MaxRecipesPerPage);
+
+            foreach (var item in model)
+            {
+                item.CurrentPage = currentPage;
+            }
 
             return model;
         }
