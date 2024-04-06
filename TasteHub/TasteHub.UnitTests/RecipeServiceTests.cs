@@ -248,18 +248,19 @@ namespace TasteHub.UnitTests
         {
             string expectedCategory = "Sweets";
 
-            var recipes = recipeService.GetRecipesFilteredByCategory("Sweets").Result;
+            var recipes = recipeService.GetRecipesForPage("Sweets").Result;
 
-            Assert.IsNotEmpty(recipes); 
-            Assert.IsTrue(recipes.All(x => x.CategoryName == expectedCategory));
+            Assert.IsNotEmpty(recipes.Recipes);
+            Assert.IsTrue(expectedCategory == recipes.Category);
+            Assert.IsTrue(recipes.Recipes.All(x => x.CategoryName == expectedCategory));
         }
 
         [Test]
         public void Test_GetRecipesFilteredByCategoryShouldReturnNull()
         {
-            var recipes = recipeService.GetRecipesFilteredByCategory("InvalidCategory").Result;
+            var recipes = recipeService.GetRecipesForPage("InvalidCategory").Result;
 
-            Assert.IsEmpty(recipes);
+            Assert.IsEmpty(recipes.Recipes);
         }
 
         [Test]
@@ -282,22 +283,14 @@ namespace TasteHub.UnitTests
         }
 
         [Test]
-        public void Test_GetSortedRecipesShouldReturnNull()
-        {
-            var recipes = recipeService.GetRecipesFilteredByDate("InvalidSorting").Result;
-
-            Assert.IsEmpty(recipes);
-        }
-
-        [Test]
         public void Test_GetSortedNewestRecipes()
         {
             string sorting = "Newest";
 
-            var recipes = recipeService.GetRecipesFilteredByDate(sorting).Result.ToList();
+            var recipes = recipeService.GetRecipesForPage(null,sorting).Result.Recipes.ToList();
             var dates = new List<DateTime>();
 
-            foreach (var recipe in recipes) 
+            foreach (var recipe in recipes)
             {
                 dates.Add(recipe.CreationDate);
             }
@@ -310,7 +303,7 @@ namespace TasteHub.UnitTests
         {
             string sorting = "Oldest";
 
-            var recipes = recipeService.GetRecipesFilteredByDate(sorting).Result.ToList();
+            var recipes = recipeService.GetRecipesForPage(null, sorting).Result.Recipes.ToList();
             var dates = new List<DateTime>();
 
             foreach (var recipe in recipes)
