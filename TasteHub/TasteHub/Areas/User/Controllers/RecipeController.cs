@@ -33,7 +33,7 @@ namespace TasteHub.Areas.User.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> AllRecipes(string category, string sorting,int currentPage = 1)
         {
-            var model = await recipeService.GetRecipesForPage(category,sorting,currentPage);
+            var model = await recipeService.GetRecipesForPageAsync(category,sorting,currentPage);
 
             var categories = await categoryService.GetAllCategoriesAsync();
             if (categories.Any())

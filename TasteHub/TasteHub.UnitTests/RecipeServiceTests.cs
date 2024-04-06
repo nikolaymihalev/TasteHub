@@ -248,7 +248,7 @@ namespace TasteHub.UnitTests
         {
             string expectedCategory = "Sweets";
 
-            var recipes = recipeService.GetRecipesForPage("Sweets").Result;
+            var recipes = recipeService.GetRecipesForPageAsync("Sweets").Result;
 
             Assert.IsNotEmpty(recipes.Recipes);
             Assert.IsTrue(expectedCategory == recipes.Category);
@@ -258,7 +258,7 @@ namespace TasteHub.UnitTests
         [Test]
         public void Test_GetRecipesFilteredByCategoryShouldReturnNull()
         {
-            var recipes = recipeService.GetRecipesForPage("InvalidCategory").Result;
+            var recipes = recipeService.GetRecipesForPageAsync("InvalidCategory").Result;
 
             Assert.IsEmpty(recipes.Recipes);
         }
@@ -287,7 +287,7 @@ namespace TasteHub.UnitTests
         {
             string sorting = "Newest";
 
-            var recipes = recipeService.GetRecipesForPage(null,sorting).Result.Recipes.ToList();
+            var recipes = recipeService.GetRecipesForPageAsync(null,sorting).Result.Recipes.ToList();
             var dates = new List<DateTime>();
 
             foreach (var recipe in recipes)
@@ -303,7 +303,7 @@ namespace TasteHub.UnitTests
         {
             string sorting = "Oldest";
 
-            var recipes = recipeService.GetRecipesForPage(null, sorting).Result.Recipes.ToList();
+            var recipes = recipeService.GetRecipesForPageAsync(null, sorting).Result.Recipes.ToList();
             var dates = new List<DateTime>();
 
             foreach (var recipe in recipes)

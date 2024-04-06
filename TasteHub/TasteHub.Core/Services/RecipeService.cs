@@ -195,7 +195,7 @@ namespace TasteHub.Core.Services
         /// <param name="sorting">Date filter</param>
         /// <param name="currentPage">Current page</param>
         /// <returns>Collection of recipe model</returns>
-        public async Task<RecipeQueryModel> GetRecipesForPage(string? category=null, string? sorting=null,int currentPage = 1)
+        public async Task<RecipeQueryModel> GetRecipesForPageAsync(string? category=null, string? sorting=null,int currentPage = 1)
         {
             var model = new RecipeQueryModel();
 
@@ -239,6 +239,26 @@ namespace TasteHub.Core.Services
                 .Take(ValidationConstants.MaxRecipesPerPage);
 
             model.CurrentPage = currentPage;            
+
+            return model;
+        }
+
+        public async Task<RecipeStatisticsModel> GetRecipeStatistics()
+        {
+            var recipes = await GetAllRecipesAsync();
+            var model = new RecipeStatisticsModel();
+
+            for (int i = 1; i <= 12; i++) 
+            {
+                model.MonthsCounts[i] = 0;
+            }
+
+            foreach (var item in recipes)
+            {
+                int month = item.CreationDate.Month;
+
+                model.MonthsCounts[month]++;
+            }
 
             return model;
         }

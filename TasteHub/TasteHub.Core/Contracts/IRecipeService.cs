@@ -59,6 +59,8 @@ namespace TasteHub.Core.Contracts
         /// <param name="sorting">Date filter</param>
         /// <param name="currentPage">Current page</param>
         /// <returns>Collection of recipe model</returns>
-        Task<RecipeQueryModel> GetRecipesForPage(string? category = null, string? sorting = null, int currentPage=1);
+        Task<RecipeQueryModel> GetRecipesForPageAsync(string? category = null, string? sorting = null, int currentPage=1);
+
+        Task<RecipeStatisticsModel> GetRecipeStatistics();
     }
 }

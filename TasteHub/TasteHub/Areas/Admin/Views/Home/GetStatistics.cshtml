@@ -1,10 +1,11 @@
-﻿@{
+﻿@model RecipeStatisticsModel
+@{
     ViewBag.Title = "Statistics";
 }
 
 <div class="row">
     <div class="col-md-12">
-        <h5>Line Example</h5>
+        <h5>Recipes for @DateTime.Now.Year</h5>
         <div>
             <canvas id="recipesChart" width="400" height="200"></canvas>            
         </div>
@@ -20,10 +21,32 @@
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: ["January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December"],
                 datasets: [{
-                    label: 'Recipes published by month',
-                    data: [12, 23, 3, 5, 2, 3],
+                    label: 'Published recipes by month',
+                    data: [@Model.MonthsCounts[1], 
+                            @Model.MonthsCounts[2], 
+                            @Model.MonthsCounts[3], 
+                            @Model.MonthsCounts[4],
+                            @Model.MonthsCounts[5],
+                            @Model.MonthsCounts[6],
+                            @Model.MonthsCounts[7],
+                            @Model.MonthsCounts[8],
+                            @Model.MonthsCounts[9],
+                            @Model.MonthsCounts[10],
+                            @Model.MonthsCounts[11],
+                            @Model.MonthsCounts[12]],
                     borderWidth: 1,
                     backgroundColor: "rgba(255,99,132,0.5)",
                     borderColor: "rgba(255,99,132,1)",
