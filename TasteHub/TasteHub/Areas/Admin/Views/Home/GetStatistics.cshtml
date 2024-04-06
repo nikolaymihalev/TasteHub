@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Statistics";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h5>Line Example</h5>
+        <div>
+            <canvas id="recipesChart" width="400" height="200"></canvas>            
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const ctx = document.getElementById('recipesChart');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: 'Recipes published by month',
+                    data: [12, 23, 3, 5, 2, 3],
+                    borderWidth: 1,
+                    backgroundColor: "rgba(255,99,132,0.5)",
+                    borderColor: "rgba(255,99,132,1)",
+                    fill:true
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>    
+}

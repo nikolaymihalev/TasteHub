@@ -120,5 +120,11 @@ namespace TasteHub.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(AllQueries));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetStatistics()
+        {
+            return View();
+        }
     }
 }
