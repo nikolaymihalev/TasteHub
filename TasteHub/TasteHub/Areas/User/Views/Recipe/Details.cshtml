@@ -117,7 +117,10 @@
             <br/>            
         }
         <a asp-area="User" asp-controller="Recipe" asp-action="AllRecipes" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Back to All Recipes</a>
-
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-area="User" asp-controller="Recipe" asp-action="DeleteRecipe" asp-route-id="@Model.Id" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Delete</a>
+        }
     </div>
 </div>
 

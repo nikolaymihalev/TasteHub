@@ -230,7 +230,7 @@ namespace TasteHub.Areas.User.Controllers
                 return BadRequest();
             }
 
-            if (recipe.CreatorId != User.Id())
+            if (recipe.CreatorId != User.Id() && User.IsInRole("Admin")==false)
             {
                 return Unauthorized();
             }
