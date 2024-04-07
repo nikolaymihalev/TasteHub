@@ -61,6 +61,10 @@ namespace TasteHub.Core.Contracts
         /// <returns>Collection of recipe model</returns>
         Task<RecipeQueryModel> GetRecipesForPageAsync(string? category = null, string? sorting = null, int currentPage=1);
 
-        Task<RecipeStatisticsModel> GetRecipeStatistics();
+        /// <summary>
+        /// Get statistics for published recipes 
+        /// </summary>
+        /// <returns>Statistic model</returns>
+        Task<RecipeStatisticsModel> GetRecipeStatisticsAsync();
     }
 }

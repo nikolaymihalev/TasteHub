@@ -314,6 +314,26 @@ namespace TasteHub.UnitTests
             Assert.That(dates, Is.Ordered);
         }
 
+        [Test]
+        public void Test_GetStatistics()
+        {
+            int expectedKeysCount = 12;
+
+            //17 because of other test classes otherwise change to 1
+            int expectedJanuaryCount = 17;
+
+            //4 because of other test classes otherwise change to 0
+            int expectedAprilCount = 4;
+
+            var model = recipeService.GetRecipeStatisticsAsync().Result;
+            int actualJanuaryCount = model.MonthsCounts[1];
+            int actualAprilCount = model.MonthsCounts[4];
+
+            Assert.IsTrue(expectedKeysCount == model.MonthsCounts.Keys.Count());
+            Assert.IsTrue(expectedJanuaryCount == actualJanuaryCount);
+            Assert.IsTrue(expectedAprilCount == actualAprilCount);
+        }
+
         [TearDown]
         public void TearDown()
         {

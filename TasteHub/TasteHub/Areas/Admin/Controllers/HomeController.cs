@@ -125,7 +125,7 @@ namespace TasteHub.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> GetStatistics()
         {
-            var model = await recipeService.GetRecipeStatistics(); 
+            var model = await recipeService.GetRecipeStatisticsAsync(); 
             return View(model);
         }
     }

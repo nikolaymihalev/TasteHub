@@ -243,7 +243,11 @@ namespace TasteHub.Core.Services
             return model;
         }
 
-        public async Task<RecipeStatisticsModel> GetRecipeStatistics()
+        /// <summary>
+        /// Get statistics for published recipes 
+        /// </summary>
+        /// <returns>Statistic model</returns>
+        public async Task<RecipeStatisticsModel> GetRecipeStatisticsAsync()
         {
             var recipes = await GetAllRecipesAsync();
             var model = new RecipeStatisticsModel();
