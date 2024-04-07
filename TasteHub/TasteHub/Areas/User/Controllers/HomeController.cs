@@ -57,6 +57,7 @@ namespace TasteHub.Areas.User.Controllers
 
             if (result.Succeeded)
             {
+                await userManager.AddToRoleAsync(user, "User");
                 return RedirectToAction("Login", "Home");
             }
 
