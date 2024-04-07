@@ -1,8 +1,10 @@
 ﻿using TasteHub.Core.Models.Comment;
-using TasteHub.Infrastructure.Constants;
 
 namespace TasteHub.Core.Models.Recipe
 {
+    /// <summary>
+    /// Extension properties for recipe model
+    /// </summary>
     public class RecipePageModel
     {
         /// <summary>

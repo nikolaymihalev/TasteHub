@@ -286,5 +286,4 @@ namespace TasteHub.Areas.User.Controllers
             }
             return View(model);
         }
-    }
-}
+    }}

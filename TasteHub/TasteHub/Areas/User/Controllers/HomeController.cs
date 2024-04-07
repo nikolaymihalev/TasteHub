@@ -154,7 +154,7 @@ namespace TasteHub.Areas.User.Controllers
 
             await adminService.AddAsync(model);
 
-            return RedirectToAction("AllRecipes", "Recipe");
+            return RedirectToAction("AllRecipes", "Recipe",new { area="User"});
         }
 
         [AllowAnonymous]

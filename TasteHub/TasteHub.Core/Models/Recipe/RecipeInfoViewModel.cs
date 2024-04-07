@@ -1,5 +1,4 @@
 ﻿using TasteHub.Core.Attributes;
-using TasteHub.Core.Models.Comment;
 
 namespace TasteHub.Core.Models.Recipe
 {

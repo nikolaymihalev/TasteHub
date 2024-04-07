@@ -50,7 +50,7 @@ namespace TasteHub.Areas.User.Controllers
                 recipe
             ));
 
-            return RedirectToAction("Details", "Recipe", new { id });
+            return RedirectToAction("Details", "Recipe", new { area="User", id });
         }
 
         [HttpGet]

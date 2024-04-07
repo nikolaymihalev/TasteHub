@@ -1,5 +1,8 @@
 ﻿namespace TasteHub.Core.Models.Recipe
 {
+    /// <summary>
+    /// Model for query 
+    /// </summary>
     public class RecipeQueryModel
     {
         /// <summary>

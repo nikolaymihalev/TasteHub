@@ -247,12 +247,14 @@ namespace TasteHub.UnitTests
         public void Test_GetRecipesFilteredByCategory()
         {
             string expectedCategory = "Sweets";
+            int expectedCurrentPage = 1;
 
             var recipes = recipeService.GetRecipesForPageAsync("Sweets").Result;
 
             Assert.IsNotEmpty(recipes.Recipes);
             Assert.IsTrue(expectedCategory == recipes.Category);
             Assert.IsTrue(recipes.Recipes.All(x => x.CategoryName == expectedCategory));
+            Assert.IsTrue(expectedCurrentPage == recipes.CurrentPage);
         }
 
         [Test]
@@ -286,8 +288,10 @@ namespace TasteHub.UnitTests
         public void Test_GetSortedNewestRecipes()
         {
             string sorting = "Newest";
+            int expectedCurrentPage = 1;
 
-            var recipes = recipeService.GetRecipesForPageAsync(null,sorting).Result.Recipes.ToList();
+            var model = recipeService.GetRecipesForPageAsync(null, sorting).Result;
+            var recipes = model.Recipes.ToList();
             var dates = new List<DateTime>();
 
             foreach (var recipe in recipes)
@@ -296,14 +300,18 @@ namespace TasteHub.UnitTests
             }
 
             Assert.That(dates, Is.Ordered.Descending);
+            Assert.IsTrue(model.Sorting == sorting);
+            Assert.IsTrue(expectedCurrentPage == model.CurrentPage);
         }
 
         [Test]
         public void Test_GetSortedOldestRecipes()
         {
             string sorting = "Oldest";
+            int expectedCurrentPage = 1;
 
-            var recipes = recipeService.GetRecipesForPageAsync(null, sorting).Result.Recipes.ToList();
+            var model = recipeService.GetRecipesForPageAsync(null, sorting).Result;
+            var recipes = model.Recipes.ToList();
             var dates = new List<DateTime>();
 
             foreach (var recipe in recipes)
@@ -312,6 +320,8 @@ namespace TasteHub.UnitTests
             }
 
             Assert.That(dates, Is.Ordered);
+            Assert.IsTrue(model.Sorting == sorting);
+            Assert.IsTrue(expectedCurrentPage == model.CurrentPage);
         }
 
         [Test]
