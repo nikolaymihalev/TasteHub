@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models.Rating;
+using TasteHub.Core.Models.Recipe;
 
 namespace TasteHub.Areas.User.Controllers
 {
@@ -23,9 +24,13 @@ namespace TasteHub.Areas.User.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetAllRatings(int recipeId)
         {
-            var recipe = await recipeService.GetByIdAsync(recipeId);
+            RecipeInfoViewModel? recipe;
 
-            if (recipe == null)
+            try
+            {
+                recipe = await recipeService.GetByIdAsync(recipeId);
+            }
+            catch (Exception)
             {
                 return NotFound();
             }
@@ -45,9 +50,13 @@ namespace TasteHub.Areas.User.Controllers
         [HttpGet]
         public async Task<IActionResult> AddRating(int recipeId)
         {
-            var recipe = await recipeService.GetByIdAsync(recipeId);
+            RecipeInfoViewModel? recipe;
 
-            if (recipe == null)
+            try
+            {
+                recipe = await recipeService.GetByIdAsync(recipeId);
+            }
+            catch (Exception)
             {
                 return NotFound();
             }
@@ -77,9 +86,13 @@ namespace TasteHub.Areas.User.Controllers
                 return BadRequest();
             }
 
-            var recipe = await recipeService.GetByIdAsync(recipeId);
+            RecipeInfoViewModel? recipe;
 
-            if (recipe == null)
+            try
+            {
+                recipe = await recipeService.GetByIdAsync(recipeId);
+            }
+            catch (Exception)
             {
                 return NotFound();
             }
