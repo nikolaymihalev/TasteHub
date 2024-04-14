@@ -57,10 +57,14 @@ namespace TasteHub.Areas.Admin.Controllers
 
             if (!User.IsInRole("Admin"))
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
+
                 return Unauthorized();
             }
 
             await categoryService.AddAsync(model);
+
+            TempData["Successful"] = $"You have successfully added a category with name {model.Name}!";
 
             return RedirectToAction(nameof(AllCategories));
         }
@@ -70,23 +74,29 @@ namespace TasteHub.Areas.Admin.Controllers
         {
             if (!User.IsInRole("Admin"))
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
+
                 return Unauthorized();
             }
 
-            var category = await categoryService.GetByIdAsync(id);
-
-            if (category == null)
+            try
             {
+                var category = await categoryService.GetByIdAsync(id);
+
+                var model = new CategoryFormViewModel()
+                {
+                    Id = id,
+                    Name = category.Name,
+                };
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                TempData["Danger"] = $"This category doesn't exist!";
+
                 return BadRequest();
             }
-
-            var model = new CategoryFormViewModel()
-            {
-                Id = id,
-                Name = category.Name,
-            };
-
-            return View(model);
         }
 
         [HttpPost]
@@ -94,13 +104,19 @@ namespace TasteHub.Areas.Admin.Controllers
         {
             if (!User.IsInRole("Admin"))
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
+
                 return Unauthorized();
             }
 
-            var category = await categoryService.GetByIdAsync(id);
-
-            if (category == null)
+            try
             {
+                var category = await categoryService.GetByIdAsync(id);
+            }
+            catch (Exception)
+            {
+                TempData["Danger"] = $"This category doesn't exist!";
+
                 return BadRequest();
             }
 
@@ -111,6 +127,8 @@ namespace TasteHub.Areas.Admin.Controllers
 
             await categoryService.EditAsync(model);
 
+            TempData["Successful"] = $"You have successfully edited a category with name {model.Name}!";
+
             return RedirectToAction(nameof(AllCategories));
         }
 
@@ -119,23 +137,33 @@ namespace TasteHub.Areas.Admin.Controllers
         {
             if (!User.IsInRole("Admin"))
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
+
                 return Unauthorized();
             }
 
-            var category = await categoryService.GetByIdAsync(id);
-            if (category == null)
+            try
             {
+                var category = await categoryService.GetByIdAsync(id);
+                bool isInUse = await IsCategoryInUse(category.Name);
+
+                if (isInUse)
+                {
+                    TempData["Danger"] = $"This category is already in use! You can't delete it!";
+
+                    return BadRequest();
+                }
+
+                await categoryService.DeleteAsync(id);
+            }
+            catch (Exception)
+            {
+                TempData["Danger"] = $"Delete operation is failed!";
+
                 return BadRequest();
             }
 
-            bool isInUse = await IsCategoryInUse(category.Name);
-
-            if (isInUse)
-            {
-                return BadRequest();
-            }
-
-            await categoryService.DeleteAsync(id);
+            TempData["Successful"] = $"You have successfully deleted a category!";
 
             return RedirectToAction(nameof(AllCategories));
         }
