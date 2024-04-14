@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models.Recipe;
-using TasteHub.Infrastructure.Constants;
 
 namespace TasteHub.Areas.User.Controllers
 {
@@ -94,9 +93,14 @@ namespace TasteHub.Areas.User.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
-            var model = await recipeService.GetByIdAsync(id);
+            RecipeInfoViewModel? model;
 
-            if (model == null)
+            try
+            {
+                model = await recipeService.GetByIdAsync(id);
+
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -124,9 +128,14 @@ namespace TasteHub.Areas.User.Controllers
         [HttpGet]
         public async Task<IActionResult> EditRecipe(int id)
         {
-            var recipe = await recipeService.GetByIdAsync(id);
+            RecipeInfoViewModel? recipe;
 
-            if (recipe == null)
+            try
+            {
+                recipe = await recipeService.GetByIdAsync(id);
+
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -157,11 +166,17 @@ namespace TasteHub.Areas.User.Controllers
         [HttpPost]
         public async Task<IActionResult> EditRecipe(RecipeFormViewModel model, int id)
         {
-            var recipe = await recipeService.GetByIdAsync(id);
+            RecipeInfoViewModel? recipe;
 
-            if (recipe == null)
+            try
+            {
+                recipe = await recipeService.GetByIdAsync(id);
+
+            }
+            catch (Exception)
             {
                 model.Categories = await categoryService.GetAllCategoriesAsync();
+
                 return BadRequest();
             }
 
@@ -223,9 +238,14 @@ namespace TasteHub.Areas.User.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteRecipe(int id)
         {
-            var recipe = await recipeService.GetByIdAsync(id);
+            RecipeInfoViewModel? recipe;
 
-            if (recipe == null)
+            try
+            {
+                recipe = await recipeService.GetByIdAsync(id);
+
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -286,4 +306,5 @@ namespace TasteHub.Areas.User.Controllers
             }
             return View(model);
         }
-    }}
+    }
+}
