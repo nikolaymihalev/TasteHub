@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models;
+using TasteHub.Core.Models.Recipe;
 
 namespace TasteHub.Areas.User.Controllers
 {
@@ -36,9 +37,13 @@ namespace TasteHub.Areas.User.Controllers
                 return BadRequest();
             }
 
-            var recipe = await recipeService.GetByIdAsync(id);
+            RecipeInfoViewModel? recipe;
 
-            if (recipe == null)
+            try
+            {
+                recipe = await recipeService.GetByIdAsync(id);
+            }
+            catch (Exception)
             {
                 return NotFound();
             }
