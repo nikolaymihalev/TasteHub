@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models.Comment;
+using TasteHub.Core.Models.Recipe;
 
 namespace TasteHub.Areas.User.Controllers
 {
@@ -23,11 +24,16 @@ namespace TasteHub.Areas.User.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetAllComments(int id)
         {
-            var recipe = await recipeService.GetByIdAsync(id);
+            RecipeInfoViewModel? recipe;
 
-            if (recipe == null)
+            try
+            {
+                recipe = await recipeService.GetByIdAsync(id);
+            }
+            catch (Exception)
             {
                 return BadRequest();
+
             }
 
             var model = await commentService.GetAllCommentsAboutRecipeAsync(id);
@@ -50,11 +56,16 @@ namespace TasteHub.Areas.User.Controllers
         {
             var model = new CommentFormModel();
 
-            var recipe = await recipeService.GetByIdAsync(id);
+            RecipeInfoViewModel? recipe;
 
-            if (recipe == null)
+            try
             {
-                return NotFound();
+                recipe = await recipeService.GetByIdAsync(id);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+
             }
 
             if (recipe.CreatorId == User.Id())
@@ -77,11 +88,16 @@ namespace TasteHub.Areas.User.Controllers
                 return View(model);
             }
 
-            var recipe = await recipeService.GetByIdAsync(id);
+            RecipeInfoViewModel? recipe;
 
-            if (recipe == null)
+            try
             {
-                return NotFound();
+                recipe = await recipeService.GetByIdAsync(id);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+
             }
 
             if (recipe.CreatorId == User.Id())
@@ -98,11 +114,17 @@ namespace TasteHub.Areas.User.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteComment(int id)
         {
-            var comment = await commentService.GetByIdAsync(id);
+            CommentInfoModel? comment;
 
-            if (comment == null)
+            try
+            {
+                comment = await commentService.GetByIdAsync(id);
+
+            }
+            catch (Exception)
             {
                 return BadRequest();
+
             }
 
             if (!User.IsInRole("Admin"))
