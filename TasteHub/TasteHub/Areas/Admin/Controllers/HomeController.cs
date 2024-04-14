@@ -47,6 +47,8 @@ namespace TasteHub.Areas.Admin.Controllers
                     Name = model.Name,
                 };
 
+                TempData["Successful"] = $"You have successfully created a role with name {model.Name}!";
+
                 await roleManager.CreateAsync(role);
             }
 
@@ -70,6 +72,8 @@ namespace TasteHub.Areas.Admin.Controllers
                         {
                             await adminService.RemoveAsync(queryId);
                         }
+
+                        TempData["Successful"] = $"You have successfully added {user.UserName} to {roleName}!";
                     }
                 }
             }
@@ -114,11 +118,14 @@ namespace TasteHub.Areas.Admin.Controllers
         {
             if (await adminService.QueryExistsAsync(id) == false)
             {
+                TempData["Danger"] = $"This query doesn't exist!";
+
                 return BadRequest();
             }
 
             await adminService.RemoveAsync(id);
 
+            TempData["Successful"] = $"You have successfully remove the query!";
             return RedirectToAction(nameof(AllQueries));
         }
 
