@@ -32,6 +32,7 @@ namespace TasteHub.Areas.User.Controllers
             }
             catch (Exception)
             {
+                TempData["Danger"] = $"This recipe doesn't exist!";
                 return BadRequest();
             }
 
@@ -58,11 +59,13 @@ namespace TasteHub.Areas.User.Controllers
             }
             catch (Exception)
             {
-                return NotFound();
+                TempData["Danger"] = $"This recipe doesn't exist!";
+                return BadRequest();
             }
 
             if (recipe.CreatorId == User.Id())
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
                 return Unauthorized();
             }
 
@@ -94,11 +97,13 @@ namespace TasteHub.Areas.User.Controllers
             }
             catch (Exception)
             {
-                return NotFound();
+                TempData["Danger"] = $"This recipe doesn't exist!";
+                return BadRequest();
             }
 
             if (recipe.CreatorId == User.Id())
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
                 return Unauthorized();
             }
 
@@ -106,10 +111,12 @@ namespace TasteHub.Areas.User.Controllers
 
             if (ratings.Any(x => x.UserId == User.Id()))
             {
+                TempData["Danger"] = $"This user doesn't exist!";
                 return BadRequest();
             }
 
             await ratingService.AddAsync(model);
+            TempData["Successful"] = $"You have successfully added a rating to {recipe.Title}!";
 
             return RedirectToAction(nameof(GetAllRatings), new { recipeId });
         }
@@ -122,15 +129,18 @@ namespace TasteHub.Areas.User.Controllers
 
             if (rating.FirstOrDefault(x => x.UserId == userId) == null)
             {
+                TempData["Danger"] = $"This user doesn't exist!";
                 return BadRequest();
             }
 
             if (!User.IsInRole("Admin"))
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
                 return Unauthorized();
             }
 
             await ratingService.DeleteAsync(id);
+            TempData["Successful"] = $"You have successfully removed a rating!";
 
             return RedirectToAction(nameof(GetAllRatings), new { recipeId });
         }
@@ -142,6 +152,7 @@ namespace TasteHub.Areas.User.Controllers
 
             if (!allRatings.Any())
             {
+                TempData["Danger"] = $"This recipe doesn't exist!";
                 return BadRequest();
             }
 
@@ -149,11 +160,13 @@ namespace TasteHub.Areas.User.Controllers
 
             if (rating == null)
             {
+                TempData["Danger"] = $"You have no rating for this recipe!";
                 return BadRequest();
             }
 
             if (rating.UserId != User.Id())
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
                 return Unauthorized();
             }
 
@@ -174,6 +187,7 @@ namespace TasteHub.Areas.User.Controllers
 
             if (!allRatings.Any())
             {
+                TempData["Danger"] = $"This recipe doesn't exist!";
                 return BadRequest();
             }
 
@@ -181,11 +195,13 @@ namespace TasteHub.Areas.User.Controllers
 
             if (rating == null)
             {
+                TempData["Danger"] = $"You have no rating for this recipe!";
                 return BadRequest();
             }
 
             if (rating.UserId != User.Id())
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
                 return Unauthorized();
             }
 
@@ -197,7 +213,9 @@ namespace TasteHub.Areas.User.Controllers
             }
 
             model.UserId = User.Id();
+            
             await ratingService.EditAsync(model);
+            TempData["Successful"] = $"You have successfully edited a rating!";
 
             return RedirectToAction(nameof(GetAllRatings), new { recipeId });
         }
