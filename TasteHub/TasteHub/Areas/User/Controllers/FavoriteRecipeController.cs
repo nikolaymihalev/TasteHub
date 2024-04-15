@@ -34,6 +34,7 @@ namespace TasteHub.Areas.User.Controllers
 
             if (recipes.Any(x => x.RecipeId == id))
             {
+                TempData["Danger"] = $"This recipe doesn't exist!";
                 return BadRequest();
             }
 
@@ -45,7 +46,8 @@ namespace TasteHub.Areas.User.Controllers
             }
             catch (Exception)
             {
-                return NotFound();
+                TempData["Danger"] = $"This recipe doesn't exist!";
+                return BadRequest();
             }
 
             await favoriteRecipeService.AddAsync(new FavoriteRecipeInfoModel
@@ -54,6 +56,7 @@ namespace TasteHub.Areas.User.Controllers
                 id,
                 recipe
             ));
+            TempData["Successful"] = $"You have successfully added a {recipe.Title} to your favorite recipes!";
 
             return RedirectToAction("Details", "Recipe", new { area="User", id });
         }
@@ -67,10 +70,12 @@ namespace TasteHub.Areas.User.Controllers
 
             if (recipe == null)
             {
+                TempData["Danger"] = $"This recipe doesn't exist!";
                 return BadRequest();
             }
 
             await favoriteRecipeService.DeleteAsync(id, User.Id());
+            TempData["Successful"] = $"You have successfully removed a recipe from your favorite recipes!";
 
             return RedirectToAction(nameof(MyFavoriteRecipes));
         }
