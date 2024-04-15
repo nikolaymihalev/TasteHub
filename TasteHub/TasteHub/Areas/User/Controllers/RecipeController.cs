@@ -82,6 +82,7 @@ namespace TasteHub.Areas.User.Controllers
 
                     await recipeService.AddAsync(model);
                 }
+                TempData["Successful"] = $"You have successfully added a recipe!";
                 return RedirectToAction(nameof(AllRecipes));
             }
 
@@ -98,10 +99,10 @@ namespace TasteHub.Areas.User.Controllers
             try
             {
                 model = await recipeService.GetByIdAsync(id);
-
             }
             catch (Exception)
             {
+                TempData["Danger"] = $"This recipe doesn't exist!";
                 return BadRequest();
             }
 
@@ -137,11 +138,13 @@ namespace TasteHub.Areas.User.Controllers
             }
             catch (Exception)
             {
+                TempData["Danger"] = $"This recipe doesn't exist!";
                 return BadRequest();
             }
 
             if (recipe.CreatorId != User.Id())
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
                 return Unauthorized();
             }
 
@@ -176,13 +179,14 @@ namespace TasteHub.Areas.User.Controllers
             catch (Exception)
             {
                 model.Categories = await categoryService.GetAllCategoriesAsync();
-
+                TempData["Danger"] = $"This recipe doesn't exist!";
                 return BadRequest();
             }
 
             if (recipe.CreatorId != User.Id())
             {
                 model.Categories = await categoryService.GetAllCategoriesAsync();
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
                 return Unauthorized();
             }
 
@@ -212,6 +216,7 @@ namespace TasteHub.Areas.User.Controllers
             }
 
             await recipeService.EditAsync(model);
+            TempData["Successful"] = $"You have successfully edited a recipe!";
 
             return RedirectToAction(nameof(AllRecipes));
         }
@@ -247,11 +252,13 @@ namespace TasteHub.Areas.User.Controllers
             }
             catch (Exception)
             {
+                TempData["Danger"] = $"This recipe doesn't exist!";
                 return BadRequest();
             }
 
             if (recipe.CreatorId != User.Id() && User.IsInRole("Admin")==false)
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
                 return Unauthorized();
             }
 
@@ -285,7 +292,7 @@ namespace TasteHub.Areas.User.Controllers
             }
 
             await recipeService.DeleteAsync(id);
-
+            TempData["Successful"] = $"You have successfully deleted a recipe!";
             return RedirectToAction(nameof(AllRecipes));
         }
 
@@ -295,6 +302,7 @@ namespace TasteHub.Areas.User.Controllers
         {
             if (string.IsNullOrEmpty(title))
             {
+                TempData["Danger"] = $"Fill the search field!";
                 return BadRequest();
             }
             var model = await recipeService.GetRecipesSearchedByTitleAsync(title);
