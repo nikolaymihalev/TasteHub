@@ -32,7 +32,7 @@ namespace TasteHub.Areas.User.Controllers
             }
             catch (Exception)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             var model = await ratingService.GetAllRatingsAboutRecipeAsync(recipeId);

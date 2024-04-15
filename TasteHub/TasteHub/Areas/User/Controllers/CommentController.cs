@@ -32,6 +32,7 @@ namespace TasteHub.Areas.User.Controllers
             }
             catch (Exception)
             {
+                TempData["Danger"] = $"This recipe doesn't exist!";
                 return BadRequest();
 
             }
@@ -40,6 +41,7 @@ namespace TasteHub.Areas.User.Controllers
 
             if (!model.Any())
             {
+                TempData["Danger"] = $"This comment doesn't exist!";
                 return BadRequest();
             }
 
@@ -64,12 +66,14 @@ namespace TasteHub.Areas.User.Controllers
             }
             catch (Exception)
             {
+                TempData["Danger"] = $"This recipe doesn't exist!";
                 return BadRequest();
 
             }
 
             if (recipe.CreatorId == User.Id())
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
                 return Unauthorized();
             }
 
@@ -96,17 +100,20 @@ namespace TasteHub.Areas.User.Controllers
             }
             catch (Exception)
             {
+                TempData["Danger"] = $"This recipe doesn't exist!";
                 return BadRequest();
 
             }
 
             if (recipe.CreatorId == User.Id())
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
                 return Unauthorized();
             }
 
             await commentService.AddAsync(model);
 
+            TempData["Successful"] = $"You have successfully added a comment!";
             return RedirectToAction(nameof(GetAllComments), new { id });
         }
 
@@ -123,16 +130,19 @@ namespace TasteHub.Areas.User.Controllers
             }
             catch (Exception)
             {
+                TempData["Danger"] = $"This comment doesn't exist!";
                 return BadRequest();
 
             }
 
             if (!User.IsInRole("Admin"))
             {
+                TempData["Danger"] = $"You do not have permission to perform this operation!";
                 return Unauthorized();
             }
 
             await commentService.DeleteAsync(id);
+            TempData["Successful"] = $"You have successfully deleted a comment!";
 
             return RedirectToAction(nameof(GetAllComments), new { id = comment.RecipeId });
         }
