@@ -104,6 +104,8 @@ namespace TasteHub.Areas.User.Controllers
                     {
                         return RedirectToAction("Admin", "Home", new { area = "" });
                     }
+                    TempData["Successful"] = $"Welcome back! You have successfully logged in!";
+
                     return RedirectToAction("Index", "Home", new { area = "" });
                 }
             }
@@ -142,6 +144,7 @@ namespace TasteHub.Areas.User.Controllers
 
             if (await adminService.UserExistsAsync(model.UserId))
             {
+                TempData["Danger"] = $"This user doesn't exist!";
                 return BadRequest();
             }
 
@@ -149,10 +152,12 @@ namespace TasteHub.Areas.User.Controllers
 
             if (await userManager.IsInRoleAsync(user, "Admin")) 
             {
+                TempData["Danger"] = $"This user is already in admin role!";
                 return BadRequest();
             }
 
             await adminService.AddAsync(model);
+            TempData["Successful"] = $"You have successfully added {user.UserName} to Admin role!";
 
             return RedirectToAction("AllRecipes", "Recipe",new { area="User"});
         }
