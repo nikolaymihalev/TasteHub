@@ -32,9 +32,9 @@ namespace TasteHub.Areas.User.Controllers
         {
             var recipes = await favoriteRecipeService.GetAllFavoriteRecipesAsync();
 
-            if (recipes.Any(x => x.RecipeId == id))
+            if (recipes.Any(x => x.RecipeId == id && x.UserId == User.Id()))
             {
-                TempData["Danger"] = $"This recipe doesn't exist!";
+                TempData["Danger"] = $"You have already added this recipe to your favorites!";
                 return BadRequest();
             }
 
