@@ -8,3 +8,8 @@ global using TasteHub.Infrastructure.Common;
 global using TasteHub.Infrastructure.Data;
 global using Microsoft.AspNetCore.Identity;
 global using TasteHub.Infrastructure.Data.Models;
+global using TasteHub.Core.Models.Recipe;
+global using TasteHub.Core.Models.Rating;
+global using TasteHub.Core.Models.Comment;
+global using TasteHub.Core.Models.Admin;
+global using TasteHub.Core.Models;

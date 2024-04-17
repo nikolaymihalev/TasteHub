@@ -1,6 +1,4 @@
-﻿using TasteHub.Core.Models.Recipe;
-
-namespace TasteHub.UnitTests
+﻿namespace TasteHub.UnitTests
 {
     [TestFixture]
     public class RecipeServiceTests

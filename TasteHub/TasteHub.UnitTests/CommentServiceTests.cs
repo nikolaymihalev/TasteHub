@@ -1,6 +1,4 @@
-﻿using TasteHub.Core.Models.Comment;
-
-namespace TasteHub.UnitTests
+﻿namespace TasteHub.UnitTests
 {
     [TestFixture]
     public class CommentServiceTests

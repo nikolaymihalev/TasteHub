@@ -1,6 +1,4 @@
-﻿using TasteHub.Core.Models.Admin;
-
-namespace TasteHub.UnitTests
+﻿namespace TasteHub.UnitTests
 {
     [TestFixture]
     public class AdminServiceTests

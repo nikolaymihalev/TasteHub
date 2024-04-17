@@ -1,9 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using TasteHub.Core.Models.Rating;
-using TasteHub.Core.Services;
-using TasteHub.Infrastructure.Data.Models;
-
-namespace TasteHub.UnitTests
+﻿namespace TasteHub.UnitTests
 {
     [TestFixture]
     public class RatingServiceTests
