@@ -20,11 +20,6 @@ namespace TasteHub.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> AllCategories()
         {
-            if (!User.IsInRole("Admin"))
-            {
-                return Unauthorized();
-            }
-
             var categories = await categoryService.GetAllCategoriesAsync();
 
             var model = categories.Select(x => new CategoryForAllModel(
@@ -38,11 +33,6 @@ namespace TasteHub.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult AddCategory()
         {
-            if (!User.IsInRole("Admin"))
-            {
-                return Unauthorized();
-            }
-
             var model = new CategoryFormViewModel();
             return View(model);
         }
@@ -55,13 +45,6 @@ namespace TasteHub.Areas.Admin.Controllers
                 return View(model);
             }
 
-            if (!User.IsInRole("Admin"))
-            {
-                TempData["Danger"] = $"You do not have permission to perform this operation!";
-
-                return Unauthorized();
-            }
-
             await categoryService.AddAsync(model);
 
             TempData["Successful"] = $"You have successfully added a category with name {model.Name}!";
@@ -72,13 +55,6 @@ namespace TasteHub.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> EditCategory(int id)
         {
-            if (!User.IsInRole("Admin"))
-            {
-                TempData["Danger"] = $"You do not have permission to perform this operation!";
-
-                return Unauthorized();
-            }
-
             try
             {
                 var category = await categoryService.GetByIdAsync(id);
@@ -102,13 +78,6 @@ namespace TasteHub.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditCategory(CategoryFormViewModel model, int id)
         {
-            if (!User.IsInRole("Admin"))
-            {
-                TempData["Danger"] = $"You do not have permission to perform this operation!";
-
-                return Unauthorized();
-            }
-
             try
             {
                 var category = await categoryService.GetByIdAsync(id);
@@ -135,13 +104,6 @@ namespace TasteHub.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            if (!User.IsInRole("Admin"))
-            {
-                TempData["Danger"] = $"You do not have permission to perform this operation!";
-
-                return Unauthorized();
-            }
-
             try
             {
                 var category = await categoryService.GetByIdAsync(id);

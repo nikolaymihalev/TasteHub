@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TasteHub.Core.Contracts;
 using TasteHub.Core.Models.Admin;
-using TasteHub.Core.Models.Recipe;
 
 namespace TasteHub.Areas.Admin.Controllers
 {    
